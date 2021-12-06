@@ -1,7 +1,8 @@
- <img alt="Atlacity Logo" src="public/images/atlacity-logo.png" width="160" height="120" style="margin: auto; display: block;"> 
+ <p align="center">
+ <img alt="Atlacity Logo" src="public/images/atlacity-logo.png" width="160" height="120"> 
+ </p>
  
-# 🌃 Atlacity
-
+#  Atlacity
 
 ### ✏️ Overview
 
