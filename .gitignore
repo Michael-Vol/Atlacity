@@ -12,6 +12,7 @@
 /.next
 
 # misc
+/config
 .DS_Store
 .env
 npm-debug.log*
