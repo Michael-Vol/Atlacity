@@ -7,17 +7,30 @@ const connectToDB = async () => {
 	const dbCluster = getEnv('MONGODB_ATLAS_CLUSTERNAME');
 	const dbName = getEnv('MONGODB_ATLAS_DBNAME');
 
-	console.log(dbPassword, dbUser);
+	//maintain a cached connection across hot reloads
+	let cached = global.mongoose;
 
-	const client = await mongoose.connect(
-		`mongodb+srv://${dbUser}:${dbPassword}@${dbCluster}.izp1p.mongodb.net/${dbName}?retryWrites=true&w=majority`,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		}
-	);
+	if (!cached) {
+		cached = global.mongoose = { conn: null, promise: null };
+	}
 
-	return client;
+	if (cached.conn) {
+		//connection is already cached
+		return cached.conn;
+	}
+
+	if (!cached.promise) {
+		//create mongoose connect promise
+		cached.promise = mongoose.connect(
+			`mongodb+srv://${dbUser}:${dbPassword}@${dbCluster}.izp1p.mongodb.net/${dbName}?retryWrites=true&w=majority`,
+			{
+				useNewUrlParser: true,
+				useUnifiedTopology: true,
+			}
+		);
+	}
+	cached.conn = await cached.promise; //await for mongoose client
+	return cached.con;
 };
 
 export default connectToDB;
