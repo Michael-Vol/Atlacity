@@ -1,0 +1,1335 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Atlacity API",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "summary": "Register a New User",
+        "operationId": "post-user",
+        "responses": {
+          "200": {
+            "description": "User Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "New User Bob Fellow": {
+                    "value": {
+                      "id": 12,
+                      "firstName": "Bob",
+                      "lastName": "Fellow",
+                      "email": "bob.fellow@gmail.com",
+                      "dateOfBirth": "1996-08-24",
+                      "emailVerified": false,
+                      "createDate": "2020-11-18"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing Required Information"
+          },
+          "409": {
+            "description": "Email Already Taken"
+          },
+          "": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "dateOfBirth": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                },
+                "required": [
+                  "firstName",
+                  "lastName",
+                  "email",
+                  "dateOfBirth"
+                ]
+              },
+              "examples": {
+                "Create User Bob Fellow": {
+                  "value": {
+                    "firstName": "Bob",
+                    "lastName": "Fellow",
+                    "email": "bob.fellow@gmail.com",
+                    "dateOfBirth": "1996-08-24"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Post the necessary fields for the API to create a new user."
+        },
+        "description": "Register a new User"
+      },
+      "parameters": []
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Login User",
+        "operationId": "post-users-login",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Authenticate user by getting his credentials (email, password).",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "integer"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "description": "Id of an existing user."
+        }
+      ],
+      "get": {
+        "summary": "Get  User Account Info by User ID",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "User Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "Get User Alice Smith": {
+                    "value": {
+                      "id": 142,
+                      "firstName": "Alice",
+                      "lastName": "Smith",
+                      "email": "alice.smith@gmail.com",
+                      "dateOfBirth": "1997-10-31",
+                      "emailVerified": true,
+                      "signUpDate": "2019-08-24"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found"
+          }
+        },
+        "operationId": "get-users-userId",
+        "description": "Retrieve the account information of a user with the matching user ID.",
+        "parameters": []
+      },
+      "patch": {
+        "summary": "Update User Information",
+        "operationId": "patch-users-userId",
+        "responses": {
+          "200": {
+            "description": "User Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "Updated User Rebecca Baker": {
+                    "value": {
+                      "id": 13,
+                      "firstName": "Rebecca",
+                      "lastName": "Baker",
+                      "email": "rebecca@gmail.com",
+                      "dateOfBirth": "1985-10-02",
+                      "emailVerified": false,
+                      "createDate": "2019-08-24"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found"
+          },
+          "409": {
+            "description": "Email Already Taken"
+          }
+        },
+        "description": "Update the account information of an existing user.\nValid Updates:\n- email\n- password\n- first name\n- last name\n- date of birth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "If a new email is given, the user's email verified property will be set to false."
+                  },
+                  "dateOfBirth": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "Update First Name": {
+                  "value": {
+                    "firstName": "Rebecca"
+                  }
+                },
+                "Update Email": {
+                  "value": {
+                    "email": "rebecca@gmail.com"
+                  }
+                },
+                "Update Last Name & Date of Birth": {
+                  "value": {
+                    "lastName": "Baker",
+                    "dateOfBirth": "1985-10-02"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Patch user properties to update."
+        }
+      },
+      "delete": {
+        "summary": "Delete User",
+        "operationId": "delete-users-userId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Permanently delete a user account. This also deletes the following information that is associated with that user:\n- Blog \n- Visits\n- Favourites\n- Comments\n- Profile"
+      }
+    },
+    "/users/{userId}/profile": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get User Profile",
+        "tags": [],
+        "operationId": "get-users-userId-profile",
+        "description": "This allows a user to get his profile. It also allows other users to only get the public information of the profile."
+      },
+      "post": {
+        "summary": "Create User Profile",
+        "operationId": "post-users-userId-profile",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "This allows a specific user to create his public profile.It also allows the user to choose which of the profile fields can be public.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "photo": {
+                    "type": "string"
+                  },
+                  "about": {
+                    "type": "string"
+                  },
+                  "visits": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Rating"
+                    }
+                  },
+                  "currentLocation": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "favouritePlaces": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Place"
+                    }
+                  },
+                  "favouriteCities": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/City"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update User Profile",
+        "operationId": "patch-users-userId-profile",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "This allows a user to get/remove one or multiple fields of his profile."
+      }
+    },
+    "/cities": {
+      "get": {
+        "summary": "Get All Cities",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-cities",
+        "description": "Allows a user to get all the existing cities created by other users."
+      },
+      "post": {
+        "summary": "Add New City",
+        "operationId": "post-cities",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows user to add new city that hasn't already been created."
+      }
+    },
+    "/cities/{cityId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "cityId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get City Info",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-cities-cityId",
+        "description": "Allows a user to get a selected city by ID."
+      }
+    },
+    "/cities/{cityId}/places": {
+      "get": {
+        "summary": "Get All Places of a City",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-places",
+        "description": "Allows user to get all places of a specified city."
+      },
+      "post": {
+        "summary": "Add Place",
+        "operationId": "post-places",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows user to create a new place of a specified city."
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "cityId",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/cities/{cityId}/places/{placeId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "cityId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "placeId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "patch": {
+        "summary": "Update Place",
+        "operationId": "patch-cities-cityId-places-placeId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows a user to update the information of a city's place."
+      }
+    },
+    "/user/{userId}/visits": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get All Visits",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-user-userId-visits",
+        "description": "Allows a user to get the visits of all the places that another user has been."
+      },
+      "post": {
+        "summary": "Add a Visit",
+        "operationId": "post-user-userId-visits",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows a user to add a visit to a specified place. (To add the visit, the place must have already been added)."
+      }
+    },
+    "/users/{userId}/visits/{visitId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "visitId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "patch": {
+        "summary": "Update Visit",
+        "operationId": "patch-users-userId-visits-visitId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows users to change the information of one of their visits."
+      }
+    },
+    "/users/{userId}/visits/{visitId}/rating": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "visitId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get the Rating of a User's Visit",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-users-userId-visits-visitId-ratings",
+        "description": "Allows the user that has been to a place to get the rating of his visit."
+      },
+      "post": {
+        "summary": "Add Rating",
+        "operationId": "post-users-userId-visits-visitId-rating",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows user to add a rating to a visit."
+      },
+      "patch": {
+        "summary": "",
+        "operationId": "patch-users-userId-visits-visitId-rating",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows the user that has been to a place to update the rating of his visit."
+      }
+    },
+    "/users/{userId}/visits/{visitId}/rating-likes": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "visitId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a Visit's Likes",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-users-userId-visits-visitId-rating-likes",
+        "description": "Allows for anyone to get a visit's likes."
+      },
+      "post": {
+        "summary": "Like a Rating",
+        "operationId": "post-users-userId-visits-visitId-rating-likes",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for anyone to like a visit."
+      },
+      "delete": {
+        "summary": "Remove a Rating's  Like",
+        "operationId": "delete-users-userId-visits-visitId-rating-likes",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for a user that has liked a visit to remove his like."
+      }
+    },
+    "/users/{userId}/visits/{visitId}/comments": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "visitId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a Visit's Comments",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-users-userId-visits-visitId-comments",
+        "description": "Allows for anyone to get the comments of a user's visit."
+      },
+      "post": {
+        "summary": "Add a Comment to a Visit",
+        "operationId": "post-users-userId-visits-visitId-comments",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for anyone to add a comment to a user's visit."
+      },
+      "patch": {
+        "summary": "Update a Comment",
+        "operationId": "patch-users-userId-visits-visitId-comments",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for a user that has commented a visit to update his comment."
+      },
+      "delete": {
+        "summary": "Remove Comment",
+        "operationId": "delete-users-userId-visits-visitId-comments",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for a user that has commented a visit to remove his comment."
+      }
+    },
+    "/users/{userId}/blog/posts": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get All Blog Posts of a User",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-users-userId-blog-posts",
+        "description": "Allows for anyone to get all of the posts of a user's blog."
+      },
+      "post": {
+        "summary": "Create Blog Post",
+        "operationId": "post-users-userId-blog-posts",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for a user to create a new post for his blog."
+      },
+      "patch": {
+        "summary": "Update Blog Post",
+        "operationId": "patch-users-userId-blog-posts",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for a user to modify/update a post for his blog."
+      },
+      "delete": {
+        "summary": "Delete Blog Post",
+        "operationId": "delete-users-userId-blog-posts",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for a user to delete a post of his blog."
+      }
+    },
+    "/users/{userId}/blog/posts/{postId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "postId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get Blog Post",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-users-userId-blog-posts-postId",
+        "description": "Allows for anyone to get a specific blog post."
+      }
+    },
+    "/users/{userId}/blog/posts/{postId}/likes": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "postId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get Blog Post Likes",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-users-userId-blog-posts-postId-likes",
+        "description": "Allows for anyone to get the likes of a blog post"
+      },
+      "post": {
+        "summary": "Like a Blog Post",
+        "operationId": "post-users-userId-blog-posts-postId-likes",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for anyone to like a blog post."
+      }
+    },
+    "/users/{userId}/blog/posts/{postId}/likes/{likeId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "postId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "likeId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "delete": {
+        "summary": "Remove Like from Blog Post",
+        "operationId": "delete-users-userId-blog-posts-postId-likes-likeId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for a user that has already liked a blog post to remove his like."
+      }
+    },
+    "/users/{userId}/blog/posts/{postId}/comments": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "postId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get All Comments of a Blog Post",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-users-userId-blog-posts-postId-comments",
+        "description": "Allows for anyone to get all the comments of a blog post."
+      },
+      "post": {
+        "summary": "Add a Comment in a Blog Post",
+        "operationId": "post-users-userId-blog-posts-postId-comments",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for anyone to add a comment in a blog post."
+      }
+    },
+    "/users/{userId}/blog/posts/{postId}/comments/{commentId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "userId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "postId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "commentId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "delete": {
+        "summary": "Remove Blog Post Comment",
+        "operationId": "delete-users-userId-blog-posts-postId-comments-commentId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for a user that has already commented in a blog post to remove his comment."
+      },
+      "patch": {
+        "summary": "Update Blog Post Comment",
+        "operationId": "patch-users-userId-blog-posts-postId-comments-commentId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for a user that has already commented in a blog post to update his comment."
+      }
+    },
+    "/cities/{cityId}/places/{placeId}/faq": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "cityId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "placeId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get FAQ",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-cities-cityId-places-placeId-faq",
+        "description": "Allows for anyone to get the frequently asked questions of a place."
+      },
+      "post": {
+        "summary": "Add Question in a Place's FAQ",
+        "operationId": "post-cities-cityId-places-placeId-faq",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for anyone to ask a question regarding a specified place"
+      }
+    },
+    "/cities/{cityId}/places/{placeId}/faq/{faqId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "cityId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "placeId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "faqId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "patch": {
+        "summary": "Answer a Question in a Place's FAQ",
+        "operationId": "patch-cities-cityId-places-placeId-faq-faqId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Allows for anyone to answer a question in a place's FAQ."
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "title": "User",
+        "type": "object",
+        "description": "Describes a registered user and its account settings",
+        "examples": [
+          {
+            "id": 142,
+            "firstName": "Alice",
+            "lastName": "Smith",
+            "email": "alice.smith@gmail.com",
+            "dateOfBirth": "1997-10-31",
+            "emailVerified": true,
+            "signUpDate": "2019-08-24"
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the given user."
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date",
+            "example": "1997-10-31"
+          },
+          "emailVerified": {
+            "type": "boolean",
+            "description": "Set to true if the user's email has been verified."
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The date that the user was created."
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "firstName",
+          "lastName",
+          "email",
+          "emailVerified"
+        ]
+      },
+      "City": {
+        "title": "City",
+        "type": "object",
+        "description": "Describes a city created by some user.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "visitors": {
+            "$ref": "#/components/schemas/User"
+          },
+          "photo": {
+            "type": "string"
+          }
+        }
+      },
+      "Place": {
+        "title": "Place",
+        "type": "object",
+        "description": "Describes a place within a city that users have visited",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "city": {
+            "$ref": "#/components/schemas/City"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "videos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mainPhoto": {
+            "type": "string"
+          },
+          "visitors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "description": {
+            "type": "string"
+          },
+          "faq": {
+            "type": "array",
+            "items": {
+              "$ref": ""
+            }
+          }
+        }
+      },
+      "Blog": {
+        "title": "Blog",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "creator": {
+            "$ref": "#/components/schemas/User"
+          },
+          "posts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Blog-Posts"
+            }
+          }
+        },
+        "description": "Describe the blog (only one allowed) that belongs to a user"
+      },
+      "Blog-Post": {
+        "title": "Blog-Post",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "creator": {
+            "$ref": "#/components/schemas/User"
+          },
+          "blog": {
+            "$ref": "#/components/schemas/Blog"
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "Describes the blog posts that belong to a blog of a user"
+      },
+      "Rating": {
+        "title": "Rating",
+        "type": "object",
+        "description": "Describes the rating from a visit of a place by a user.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "visit": {
+            "$ref": ""
+          },
+          "creator": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "Visit-Like": {
+        "title": "Visit-Like",
+        "type": "object",
+        "description": "Describes a like that has been given to a user's visit",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "creator": {
+            "$ref": "#/components/schemas/User"
+          },
+          "rating": {
+            "$ref": "#/components/schemas/Ratings"
+          }
+        }
+      },
+      "Visit-Comment": {
+        "title": "Visit-Comment",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "description": "Describes a comment that has been added to a user's visit"
+      },
+      "Blog-Post-Comment": {
+        "title": "Blog-Post-Comment",
+        "type": "object",
+        "description": "Describes the comments that have been given to a user's blog post.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "creator": {
+            "$ref": "#/components/schemas/User"
+          },
+          "body": {
+            "type": "string"
+          },
+          "blogPostId": {
+            "$ref": "#/components/schemas/Blog-Posts"
+          }
+        }
+      },
+      "Blog-Post-Like": {
+        "title": "Blog-Post-Like",
+        "type": "object",
+        "description": "Describes the likes that have been given to a user's blog post.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "creator": {
+            "$ref": "#/components/schemas/User"
+          },
+          "blogPostId": {
+            "$ref": "#/components/schemas/Blog-Post"
+          }
+        }
+      },
+      "Visit": {
+        "title": "Visit",
+        "type": "object",
+        "description": "Describes the visits of a user to a specific place in a city.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "visitor": {
+            "$ref": "#/components/schemas/User"
+          },
+          "place": {
+            "$ref": "#/components/schemas/Place"
+          },
+          "date": {
+            "type": "number"
+          },
+          "rating": {
+            "$ref": "#/components/schemas/Rating"
+          },
+          "likes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Visit"
+            }
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Visit"
+            }
+          }
+        }
+      },
+      "User-Profile": {
+        "title": "User-Profile",
+        "type": "object",
+        "description": "Describes the profile of a user.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "photo": {
+            "type": "string"
+          },
+          "about": {
+            "type": "string"
+          },
+          "visits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Visit"
+            }
+          },
+          "currentLocation": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "favouritePlaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Place"
+            }
+          },
+          "favouriteCities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/City"
+            }
+          },
+          "blog": {
+            "$ref": "#/components/schemas/Blog"
+          }
+        }
+      },
+      "FAQ": {
+        "title": "FAQ",
+        "type": "object",
+        "description": "Describes Frequently Asked Questions of a Place",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "Questions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Answers": {
+            "type": [
+              "string",
+              "array"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
