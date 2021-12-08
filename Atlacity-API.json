@@ -66,6 +66,9 @@
                   "dateOfBirth": {
                     "type": "string",
                     "format": "date"
+                  },
+                  "password": {
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -1087,7 +1090,7 @@
           "faq": {
             "type": "array",
             "items": {
-              "$ref": ""
+              "$ref": "#/components/schemas/FAQ"
             }
           }
         }
@@ -1095,6 +1098,7 @@
       "Blog": {
         "title": "Blog",
         "type": "object",
+        "description": "Describe the blog (only one allowed) that belongs to a user",
         "properties": {
           "id": {
             "type": "string"
@@ -1107,13 +1111,16 @@
             "items": {
               "$ref": "#/components/schemas/Blog-Posts"
             }
+          },
+          "description": {
+            "type": "string"
           }
-        },
-        "description": "Describe the blog (only one allowed) that belongs to a user"
+        }
       },
       "Blog-Post": {
         "title": "Blog-Post",
         "type": "object",
+        "description": "Describes the blog posts that belong to a blog of a user",
         "properties": {
           "id": {
             "type": "string"
@@ -1138,9 +1145,11 @@
             "items": {
               "type": "string"
             }
+          },
+          "mainPhoto": {
+            "type": "string"
           }
-        },
-        "description": "Describes the blog posts that belong to a blog of a user"
+        }
       },
       "Rating": {
         "title": "Rating",
@@ -1157,7 +1166,7 @@
             "type": "string"
           },
           "visit": {
-            "$ref": ""
+            "$ref": "#/components/schemas/Visit"
           },
           "creator": {
             "$ref": "#/components/schemas/User"
@@ -1183,12 +1192,21 @@
       "Visit-Comment": {
         "title": "Visit-Comment",
         "type": "object",
+        "description": "Describes a comment that has been added to a user's visit",
         "properties": {
           "id": {
             "type": "string"
+          },
+          "creator": {
+            "$ref": "#/components/schemas/User"
+          },
+          "body": {
+            "type": "string"
+          },
+          "rating": {
+            "$ref": "#/components/schemas/Rating"
           }
-        },
-        "description": "Describes a comment that has been added to a user's visit"
+        }
       },
       "Blog-Post-Comment": {
         "title": "Blog-Post-Comment",
@@ -1204,7 +1222,7 @@
           "body": {
             "type": "string"
           },
-          "blogPostId": {
+          "blogPost": {
             "$ref": "#/components/schemas/Blog-Posts"
           }
         }
@@ -1220,7 +1238,7 @@
           "creator": {
             "$ref": "#/components/schemas/User"
           },
-          "blogPostId": {
+          "blogPost": {
             "$ref": "#/components/schemas/Blog-Post"
           }
         }
@@ -1248,13 +1266,13 @@
           "likes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Visit"
+              "$ref": "#/components/schemas/Visit-Like"
             }
           },
           "comments": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Visit"
+              "$ref": "#/components/schemas/Visit-Comment"
             }
           }
         }
