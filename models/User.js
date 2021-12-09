@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { isEmail, isDate } from 'validator';
-const userScema = new mongoose.Schema(
+import bcrypt from 'bcryptjs';
+const userSchema = new mongoose.Schema(
 	{
 		firstName: {
 			type: String,
@@ -49,6 +50,32 @@ const userScema = new mongoose.Schema(
 	}
 );
 
-const User = mongoose.model('User', userScema);
+userSchema.methods.toJSON = function () {
+	const user = this;
+	const userObject = user.toObject();
 
+	delete userObject.password;
+	delete userObject.photo;
+
+	return userObject;
+};
+
+userSchema.statics.findByCredentials = async (email, password) => {
+	const user = await User.findOne({ email }); //find user by email
+
+	if (!user) {
+		throw new Error('Invalid login credentials');
+	}
+
+	//Check for password match
+	const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+	if (!isPasswordMatch) {
+		throw new Error('Invalid login credentials');
+	}
+
+	return user;
+};
+
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 export default User;
