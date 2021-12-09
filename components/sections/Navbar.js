@@ -1,8 +1,9 @@
 import React from 'react';
-import { Flex, Box, Text, Button } from '@chakra-ui/react';
+import { Flex, Box, Text } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
+import Button from '../ui/Button';
 
 const MenuItems = (props) => {
 	const { children, isLast, to = '/', ...rest } = props;
@@ -24,15 +25,7 @@ const MenuItems = (props) => {
 
 const Navbar = () => {
 	return (
-		<Flex
-			as='nav'
-			align='center'
-			justify='space-between'
-			w='100%'
-			px='15px'
-			py='5px'
-			mb='10'
-			bgColor='gray.100'>
+		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='5px' bgColor='gray.100'>
 			<Flex justify='center'>
 				<Box display={{ base: 'block', md: 'none' }}>
 					<HamburgerIcon boxSize={6} />
@@ -51,26 +44,12 @@ const Navbar = () => {
 
 			<Flex align='center' justify='center'>
 				<MenuItems href='/login'>
-					<Button
-						size='md'
-						rounded='md'
-						color='white'
-						bg='teal.300'
-						_hover={{
-							bg: 'teal.400',
-						}}>
+					<Button color='primary' hover={{ bg: 'emerald.500' }}>
 						Login
 					</Button>
 				</MenuItems>
 				<MenuItems href='/register' isLast>
-					<Button
-						size='md'
-						rounded='md'
-						color='white'
-						bg='teal.300'
-						_hover={{
-							bg: 'teal.400',
-						}}>
+					<Button color='primary' hover={{ bg: 'emerald.500' }}>
 						Register
 					</Button>
 				</MenuItems>
