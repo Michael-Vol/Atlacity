@@ -1,16 +1,21 @@
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme, theme as base } from '@chakra-ui/react';
+import '../styles/globals.css';
 
 const theme = extendTheme({
 	colors: {
-		emerald: {
-			500: '#005c5c',
-			400: '#009696',
-			300: '#03abab',
-			200: '#00bdbd',
-			100: '#00d1d1',
+		blue: {
+			500: '#00798a',
+			400: '#008ea1',
+			300: '#00a4ba',
+			200: '#00bfd9',
+			100: '#00daf7',
 		},
-		primary: '#009696',
-		secondary: '#00bdbd',
+		primary: '#00a4ba',
+		secondary: '#00bfd9',
+	},
+	fonts: {
+		heading: `Poppins, ${base.fonts.heading}`,
+		body: `Nunito, ${base.fonts.body}`,
 	},
 });
 
