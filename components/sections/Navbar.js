@@ -44,14 +44,10 @@ const Navbar = () => {
 
 			<Flex align='center' justify='center'>
 				<MenuItems href='/login'>
-					<Button color='primary' hover={{ bg: 'emerald.500' }}>
-						Login
-					</Button>
+					<Button color='primary'>Login</Button>
 				</MenuItems>
 				<MenuItems href='/register' isLast>
-					<Button color='primary' hover={{ bg: 'emerald.500' }}>
-						Register
-					</Button>
+					<Button color='primary'>Register</Button>
 				</MenuItems>
 			</Flex>
 		</Flex>
