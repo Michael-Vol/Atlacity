@@ -3,7 +3,7 @@ import { Button } from '@chakra-ui/react';
 const Btn = (props) => {
 	return (
 		<Button
-			mr={props.isFirst && '20px'}
+			ml={props.isFirst && '20px'}
 			size={props.size || 'md'}
 			rounded='md'
 			color={props.colors || 'white'}

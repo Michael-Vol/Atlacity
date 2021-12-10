@@ -11,15 +11,18 @@ const HeroCard = (props) => {
 			}}
 			transition={'all .3s ease-in-out'}
 			boxShadow='xl'
-			bg='gray.50'
+			bg='blue.300'
+			color={'white'}
 			rounded='xl'
 			p='5px'
 			w='full'
 			maxW='250px'
 			py='20px'>
 			<Flex alignItems='center'>
-				<Image src={`/vectors/${imageName}.png`} height='64px' width='64px' layout='intrinsic' />
-				<Text ml='20px' my='auto'>
+				<Box ml='5px' my='auto'>
+					<Image src={`/vectors/${imageName}.png`} height='64px' width='64px' layout='intrinsic' />
+				</Box>
+				<Text ml='20px' my='auto' align={'center'}>
 					{text}
 				</Text>
 			</Flex>

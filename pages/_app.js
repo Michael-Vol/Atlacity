@@ -4,14 +4,20 @@ import '../styles/globals.css';
 const theme = extendTheme({
 	colors: {
 		blue: {
-			500: '#00798a',
-			400: '#008ea1',
-			300: '#00a4ba',
-			200: '#00bfd9',
-			100: '#00daf7',
+			500: '#29487D',
+			400: '#4175CB',
+			300: '#5F88CE',
+			200: '#6C9DEF',
+			100: '#8AB1F3',
+			50: '#f2f6fc',
 		},
-		primary: '#00a4ba',
-		secondary: '#00bfd9',
+		primary: '#5F88CE',
+		secondary: '#6C9DEF',
+	},
+	components: {
+		Text: {
+			bgColor: 'white',
+		},
 	},
 	fonts: {
 		heading: `Poppins, ${base.fonts.heading}`,

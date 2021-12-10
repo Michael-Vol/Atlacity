@@ -25,14 +25,14 @@ const MenuItems = (props) => {
 
 const Navbar = () => {
 	return (
-		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='5px' bgColor='gray.100'>
+		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='5px'>
 			<Flex justify='center'>
 				<Box display={{ base: 'block', md: 'none' }}>
 					<HamburgerIcon boxSize={6} />
 				</Box>
 
 				<Flex mr='15px'>
-					<Image src='/images/atlacity-logo.png' width={72} height={62} layout='fixed' />
+					<Image src='/vectors/atlacity-logo.png' width={72} height={62} layout='fixed' />
 				</Flex>
 
 				<Flex align='center' justify='center'>
