@@ -8,10 +8,11 @@ const HeroCard = (props) => {
 		<Box
 			_hover={{
 				boxShadow: 'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;',
+				bg: 'blue.1000',
 			}}
 			transition={'all .3s ease-in-out'}
 			boxShadow='xl'
-			bg='blue.300'
+			bg='blue.500'
 			color={'white'}
 			rounded='xl'
 			p='5px'

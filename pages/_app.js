@@ -1,15 +1,18 @@
 import { ChakraProvider, extendTheme, theme as base } from '@chakra-ui/react';
+import { createBreakpoints } from '@chakra-ui/theme-tools';
+
 import '../styles/globals.css';
 
 const theme = extendTheme({
 	colors: {
 		blue: {
+			1000: '#213963',
 			500: '#29487D',
 			400: '#4175CB',
 			300: '#5F88CE',
 			200: '#6C9DEF',
 			100: '#8AB1F3',
-			50: '#f2f6fc',
+			50: '#EFF1FE',
 		},
 		primary: '#5F88CE',
 		secondary: '#6C9DEF',
@@ -23,6 +26,14 @@ const theme = extendTheme({
 		heading: `Poppins, ${base.fonts.heading}`,
 		body: `Nunito, ${base.fonts.body}`,
 	},
+});
+
+const breakpoints = createBreakpoints({
+	sm: '30em',
+	md: '48em',
+	lg: '62em',
+	xl: '80em',
+	'2xl': '96em',
 });
 
 function AtlacityApp({ Component, pageProps }) {

@@ -12,10 +12,11 @@ const MenuItems = (props) => {
 			mb={{ base: isLast ? 0 : 8, sm: 0 }}
 			mr={{ base: 0, sm: isLast ? 0 : 8 }}
 			display='block'
-			color='gray.700'
-			fontSize={18}
+			color='blue.500'
+			fontSize={20}
+			transition={'all .1s ease-in-out'}
 			_hover={{
-				color: 'teal.300',
+				color: 'blue.100',
 			}}
 			{...rest}>
 			<Link href={to}>{children}</Link>
@@ -25,7 +26,7 @@ const MenuItems = (props) => {
 
 const Navbar = () => {
 	return (
-		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='5px'>
+		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='5px' h={'80px'}>
 			<Flex justify='center'>
 				<Box display={{ base: 'block', md: 'none' }}>
 					<HamburgerIcon boxSize={6} />
@@ -37,8 +38,9 @@ const Navbar = () => {
 
 				<Flex align='center' justify='center'>
 					<MenuItems href='/explore'>Explore</MenuItems>
+					<MenuItems href='/cities'>Cities</MenuItems>
+					<MenuItems href='/blogs'>Blogs</MenuItems>
 					<MenuItems href='/about'>About</MenuItems>
-					<MenuItems href='/contact'>Contact</MenuItems>
 				</Flex>
 			</Flex>
 
