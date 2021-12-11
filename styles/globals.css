@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito&family=Poppins&display=swap');
+html,
+body,
+#app,
+#app > div {
+	height: 100%;
+}
