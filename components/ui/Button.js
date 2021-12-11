@@ -8,7 +8,8 @@ const Btn = (props) => {
 			rounded='md'
 			color={props.colors || 'white'}
 			bg={props.bg || 'primary'}
-			_hover={props.hover || { bg: 'blue.500' }}>
+			_hover={props.hover || { bg: 'blue.500' }}
+			onClick={props.onClick}>
 			{props.children}
 		</Button>
 	);

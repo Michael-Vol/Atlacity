@@ -1,12 +1,17 @@
 import React from 'react';
-import { Stack, Image, Text, Flex, Heading, SimpleGrid, Box } from '@chakra-ui/react';
-import Button from '../ui/Button';
+import { Stack, Image, Text, Flex, Heading, Grid, GridItem, SimpleGrid, Box } from '@chakra-ui/react';
+import Button from '../../ui/Button';
 
-import HeroCard from '../ui/HeroCard';
+import HeroCard from '../../ui/HeroCard';
 const Hero = () => {
 	return (
-		<Flex direction={'row'} alignItems={'stretch'}>
-			<Flex flexDir={'column'} w={{ base: '40%', md: '40%' }} mx={'3%'}>
+		<Grid
+			templateRows='repeat(1, 1fr)'
+			h={'90vh'}
+			templateColumns='repeat(10, 1fr)'
+			gap={10}
+			alignItems={'center'}>
+			<GridItem colSpan={4} flexDir={'column'} ml={'20px'}>
 				<Heading as='h1' fontSize='6xl' color='primary' mt='5%'>
 					Atlacity
 				</Heading>
@@ -36,11 +41,11 @@ const Hero = () => {
 					</Button>
 					<Button size='lg'>Get Started</Button>
 				</Flex>
-			</Flex>
-			<Box flex={1}>
+			</GridItem>
+			<GridItem colSpan={6}>
 				<Image alt='Hero Image' src='/images/city.png' size='100%' />
-			</Box>
-		</Flex>
+			</GridItem>
+		</Grid>
 	);
 };
 

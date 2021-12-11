@@ -3,10 +3,11 @@ import { Flex, Box, Text } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
-import Button from '../ui/Button';
+import Button from '../../ui/Button';
+import { useRouter } from 'next/router';
 
 const MenuItems = (props) => {
-	const { children, isLast, to = '/', ...rest } = props;
+	const { children, isLast, to, ...rest } = props;
 	return (
 		<Text
 			mb={{ base: isLast ? 0 : 8, sm: 0 }}
@@ -25,32 +26,40 @@ const MenuItems = (props) => {
 };
 
 const Navbar = () => {
+	const router = useRouter();
+
 	return (
-		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='5px' h={'80px'}>
+		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='20px' h={'80px'}>
 			<Flex justify='center'>
 				<Box display={{ base: 'block', md: 'none' }}>
 					<HamburgerIcon boxSize={6} />
 				</Box>
 
 				<Flex mr='15px'>
-					<Image src='/vectors/atlacity-logo.png' width={72} height={62} layout='fixed' />
+					<Box onClick={() => router.push('/')}>
+						<Image src='/vectors/atlacity-logo.png' width={72} height={62} layout='fixed' />
+					</Box>
 				</Flex>
 
 				<Flex align='center' justify='center'>
-					<MenuItems href='/explore'>Explore</MenuItems>
-					<MenuItems href='/cities'>Cities</MenuItems>
-					<MenuItems href='/blogs'>Blogs</MenuItems>
-					<MenuItems href='/about'>About</MenuItems>
+					<MenuItems to='/explore'>Explore</MenuItems>
+					<MenuItems to='/cities'>Cities</MenuItems>
+					<MenuItems to='/blogs'>Blogs</MenuItems>
+					<MenuItems to='/about'>About</MenuItems>
 				</Flex>
 			</Flex>
 
 			<Flex align='center' justify='center'>
-				<MenuItems href='/login'>
-					<Button color='primary'>Login</Button>
-				</MenuItems>
-				<MenuItems href='/register' isLast>
-					<Button color='primary'>Register</Button>
-				</MenuItems>
+				<Box mr={'20px'}>
+					<Button color='primary' onClick={() => router.push('/auth/login')}>
+						Login
+					</Button>
+				</Box>
+				<Box>
+					<Button color='primary' onClick={() => router.push('/auth/register')}>
+						Register
+					</Button>
+				</Box>
 			</Flex>
 		</Flex>
 	);

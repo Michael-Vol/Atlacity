@@ -1,6 +1,7 @@
 import { ChakraProvider, extendTheme, theme as base } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
 
+import Navbar from '../components/sections/Landing/Navbar';
 import '../styles/globals.css';
 
 const theme = extendTheme({
@@ -39,6 +40,7 @@ const breakpoints = createBreakpoints({
 function AtlacityApp({ Component, pageProps }) {
 	return (
 		<ChakraProvider theme={theme}>
+			<Navbar />
 			<Component {...pageProps} />
 		</ChakraProvider>
 	);
