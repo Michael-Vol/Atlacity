@@ -32,7 +32,7 @@ const LoginForm = ({ onSubmit }) => {
 				validate={handleValidation}
 				onSubmit={(values, { setSubmitting }) => {
 					setSubmitting(true);
-					onSubmit(values);
+					onSubmit(values, setSubmitting);
 				}}>
 				{(props) => (
 					<Form>
@@ -66,7 +66,7 @@ const LoginForm = ({ onSubmit }) => {
 								bg='blue.400'
 								color={'white'}
 								size='lg'
-								isLoading={auth.isLoading}
+								isLoading={props.isSubmitting}
 								isDisabled={!props.dirty || !props.isValid || props.isValidating}
 								type='submit'>
 								Sign In
