@@ -7,6 +7,14 @@ import { Provider } from 'react-redux';
 import { SessionProvider } from 'next-auth/react';
 import useStore from '../store/store';
 
+const breakpoints = createBreakpoints({
+	sm: '30em',
+	md: '48em',
+	lg: '62em',
+	xl: '80em',
+	'2xl': '96em',
+});
+
 const theme = extendTheme({
 	colors: {
 		blue: {
@@ -30,19 +38,11 @@ const theme = extendTheme({
 		heading: `Poppins, ${base.fonts.heading}`,
 		body: `Nunito, ${base.fonts.body}`,
 	},
-});
-
-const breakpoints = createBreakpoints({
-	sm: '30em',
-	md: '48em',
-	lg: '62em',
-	xl: '80em',
-	'2xl': '96em',
+	breakpoints,
 });
 
 function AtlacityApp({ Component, pageProps }) {
 	const store = useStore(pageProps.initialReduxState);
-
 	return (
 		<SessionProvider session={pageProps.session}>
 			<Provider store={store}>

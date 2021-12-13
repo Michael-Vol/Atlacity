@@ -41,17 +41,9 @@ const RegisterLayout = () => {
 		console.log(auth);
 	}, [auth]);
 	return (
-		<Grid
-			h='200px'
-			templateRows='repeat(1, 1fr)'
-			templateColumns='repeat(10, 1fr)'
-			gap={1}
-			h={'90vh'}
-			alignItems={'center'}>
-			<GridItem colSpan={6}>
-				<Box m={'auto'}>
-					<Image size={'100%'} src='/images/auth.jpg' alt='register image' />
-				</Box>
+		<Grid minH={'100%'} templateRows='repeat(1, 1fr)' templateColumns='repeat(10, 1fr)' gap={1}>
+			<GridItem colSpan={6} rowSpan={'1'}>
+				<Image src='/images/auth.jpg' alt='register image' minW={'100%'} minH={'100%'} />
 			</GridItem>
 			<GridItem colSpan={4} mt={'40px'} color={'blue.300'} ml={'20px'}>
 				<Text fontSize={'18px'}>Start for free</Text>

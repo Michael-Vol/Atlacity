@@ -1,9 +1,11 @@
 import React from 'react';
 import { Stack, Image, Text, Flex, Heading, Grid, GridItem, SimpleGrid, Box } from '@chakra-ui/react';
 import Button from '../../ui/Button';
+import { useRouter } from 'next/router';
 
 import HeroCard from '../../ui/HeroCard';
 const Hero = () => {
+	const router = useRouter();
 	return (
 		<Grid templateRows='repeat(1, 1fr)' h={'90vh'} templateColumns='repeat(10, 1fr)' gap={10}>
 			<GridItem colSpan={4} flexDir={'column'} ml={'20px'}>
@@ -34,11 +36,13 @@ const Hero = () => {
 					<Button size='lg' bg='blue.500' hover={{ bg: 'blue.1000' }} isfirst='true'>
 						Learn More
 					</Button>
-					<Button size='lg'>Get Started</Button>
+					<Button size='lg' onClick={() => router.push('/auth/register')}>
+						Get Started
+					</Button>
 				</Flex>
 			</GridItem>
 			<GridItem colSpan={6}>
-				<Image alt='Hero Image' src='/images/city.png' size='100%' />
+				<Image alt='Hero Image' src='/images/city.png' minH={'100%'} minW={'100%'} />
 			</GridItem>
 		</Grid>
 	);

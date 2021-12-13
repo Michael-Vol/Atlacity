@@ -1,12 +1,12 @@
 import React from 'react';
-import { Grid, GridItem, Heading, Text, Box, Image, useToast } from '@chakra-ui/react';
+import { Grid, GridItem, Heading, Text, Box, useToast, Image } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from 'next-auth/react';
 
 import LoginForm from '../sections/Auth/Login/LoginForm';
 import { useRouter } from 'next/router';
-const LoginLayout = () => {
+const LoginLayout = (props) => {
 	const dispatch = useDispatch();
 	const router = useRouter();
 	const toast = useToast();
@@ -43,12 +43,10 @@ const LoginLayout = () => {
 	};
 	return (
 		<Grid h='200px' templateRows='repeat(1, 1fr)' templateColumns='repeat(10, 1fr)' gap={1} h={'90vh'}>
-			<GridItem colSpan={6}>
-				<Box m={'auto'}>
-					<Image size={'100%'} src='/images/auth.jpg' alt='register image' />
-				</Box>
+			<GridItem colSpan={6} rowSpan={1}>
+				<Image src='/images/auth.jpg' alt='register image' minW={'100%'} minH={'100%'} />
 			</GridItem>
-			<GridItem colSpan={4} my={'20px'} mx={'40px'} color={'blue.300'}>
+			<GridItem colSpan={4} my={'20px'} ml={'40px'} color={'blue.300'}>
 				<Text fontSize={'18px'}>Sign in here if you have an Atlacity account.</Text>
 				<Heading mt={'5px'} color={'blue.300'}>
 					Sign in
