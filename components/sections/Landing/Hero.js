@@ -5,12 +5,7 @@ import Button from '../../ui/Button';
 import HeroCard from '../../ui/HeroCard';
 const Hero = () => {
 	return (
-		<Grid
-			templateRows='repeat(1, 1fr)'
-			h={'90vh'}
-			templateColumns='repeat(10, 1fr)'
-			gap={10}
-			alignItems={'center'}>
+		<Grid templateRows='repeat(1, 1fr)' h={'90vh'} templateColumns='repeat(10, 1fr)' gap={10}>
 			<GridItem colSpan={4} flexDir={'column'} ml={'20px'}>
 				<Heading as='h1' fontSize='6xl' color='primary' mt='5%'>
 					Atlacity
@@ -36,7 +31,7 @@ const Hero = () => {
 					<HeroCard text={`Write blog posts about the places you've visited`} imageName='pencil' />
 				</SimpleGrid>
 				<Flex className='button-group' mt={'5%'} mb={4} flexDirection={'row-reverse'}>
-					<Button size='lg' bg='blue.500' hover={{ bg: 'blue.1000' }} isFirst>
+					<Button size='lg' bg='blue.500' hover={{ bg: 'blue.1000' }} isfirst='true'>
 						Learn More
 					</Button>
 					<Button size='lg'>Get Started</Button>

@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Flex, Grid, GridItem, Heading, Text, Box, Image } from '@chakra-ui/react';
 import Link from 'next/link';
-// import Image from 'next/image';
+import { useDispatch, useSelector } from 'react-redux';
 
 import RegisterForm from '../sections/Auth/Register/RegisterForm';
-
+import register from '../../actions/auth/register';
 const RegisterLayout = () => {
+	const dispatch = useDispatch();
+	const auth = useSelector((state) => state.auth);
+
+	const handleSubmit = (values) => {
+		dispatch(register(values));
+	};
+
+	useEffect(() => {
+		if (auth.isLoading) {
+			return console.log('loading');
+		}
+		if (auth.user) {
+			console.log('Created user');
+			return console.log(auth.user);
+		}
+		console.log(auth.error);
+	}, [auth]);
 	return (
 		<Grid
 			h='200px'
@@ -32,8 +49,8 @@ const RegisterLayout = () => {
 						<Link href='/auth/login'>Log in</Link>
 					</span>
 				</Text>
-				<Box mt={'80px'}>
-					<RegisterForm />
+				<Box mt={'50px'}>
+					<RegisterForm onSubmit={handleSubmit} />
 				</Box>
 			</GridItem>
 		</Grid>

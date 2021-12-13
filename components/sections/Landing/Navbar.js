@@ -51,14 +51,10 @@ const Navbar = () => {
 
 			<Flex align='center' justify='center'>
 				<Box mr={'20px'}>
-					<Button color='primary' onClick={() => router.push('/auth/login')}>
-						Login
-					</Button>
+					<Button onClick={() => router.push('/auth/login')}>Login</Button>
 				</Box>
 				<Box>
-					<Button color='primary' onClick={() => router.push('/auth/register')}>
-						Register
-					</Button>
+					<Button onClick={() => router.push('/auth/register')}>Register</Button>
 				</Box>
 			</Flex>
 		</Flex>
