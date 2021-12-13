@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
 				isLoading: false,
 				error: null,
 				user: payload.user,
-				message: user,
+				message: payload.message,
 			};
 		case types.REGISTER_FAILURE:
 			return {

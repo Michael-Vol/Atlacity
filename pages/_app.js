@@ -4,6 +4,7 @@ import { createBreakpoints } from '@chakra-ui/theme-tools';
 import Navbar from '../components/sections/Landing/Navbar';
 import '../styles/globals.css';
 import { Provider } from 'react-redux';
+import { SessionProvider } from 'next-auth/react';
 import useStore from '../store/store';
 
 const theme = extendTheme({
@@ -43,12 +44,14 @@ function AtlacityApp({ Component, pageProps }) {
 	const store = useStore(pageProps.initialReduxState);
 
 	return (
-		<Provider store={store}>
-			<ChakraProvider theme={theme}>
-				<Navbar />
-				<Component {...pageProps} />
-			</ChakraProvider>
-		</Provider>
+		<SessionProvider session={pageProps.session}>
+			<Provider store={store}>
+				<ChakraProvider theme={theme}>
+					<Navbar />
+					<Component {...pageProps} />
+				</ChakraProvider>
+			</Provider>
+		</SessionProvider>
 	);
 }
 

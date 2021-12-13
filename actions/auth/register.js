@@ -7,7 +7,7 @@ const register = (registerData) => async (dispatch) => {
 				'Content-Type': 'application/json',
 			},
 		};
-		const res = await axios.post('/api/users/register', registerData, config);
+		const res = await axios.post('/api/auth/register', registerData, config);
 		dispatch({ type: types.REGISTER_SUCCESS, payload: res.data });
 	} catch (error) {
 		dispatch({ type: types.REGISTER_FAILURE, payload: error });

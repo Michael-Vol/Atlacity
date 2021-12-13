@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Flex, Grid, GridItem, Heading, Text, Box, Image } from '@chakra-ui/react';
+import { Grid, GridItem, Heading, Text, Box, Image } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,6 +10,7 @@ const RegisterLayout = () => {
 	const auth = useSelector((state) => state.auth);
 
 	const handleSubmit = (values) => {
+		console.log(values);
 		dispatch(register(values));
 	};
 
@@ -17,11 +18,10 @@ const RegisterLayout = () => {
 		if (auth.isLoading) {
 			return console.log('loading');
 		}
-		if (auth.user) {
-			console.log('Created user');
-			return console.log(auth.user);
+		if (auth.error) {
+			return console.log(auth.error);
 		}
-		console.log(auth.error);
+		console.log(auth);
 	}, [auth]);
 	return (
 		<Grid
