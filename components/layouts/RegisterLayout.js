@@ -50,7 +50,7 @@ const RegisterLayout = () => {
 			alignItems={'center'}>
 			<GridItem colSpan={6}>
 				<Box m={'auto'}>
-					<Image size={'100%'} src='/images/register.jpg' alt='register image' />
+					<Image size={'100%'} src='/images/auth.jpg' alt='register image' />
 				</Box>
 			</GridItem>
 			<GridItem colSpan={4} mt={'40px'} color={'blue.300'} ml={'20px'}>

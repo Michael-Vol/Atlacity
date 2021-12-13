@@ -1,7 +1,7 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
+import LoginLayout from '../../components/layouts/LoginLayout';
 const login = () => {
-	return <div></div>;
+	return <LoginLayout></LoginLayout>;
 };
 
 export default login;
