@@ -12,7 +12,7 @@ const HeroCard = (props) => {
 			}}
 			transition={'all .3s ease-in-out'}
 			boxShadow='xl'
-			bg='blue.500'
+			bg='blue.400'
 			color={'white'}
 			rounded='xl'
 			p='5px'

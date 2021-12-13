@@ -1,7 +1,10 @@
 import { ChakraProvider, extendTheme, theme as base } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
 
+import Navbar from '../components/sections/Landing/Navbar';
 import '../styles/globals.css';
+import { Provider } from 'react-redux';
+import useStore from '../store/store';
 
 const theme = extendTheme({
 	colors: {
@@ -37,10 +40,15 @@ const breakpoints = createBreakpoints({
 });
 
 function AtlacityApp({ Component, pageProps }) {
+	const store = useStore(pageProps.initialReduxState);
+
 	return (
-		<ChakraProvider theme={theme}>
-			<Component {...pageProps} />
-		</ChakraProvider>
+		<Provider store={store}>
+			<ChakraProvider theme={theme}>
+				<Navbar />
+				<Component {...pageProps} />
+			</ChakraProvider>
+		</Provider>
 	);
 }
 
