@@ -62,7 +62,7 @@ export default async (req, res) => {
 			await user.save(); //save user to db
 
 			return res.status(201).json({
-				message: 'User created!',
+				message: 'User Created!',
 				user,
 			});
 		}

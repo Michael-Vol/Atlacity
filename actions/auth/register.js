@@ -2,6 +2,7 @@ import * as types from '../types';
 import axios from 'axios';
 const register = (registerData) => async (dispatch) => {
 	try {
+		dispatch({ type: types.REGISTER_REQUEST });
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',

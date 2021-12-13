@@ -1,19 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-	Flex,
-	Box,
-	FormControl,
-	FormLabel,
-	FormErrorMessage,
-	Input,
-	FormHelperText,
-	Text,
-} from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Flex, Box, FormControl, FormLabel, FormErrorMessage, Input, FormHelperText } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 
 import Button from '../../../ui/Button';
 
 const RegisterForm = ({ onSubmit }) => {
+	const auth = useSelector((state) => state.auth);
+
 	const handleValidation = (values) => {
 		const errors = {};
 		if (!values.firstName) {
@@ -50,7 +44,7 @@ const RegisterForm = ({ onSubmit }) => {
 				}}
 				validate={handleValidation}
 				onSubmit={(values, { setSubmitting }) => {
-					setSubmitting(false);
+					setSubmitting(true);
 					onSubmit(values);
 				}}>
 				{(props) => (
@@ -125,8 +119,8 @@ const RegisterForm = ({ onSubmit }) => {
 								bg='blue.400'
 								color={'white'}
 								size='lg'
-								isLoading={props.isSubmitting}
-								isDisabled={props.isSubmitting || props.isValidating}
+								isLoading={auth.isLoading}
+								isDisabled={!props.dirty || !props.isValid || props.isValidating}
 								type='submit'>
 								Register
 							</Button>

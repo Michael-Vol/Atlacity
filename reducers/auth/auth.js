@@ -1,7 +1,7 @@
 import * as types from '../../actions/types';
 
 const initialState = {
-	isLoading: true,
+	isLoading: false,
 	error: null,
 	user: null,
 	message: null,
@@ -10,6 +10,11 @@ const initialState = {
 export default (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
+		case types.REGISTER_REQUEST:
+			return {
+				...state,
+				isLoading: true,
+			};
 		case types.REGISTER_SUCCESS:
 			return {
 				...state,

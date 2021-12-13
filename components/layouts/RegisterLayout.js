@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Grid, GridItem, Heading, Text, Box, Image } from '@chakra-ui/react';
+import { Grid, GridItem, Heading, Text, Box, Image, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -9,17 +9,34 @@ const RegisterLayout = () => {
 	const dispatch = useDispatch();
 	const auth = useSelector((state) => state.auth);
 
+	const toast = useToast();
 	const handleSubmit = (values) => {
 		console.log(values);
 		dispatch(register(values));
 	};
 
 	useEffect(() => {
-		if (auth.isLoading) {
-			return console.log('loading');
-		}
-		if (auth.error) {
-			return console.log(auth.error);
+		if (!auth.loading && auth.error) {
+			console.log(auth.error.response.data.message);
+			if (!toast.isActive('error-toast') && !toast.isActive('success-toast'))
+				return toast({
+					id: 'error-toast',
+					title: 'Error',
+					description: auth.error.response.data.message,
+					status: 'error',
+					duration: 4000,
+					isClosable: true,
+				});
+		} else if (!auth.loading && auth.user) {
+			if (!toast.isActive('success-toast') && !toast.isActive('error-toast'))
+				return toast({
+					id: 'success-toast',
+					title: 'Success',
+					description: auth.message,
+					status: 'success',
+					duration: 4000,
+					isClosable: true,
+				});
 		}
 		console.log(auth);
 	}, [auth]);
