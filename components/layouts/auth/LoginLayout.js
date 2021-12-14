@@ -1,13 +1,12 @@
 import React from 'react';
 import { Grid, GridItem, Heading, Text, Box, useToast, Image } from '@chakra-ui/react';
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { signIn } from 'next-auth/react';
 
-import LoginForm from '../sections/Auth/Login/LoginForm';
+import LoginForm from '../../sections/Auth/Login/LoginForm';
 import { useRouter } from 'next/router';
 const LoginLayout = (props) => {
-	const dispatch = useDispatch();
 	const router = useRouter();
 	const toast = useToast();
 	const auth = useSelector((state) => state.auth);
@@ -17,6 +16,7 @@ const LoginLayout = (props) => {
 			...values,
 			redirect: false,
 		});
+
 		setSubmitting(false);
 		if (!res.error && res.status === 200) {
 			if (!toast.isActive('error-toast') && !toast.isActive('success-toast')) {

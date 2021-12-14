@@ -1,23 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, GridItem, Heading, Text, Box, Image, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
+import { signIn } from 'next-auth/react';
 
-import RegisterForm from '../sections/Auth/Register/RegisterForm';
-import register from '../../actions/auth/register';
-const RegisterLayout = () => {
+import RegisterForm from '../../sections/Auth/Register/RegisterForm';
+import register from '../../../actions/auth/register';
+
+const RegisterLayout = ({ onRegisterSuccess }) => {
 	const dispatch = useDispatch();
 	const auth = useSelector((state) => state.auth);
+	const [credentials, setCredentials] = useState({});
 
 	const toast = useToast();
 	const handleSubmit = (values) => {
 		console.log(values);
 		dispatch(register(values));
+		setCredentials({ email: values.email, password: values.password });
 	};
 
 	useEffect(() => {
 		if (!auth.loading && auth.error) {
-			console.log(auth.error.response.data.message);
 			if (!toast.isActive('error-toast') && !toast.isActive('success-toast'))
 				return toast({
 					id: 'error-toast',
@@ -29,7 +32,7 @@ const RegisterLayout = () => {
 				});
 		} else if (!auth.loading && auth.user) {
 			if (!toast.isActive('success-toast') && !toast.isActive('error-toast'))
-				return toast({
+				toast({
 					id: 'success-toast',
 					title: 'Success',
 					description: auth.message,
@@ -37,6 +40,11 @@ const RegisterLayout = () => {
 					duration: 4000,
 					isClosable: true,
 				});
+			signIn('credentials', {
+				...credentials,
+				redirect: false,
+			});
+			onRegisterSuccess();
 		}
 		console.log(auth);
 	}, [auth]);

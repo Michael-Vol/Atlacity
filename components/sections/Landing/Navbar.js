@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Flex, Box, Text } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '../../ui/Button';
 import { useRouter } from 'next/router';
+import { useSession, signOut } from 'next-auth/react';
 
 const MenuItems = (props) => {
 	const { children, isLast, to, ...rest } = props;
@@ -26,38 +27,64 @@ const MenuItems = (props) => {
 };
 
 const Navbar = () => {
+	const { data: session, status } = useSession();
 	const router = useRouter();
-
 	return (
-		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='20px' h={'80px'}>
-			<Flex justify='center'>
-				<Box display={{ base: 'block', md: 'none' }}>
-					<HamburgerIcon boxSize={6} />
-				</Box>
+		<div>
+			{status !== 'loading' && (
+				<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='20px' h={'80px'}>
+					<Flex justify='center'>
+						<Box display={{ base: 'block', md: 'none' }}>
+							<HamburgerIcon boxSize={6} />
+						</Box>
 
-				<Flex mr='15px'>
-					<Box onClick={() => router.push('/')}>
-						<Image src='/vectors/atlacity-logo.png' width={72} height={62} layout='fixed' />
-					</Box>
+						<Flex mr='15px'>
+							<Box onClick={() => router.push('/')}>
+								<Image
+									src='/vectors/atlacity-logo.png'
+									width={72}
+									height={62}
+									layout='fixed'
+								/>
+							</Box>
+						</Flex>
+
+						<Flex align='center' justify='center'>
+							<MenuItems to='/explore'>{session ? 'Home' : 'Explore'}</MenuItems>
+							<MenuItems to='/cities'>Cities</MenuItems>
+							<MenuItems to='/blogs'>Blogs</MenuItems>
+							<MenuItems to='/about'>About</MenuItems>
+						</Flex>
+					</Flex>
+
+					<Flex align='center' justify='center'>
+						{status === 'unauthenticated' ? (
+							<Fragment>
+								<Box mr={'20px'}>
+									<Button onClick={() => router.push('/auth/login')}>Login</Button>
+								</Box>
+								<Box>
+									<Button onClick={() => router.push('/auth/register')}>Register</Button>
+								</Box>
+							</Fragment>
+						) : (
+							<Box mr={'20px'}>
+								<Button
+									bg='red.400'
+									_hover={{ bg: 'red.500' }}
+									onClick={() =>
+										signOut({
+											callbackUrl: 'http://localhost:3000/',
+										})
+									}>
+									Logout
+								</Button>
+							</Box>
+						)}
+					</Flex>
 				</Flex>
-
-				<Flex align='center' justify='center'>
-					<MenuItems to='/explore'>Explore</MenuItems>
-					<MenuItems to='/cities'>Cities</MenuItems>
-					<MenuItems to='/blogs'>Blogs</MenuItems>
-					<MenuItems to='/about'>About</MenuItems>
-				</Flex>
-			</Flex>
-
-			<Flex align='center' justify='center'>
-				<Box mr={'20px'}>
-					<Button onClick={() => router.push('/auth/login')}>Login</Button>
-				</Box>
-				<Box>
-					<Button onClick={() => router.push('/auth/register')}>Register</Button>
-				</Box>
-			</Flex>
-		</Flex>
+			)}
+		</div>
 	);
 };
 

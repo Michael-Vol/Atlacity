@@ -4,7 +4,7 @@ import { createBreakpoints } from '@chakra-ui/theme-tools';
 import Navbar from '../components/sections/Landing/Navbar';
 import '../styles/globals.css';
 import { Provider } from 'react-redux';
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider, getSession } from 'next-auth/react';
 import useStore from '../store/store';
 
 const breakpoints = createBreakpoints({
