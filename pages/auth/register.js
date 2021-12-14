@@ -10,6 +10,7 @@ const Register = () => {
 	console.log(session, status);
 	switch (registerStatus) {
 		case 'preregister':
+			return <CompleteProfileLayout />;
 			return <RegisterLayout onRegisterSuccess={() => setRegisterStatus('completeprofile')} />;
 		case 'completeprofile':
 			return <CompleteProfileLayout />;

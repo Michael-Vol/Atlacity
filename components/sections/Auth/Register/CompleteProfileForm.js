@@ -8,34 +8,18 @@ import {
 	FormErrorMessage,
 	Input,
 	FormHelperText,
+	Select,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 
 import Button from '../../../ui/Button';
 import FileUploader from '../../../ui/FileUploader';
+import PlacesAutocomplete from '../../../ui/PlacesAutocomplete';
 const CompleteProfileForm = () => {
 	const onFileAccepted = (file) => {};
 	const handleValidation = (values) => {
 		const errors = {};
-		if (!values.firstName) {
-			errors.firstName = 'Required';
-		}
-		if (!values.lastName) {
-			errors.lastName = 'Required';
-		}
-		if (!values.email) {
-			errors.email = 'Required';
-		} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-			errors.email = 'Invalid email address';
-		}
-		if (!values.password) {
-			errors.password = 'Required';
-		} else if (values.password.length < 7) {
-			errors.password = 'Password must be at least 7 characters';
-		}
-		if (!values.dateOfBirth) {
-			errors.dateOfBirth = 'Required';
-		}
+
 		return errors;
 	};
 
@@ -67,40 +51,28 @@ const CompleteProfileForm = () => {
 								)}
 							</Field>
 						</Flex>
-						<Field name='email'>
+						<Field name='location'>
 							{({ field, form }) => (
-								<FormControl isInvalid={form.errors.email && form.touched.email} mt={'20px'}>
-									<FormLabel htmlFor='email'>Email</FormLabel>
-									<Input {...field} type='text' id='email' placeholder='Email Address' />
-									<FormHelperText>We'll never share your email.</FormHelperText>
-									<FormErrorMessage>{form.errors.email}</FormErrorMessage>
+								<FormControl mt={'20px'}>
+									<FormLabel htmlFor='location'>Current Location</FormLabel>
+									<PlacesAutocomplete />
+									<FormErrorMessage>{form.errors.location}</FormErrorMessage>
 								</FormControl>
 							)}
 						</Field>
-						<Field name='password'>
+						<Field name='favouriteCities'>
 							{({ field, form }) => (
-								<FormControl
-									isInvalid={form.errors.password && form.touched.password}
-									mt={'20px'}>
-									<FormLabel htmlFor='password'>Password</FormLabel>
-									<Input {...field} type='password' id='password' placeholder='Password' />
-									{!form.values.password && (
-										<FormHelperText>
-											Choose a password with at least 7 characters.
-										</FormHelperText>
-									)}
-									<FormErrorMessage>{form.errors.password}</FormErrorMessage>
-								</FormControl>
-							)}
-						</Field>
-						<Field name='dateOfBirth'>
-							{({ field, form }) => (
-								<FormControl
-									isInvalid={form.errors.dateOfBirth && form.touched.dateOfBirth}
-									mt={'20px'}>
-									<FormLabel htmlFor='dateOfBirth'>Date Of Birth</FormLabel>
-									<Input {...field} type='date' id='dateOfBirth' />
-									<FormErrorMessage>{form.errors.dateOfBirth}</FormErrorMessage>
+								<FormControl mt={'20px'}>
+									<FormLabel htmlFor='favouriteCities'>Favourite Cities</FormLabel>
+									<Input
+										{...field}
+										type='favouriteCities'
+										id='favouriteCities'
+										placeholder='favouriteCities'
+									/>
+
+									<FormHelperText>Choose your favourite cities </FormHelperText>
+									<FormErrorMessage>{form.errors.favouriteCities}</FormErrorMessage>
 								</FormControl>
 							)}
 						</Field>

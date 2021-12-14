@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import auth from './auth/auth';
-const rootReducer = combineReducers({ auth });
+import placesAutocomplete from './places/placesAutocomplete';
+const rootReducer = combineReducers({ auth, placesAutocomplete });
 
 export default rootReducer;
