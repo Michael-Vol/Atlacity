@@ -1,9 +1,20 @@
 import React from 'react';
-import { Flex, Box, FormControl, FormLabel, FormErrorMessage, Input, FormHelperText } from '@chakra-ui/react';
+import {
+	Flex,
+	Center,
+	Box,
+	FormControl,
+	FormLabel,
+	FormErrorMessage,
+	Input,
+	FormHelperText,
+} from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 
 import Button from '../../../ui/Button';
+import FileUploader from '../../../ui/FileUploader';
 const CompleteProfileForm = () => {
+	const onFileAccepted = (file) => {};
 	const handleValidation = (values) => {
 		const errors = {};
 		if (!values.firstName) {
@@ -45,28 +56,13 @@ const CompleteProfileForm = () => {
 				{(props) => (
 					<Form>
 						<Flex>
-							<Field name='firstName'>
+							<Field name='photo'>
 								{({ field, form }) => (
-									<FormControl isInvalid={form.errors.firstName && form.touched.firstName}>
-										<FormLabel htmlFor='firstName'> First Name</FormLabel>
-										<Input
-											{...field}
-											type='text'
-											id='firstName'
-											placeholder='First Name'
-										/>
-										<FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
-									</FormControl>
-								)}
-							</Field>
-							<Field name='lastName'>
-								{({ field, form }) => (
-									<FormControl
-										isInvalid={form.errors.lastName && form.touched.lastName}
-										ml={'20px'}>
-										<FormLabel htmlFor='lastName'> Last Name</FormLabel>
-										<Input {...field} type='text' id='lastName' placeholder='Last Name' />
-										<FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
+									<FormControl>
+										<FormLabel htmlFor='photo'>Avatar</FormLabel>
+										<Center>
+											<FileUploader onFileAccepted={onFileAccepted} />
+										</Center>
 									</FormControl>
 								)}
 							</Field>
