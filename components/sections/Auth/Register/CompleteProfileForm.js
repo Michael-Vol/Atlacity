@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import {
 	Flex,
 	Center,
@@ -6,9 +6,8 @@ import {
 	FormControl,
 	FormLabel,
 	FormErrorMessage,
-	Input,
+	Badge,
 	FormHelperText,
-	Select,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 
@@ -16,31 +15,37 @@ import Button from '../../../ui/Button';
 import FileUploader from '../../../ui/FileUploader';
 import PlacesAutocomplete from '../../../ui/PlacesAutocomplete';
 const CompleteProfileForm = ({ onSubmit }) => {
-	const formRef = useRef();
+	const [formData, setFormData] = useState({
+		about: '',
+		photo: null,
+		currentLocation: {},
+		favouriteCities: [],
+	});
 	const onFileAccepted = (file) => {};
 	const handleValidation = (values) => {
 		const errors = {};
-
+		if (Object.keys(formData.currentLocation) === 0) {
+			errors.currentLocation = 'Please select your current location';
+		}
+		if (formData.favouriteCities.length === 0) {
+			errors.favouriteCities = 'Please select at least one favourite city';
+		}
+		console.log(errors);
 		return errors;
 	};
 
 	const selectCurrentLocation = (place) => {
-		console.log(place, formRef.current.values);
-		formRef.current.values.currentLocation = place;
+		setFormData({
+			...formData,
+			currentLocation: place,
+		});
 	};
-	const addFavouriteCity = (place) => {
-		formRef.current.values.favouriteCities.push(place);
-	};
+
 	return (
 		<Flex flexDir={'column'} mr={'50px'} h={'90%'}>
 			<Formik
-				innerRef={formRef}
-				initialValues={{
-					about: '',
-					photo: null,
-					currentLocation: {},
-					favouriteCities: [],
-				}}
+				enableReinitialize
+				initialValues={formData}
 				validate={handleValidation}
 				onSubmit={(values, { setSubmitting }) => {
 					setSubmitting(true);
@@ -64,10 +69,17 @@ const CompleteProfileForm = ({ onSubmit }) => {
 							{({ field, form }) => (
 								<FormControl mt={'20px'}>
 									<FormLabel htmlFor='location'>Current Location</FormLabel>
+									{Object.keys(formData.currentLocation).length > 0 && (
+										<Badge mb={2} mr={2} colorScheme={'green'}>
+											<span>{formData.currentLocation.properties.city}</span>
+										</Badge>
+									)}
 									<PlacesAutocomplete
 										id='locationAutocomplete'
+										type='location'
 										onSelectedPlace={selectCurrentLocation}
 									/>
+									<FormHelperText>Select your current location </FormHelperText>
 									<FormErrorMessage>{form.errors.location}</FormErrorMessage>
 								</FormControl>
 							)}
@@ -76,9 +88,38 @@ const CompleteProfileForm = ({ onSubmit }) => {
 							{({ field, form }) => (
 								<FormControl mt={'20px'}>
 									<FormLabel htmlFor='favouriteCities'>Favourite Cities</FormLabel>
+									{formData.favouriteCities.map((place, index) => {
+										return (
+											<Badge key={index} mb={2} mr={2} colorScheme={'red'}>
+												<span>
+													{place.properties && (
+														<span>{place.properties.city} </span>
+													)}
+												</span>
+											</Badge>
+										);
+									})}
 									<PlacesAutocomplete
 										id='favouriteCityAutocomplete'
-										onSelectedPlace={addFavouriteCity}
+										type='favourites'
+										onSelectedPlace={(place) => {
+											if (
+												!formData.favouriteCities.some(
+													(city) => city.fullName == place.fullName
+												)
+											) {
+												setFormData({
+													...formData,
+													favouriteCities: [...formData.favouriteCities, place],
+												});
+											}
+										}}
+										clearSelectedPlace={() => {
+											setFormData({
+												...formData,
+												favouriteCities: formData.favouriteCities.slice(0, -1),
+											});
+										}}
 									/>
 									<FormHelperText>Choose your favourite cities </FormHelperText>
 									<FormErrorMessage>{form.errors.favouriteCities}</FormErrorMessage>
@@ -92,9 +133,9 @@ const CompleteProfileForm = ({ onSubmit }) => {
 								color={'white'}
 								size='lg'
 								isLoading={props.isSubmitting}
-								isDisabled={!props.dirty || !props.isValid || props.isValidating}
+								isDisabled={!props.isValid}
 								type='submit'>
-								Register
+								Continue
 							</Button>
 						</Box>
 					</Form>

@@ -14,7 +14,13 @@ const CompleteProfileLayout = () => {
 			<GridItem colSpan={6} rowSpan={'1'}>
 				<Image src='/images/auth.jpg' alt='register image' />
 			</GridItem>
-			<GridItem colSpan={4} mt={'40px'} color={'blue.300'} ml={'20px'}>
+			<GridItem
+				colSpan={4}
+				mt={'40px'}
+				color={'blue.300'}
+				ml={'20px'}
+				maxH={'80vh'}
+				overflowY={'scroll'}>
 				<Heading mt={'5px'} color={'blue.300'}>
 					Complete Your Profile
 				</Heading>

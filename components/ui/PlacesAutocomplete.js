@@ -7,12 +7,12 @@ import { FaLocationArrow } from 'react-icons/fa';
 import { BsSearch } from 'react-icons/bs';
 import { MdOutlineCancel } from 'react-icons/md';
 
-const PlacesAutocomplete = ({ onSelectedPlace }) => {
+const PlacesAutocomplete = ({ onSelectedPlace, type, clearSelectedPlace }) => {
 	const autocompleteState = useSelector((state) => state.placesAutocomplete);
 
 	const [searchTerm, setSearchTerm] = useState('');
+	const [isSearching, setIsSearching] = useState(false);
 	const [options, setOptions] = useState([]);
-	const [autoCompleteTimer, setAutoCompleteTimer] = useState(null);
 	const [selectedLocation, setSelectedLocation] = useState(null);
 	const [selectedLocationName, setSelectedLocationName] = useState('');
 	const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const PlacesAutocomplete = ({ onSelectedPlace }) => {
 	const searchPlace = () => {
 		console.log('searching', searchTerm);
 		if (searchTerm.length >= 3 && selectedLocationName !== searchTerm) {
+			setIsSearching(true);
 			setOptions([]);
 			setSelectedLocation(null);
 			dispatch(placesAutocomplete(searchTerm, 3));
@@ -27,38 +28,39 @@ const PlacesAutocomplete = ({ onSelectedPlace }) => {
 	};
 
 	useEffect(() => {
-		if (autocompleteState.places) {
+		if (autocompleteState.places && isSearching) {
+			setIsSearching(false);
 			setOptions(autocompleteState.places);
 		}
 	}, [autocompleteState]);
 
 	const selectLocation = (location) => {
-		setSelectedLocation(location);
-		onSelectedPlace(location);
-		setOptions([]);
-
-		const name = location.properties.name ? `${location.properties.name + ', '}` : '';
+		const name = location.properties.city ? `${location.properties.city + ', '}` : '';
 		const county = location.properties.county ? `${location.properties.county + ', '}` : '';
 		const country = location.properties.country ? `${location.properties.country + ''}` : '';
 		const fullName = name + county + country;
+		location.fullName = fullName;
+		setSelectedLocation(location);
+		onSelectedPlace(location);
+		setOptions([]);
 		setSearchTerm(fullName);
 		setSelectedLocationName(fullName);
 	};
 
 	const clearLocation = () => {
 		setSelectedLocation(null);
-		onSelectedPlace({});
 		setSearchTerm('');
 		setOptions([]);
+		// clearSelectedPlace();
 	};
 
 	return (
-		<Box>
+		<Box id={`${type}`} key={`type-${type}`}>
 			<InputGroup>
 				<Input
 					value={searchTerm}
 					placeholder='Location'
-					onKeyPress={(e) => e.key === 'Enter' && searchPlace()}
+					onKeyUp={(e) => e.key === 'Enter' && searchPlace()}
 					onChange={(field) => setSearchTerm(field.target.value)}
 				/>
 				<InputRightElement pr={'2'}>
@@ -70,7 +72,7 @@ const PlacesAutocomplete = ({ onSelectedPlace }) => {
 				</InputRightElement>
 			</InputGroup>
 			{options.length > 0 && searchTerm !== '' && (
-				<Flex flexDir={'column'} bg='gray.50' rounded={'md'} p={'10px'}>
+				<Flex key={type} id={type} flexDir={'column'} bg='gray.50' rounded={'md'} p={'10px'}>
 					{options.map((option, index) => (
 						<Box
 							key={index}
@@ -82,7 +84,7 @@ const PlacesAutocomplete = ({ onSelectedPlace }) => {
 							onClick={() => selectLocation(option)}>
 							<Icon as={FaLocationArrow} boxSize={'14px'} mr={'5px'} />
 							<Text as='span'>
-								{option.properties.name && `${option.properties.name}, `}
+								{option.properties.city && `${option.properties.city}, `}
 								{option.properties.county && `${option.properties.county}, `}
 								{option.properties.country}
 							</Text>
