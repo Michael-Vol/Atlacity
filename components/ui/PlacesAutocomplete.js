@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Input, Flex, Text, Icon } from '@chakra-ui/react';
+import { Box, Input, InputGroup, InputRightElement, Flex, Text, Icon } from '@chakra-ui/react';
 const { useDispatch, useSelector } = require('react-redux');
 
 import { placesAutocomplete } from '../../actions/places/autocomplete';
 import { FaLocationArrow } from 'react-icons/fa';
+import { BsSearch } from 'react-icons/bs';
+import { MdOutlineCancel } from 'react-icons/md';
 
-const PlacesAutocomplete = () => {
+const PlacesAutocomplete = ({ onSelectedPlace }) => {
 	const autocompleteState = useSelector((state) => state.placesAutocomplete);
 
 	const [searchTerm, setSearchTerm] = useState('');
 	const [options, setOptions] = useState([]);
+	const [autoCompleteTimer, setAutoCompleteTimer] = useState(null);
 	const [selectedLocation, setSelectedLocation] = useState(null);
 	const [selectedLocationName, setSelectedLocationName] = useState('');
 	const dispatch = useDispatch();
-	useEffect(() => {
-		if (searchTerm !== '' && selectedLocationName !== searchTerm) {
+
+	const searchPlace = () => {
+		console.log('searching', searchTerm);
+		if (searchTerm.length >= 3 && selectedLocationName !== searchTerm) {
 			setOptions([]);
 			setSelectedLocation(null);
-			setTimeout(() => {
-				dispatch(placesAutocomplete(searchTerm, 3));
-			}, 500);
+			dispatch(placesAutocomplete(searchTerm, 3));
 		}
-	}, [searchTerm]);
+	};
 
 	useEffect(() => {
 		if (autocompleteState.places) {
@@ -31,6 +34,7 @@ const PlacesAutocomplete = () => {
 
 	const selectLocation = (location) => {
 		setSelectedLocation(location);
+		onSelectedPlace(location);
 		setOptions([]);
 
 		const name = location.properties.name ? `${location.properties.name + ', '}` : '';
@@ -41,13 +45,30 @@ const PlacesAutocomplete = () => {
 		setSelectedLocationName(fullName);
 	};
 
+	const clearLocation = () => {
+		setSelectedLocation(null);
+		onSelectedPlace({});
+		setSearchTerm('');
+		setOptions([]);
+	};
+
 	return (
 		<Box>
-			<Input
-				value={searchTerm}
-				placeholder='Location'
-				onChange={(field) => setSearchTerm(field.target.value)}
-			/>
+			<InputGroup>
+				<Input
+					value={searchTerm}
+					placeholder='Location'
+					onKeyPress={(e) => e.key === 'Enter' && searchPlace()}
+					onChange={(field) => setSearchTerm(field.target.value)}
+				/>
+				<InputRightElement pr={'2'}>
+					{!selectedLocation ? (
+						<Icon name='search' as={BsSearch} onClick={searchPlace} />
+					) : (
+						<Icon name='cancel' as={MdOutlineCancel} onClick={clearLocation} />
+					)}
+				</InputRightElement>
+			</InputGroup>
 			{options.length > 0 && searchTerm !== '' && (
 				<Flex flexDir={'column'} bg='gray.50' rounded={'md'} p={'10px'}>
 					{options.map((option, index) => (

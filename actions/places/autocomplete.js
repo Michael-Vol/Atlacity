@@ -1,17 +1,16 @@
 import * as types from '../types';
 import axios from 'axios';
-
+import getEnv from '../../config/env';
 export const placesAutocomplete =
 	(place, limit = 3) =>
 	async (dispatch) => {
 		try {
 			dispatch({ type: types.PLACES_AUTOCOMPLETE_REQUEST });
-
-			const res = await axios.get(
-				`https://api.geoapify.com/v1/geocode/autocomplete?text=${place}&limit=${limit}&apiKey=21cba6e153c142b3bfbe2dae209824f5`
-			);
-			dispatch({ type: types.PLACES_AUTOCOMPLETE_SUCCESS, payload: res.data.features });
+			const res = await axios.get(`/api/places/autocomplete?place=${place}&limit=${limit}`);
+			console.log(res);
+			dispatch({ type: types.PLACES_AUTOCOMPLETE_SUCCESS, payload: res.data.places });
 		} catch (error) {
+			console.log(error);
 			dispatch({ type: types.PLACES_AUTOCOMPLETE_FAILURE, payload: error });
 		}
 	};

@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import CompleteProfileForm from '../../sections/Auth/Register/CompleteProfileForm';
 const CompleteProfileLayout = () => {
+	const handleSubmit = (values) => {
+		console.log(values);
+	};
+
 	return (
 		<Grid minH={'100%'} templateRows='repeat(1, 1fr)' templateColumns='repeat(10, 1fr)' gap={1}>
 			<GridItem colSpan={6} rowSpan={'1'}>
@@ -20,7 +24,7 @@ const CompleteProfileLayout = () => {
 					</Text>
 				</Text>
 				<Box mt={'50px'}>
-					<CompleteProfileForm />
+					<CompleteProfileForm onSubmit={handleSubmit} />
 				</Box>
 			</GridItem>
 		</Grid>

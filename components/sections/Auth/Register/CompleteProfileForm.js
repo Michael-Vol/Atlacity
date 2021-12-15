@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
 	Flex,
 	Center,
@@ -15,7 +15,8 @@ import { Formik, Form, Field } from 'formik';
 import Button from '../../../ui/Button';
 import FileUploader from '../../../ui/FileUploader';
 import PlacesAutocomplete from '../../../ui/PlacesAutocomplete';
-const CompleteProfileForm = () => {
+const CompleteProfileForm = ({ onSubmit }) => {
+	const formRef = useRef();
 	const onFileAccepted = (file) => {};
 	const handleValidation = (values) => {
 		const errors = {};
@@ -23,13 +24,21 @@ const CompleteProfileForm = () => {
 		return errors;
 	};
 
+	const selectCurrentLocation = (place) => {
+		console.log(place, formRef.current.values);
+		formRef.current.values.currentLocation = place;
+	};
+	const addFavouriteCity = (place) => {
+		formRef.current.values.favouriteCities.push(place);
+	};
 	return (
 		<Flex flexDir={'column'} mr={'50px'} h={'90%'}>
 			<Formik
+				innerRef={formRef}
 				initialValues={{
 					about: '',
 					photo: null,
-					currentLocation: '',
+					currentLocation: {},
 					favouriteCities: [],
 				}}
 				validate={handleValidation}
@@ -55,7 +64,10 @@ const CompleteProfileForm = () => {
 							{({ field, form }) => (
 								<FormControl mt={'20px'}>
 									<FormLabel htmlFor='location'>Current Location</FormLabel>
-									<PlacesAutocomplete />
+									<PlacesAutocomplete
+										id='locationAutocomplete'
+										onSelectedPlace={selectCurrentLocation}
+									/>
 									<FormErrorMessage>{form.errors.location}</FormErrorMessage>
 								</FormControl>
 							)}
@@ -64,13 +76,10 @@ const CompleteProfileForm = () => {
 							{({ field, form }) => (
 								<FormControl mt={'20px'}>
 									<FormLabel htmlFor='favouriteCities'>Favourite Cities</FormLabel>
-									<Input
-										{...field}
-										type='favouriteCities'
-										id='favouriteCities'
-										placeholder='favouriteCities'
+									<PlacesAutocomplete
+										id='favouriteCityAutocomplete'
+										onSelectedPlace={addFavouriteCity}
 									/>
-
 									<FormHelperText>Choose your favourite cities </FormHelperText>
 									<FormErrorMessage>{form.errors.favouriteCities}</FormErrorMessage>
 								</FormControl>
