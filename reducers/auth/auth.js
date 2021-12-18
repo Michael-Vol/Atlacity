@@ -5,6 +5,7 @@ const initialState = {
 	error: null,
 	user: null,
 	message: null,
+	accessToken: null,
 };
 
 export default (state = initialState, action) => {
@@ -22,6 +23,7 @@ export default (state = initialState, action) => {
 				error: null,
 				user: payload.user,
 				message: payload.message,
+				accessToken: payload.accessToken,
 			};
 		case types.REGISTER_FAILURE:
 			return {
