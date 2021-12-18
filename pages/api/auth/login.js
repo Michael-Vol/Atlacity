@@ -4,6 +4,7 @@ import User from '../../../models/User';
 import connectToDB from '../../../lib/db';
 import initializeMiddleware from '../../../lib/middleware/initializeMiddleware';
 import validateMiddleware from '../../../lib/middleware/validateMiddleware';
+import { createAcessToken, createRefreshToken, sendRefreshToken } from '../../../lib/auth';
 
 export default async (req, res) => {
 	switch (req.method) {
@@ -26,15 +27,22 @@ export default async (req, res) => {
 			);
 			await validateBody(req, res);
 
-			const db = await connectToDB();
-
-			//Check if user exists
 			try {
+				const db = await connectToDB();
+
+				//Check if user exists
 				const user = await User.findByCredentials(email, password);
+
+				//Create access and refresh tokens
+
+				const accessToken = createAcessToken(user);
+				const refreshToken = createRefreshToken(user);
+				sendRefreshToken(res, refreshToken);
 
 				return res.json({
 					message: 'Login successful',
 					user,
+					accessToken,
 				});
 			} catch (error) {
 				return res.status(401).json({
