@@ -22,7 +22,6 @@ import checkAuth from '../../../../lib/middleware/checkAuth';
 const profileHandler = async (req, res) => {
 	switch (req.method) {
 		case 'POST':
-			const session = await getSession({ req });
 			return res.json({
 				message: 'You are authenticated',
 			});
