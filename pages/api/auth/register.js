@@ -5,7 +5,7 @@ import connectToDB from '../../../lib/db';
 import initializeMiddleware from '../../../lib/middleware/initializeMiddleware';
 import validateMiddleware from '../../../lib/middleware/validateMiddleware';
 import userExistsMiddleware from '../../../lib/middleware/userExistsMiddleware';
-import { createAcessToken, createRefreshToken, sendRefreshToken } from '../../../lib/auth';
+import { createAccessToken, createRefreshToken, sendRefreshToken } from '../../../lib/auth';
 import User from '../../../models/User';
 
 const validateBody = initializeMiddleware(
@@ -62,7 +62,7 @@ export default async (req, res) => {
 			await user.save(); //save user to db
 
 			//create access and refresh tokens
-			const accessToken = createAcessToken(user);
+			const accessToken = createAccessToken(user);
 			const refreshToken = createRefreshToken(user);
 			sendRefreshToken(res, refreshToken);
 

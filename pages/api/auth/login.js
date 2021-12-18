@@ -4,7 +4,7 @@ import User from '../../../models/User';
 import connectToDB from '../../../lib/db';
 import initializeMiddleware from '../../../lib/middleware/initializeMiddleware';
 import validateMiddleware from '../../../lib/middleware/validateMiddleware';
-import { createAcessToken, createRefreshToken, sendRefreshToken } from '../../../lib/auth';
+import { createAccessToken, createRefreshToken, sendRefreshToken } from '../../../lib/auth';
 
 export default async (req, res) => {
 	switch (req.method) {
@@ -35,7 +35,7 @@ export default async (req, res) => {
 
 				//Create access and refresh tokens
 
-				const accessToken = createAcessToken(user);
+				const accessToken = createAccessToken(user);
 				const refreshToken = createRefreshToken(user);
 				sendRefreshToken(res, refreshToken);
 

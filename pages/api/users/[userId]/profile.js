@@ -4,7 +4,7 @@ import validateMiddleware from '../../../../lib/middleware/validateMiddleware';
 import userExistsMiddleware from '../../../../lib/middleware/userExistsMiddleware';
 import User from '../../../../models/User';
 import connectToDB from '../../../../lib/db';
-import { getSession } from 'next-auth/react';
+import checkAuth from '../../../../lib/middleware/checkAuth';
 
 // const validateBody = initializeMiddleware(
 // 	validateMiddleware(
@@ -19,25 +19,21 @@ import { getSession } from 'next-auth/react';
 // 	)
 // );
 
-export default async (req, res) => {
+const profileHandler = async (req, res) => {
 	switch (req.method) {
 		case 'POST':
 			const session = await getSession({ req });
-			if (session) {
-				return res.json({
-					message: 'You are authenticated',
-				});
-				await validateBody(req, res);
+			return res.json({
+				message: 'You are authenticated',
+			});
+			await validateBody(req, res);
 
-				//connect to db
-				const db = await connectToDB();
-			} else {
-				return res.json({
-					message: 'You are not authenticated',
-				});
-			}
+			//connect to db
+			const db = await connectToDB();
 
 		default:
 			return res.status(405).json({ message: 'Invalid HTTP Method' });
 	}
 };
+
+export default checkAuth(profileHandler);
