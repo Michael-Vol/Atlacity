@@ -66,11 +66,10 @@ export default async (req, res) => {
 			const refreshToken = createRefreshToken(user);
 			sendRefreshToken(res, refreshToken);
 
-			res.send({ user, accessToken });
-
 			return res.status(201).json({
 				message: 'User Created!',
 				user,
+				accessToken,
 			});
 		}
 		default:

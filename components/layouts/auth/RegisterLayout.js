@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Grid, GridItem, Heading, Text, Box, Image, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import { signIn } from 'next-auth/react';
 
 import RegisterForm from '../../sections/Auth/Register/RegisterForm';
 import register from '../../../actions/auth/register';
@@ -40,10 +39,7 @@ const RegisterLayout = ({ onRegisterSuccess }) => {
 					duration: 4000,
 					isClosable: true,
 				});
-			signIn('credentials', {
-				...credentials,
-				redirect: false,
-			});
+
 			onRegisterSuccess();
 		}
 		console.log(auth);

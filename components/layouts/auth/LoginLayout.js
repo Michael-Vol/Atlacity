@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid, GridItem, Heading, Text, Box, useToast, Image } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
-import { signIn } from 'next-auth/react';
 
 import LoginForm from '../../sections/Auth/Login/LoginForm';
 import { useRouter } from 'next/router';
