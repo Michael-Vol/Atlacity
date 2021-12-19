@@ -1,23 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, GridItem, Heading, Text, Box, useToast, Image } from '@chakra-ui/react';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import LoginForm from '../../sections/Auth/Login/LoginForm';
 import { useRouter } from 'next/router';
+import login from '../../../actions/auth/login';
+
 const LoginLayout = (props) => {
 	const router = useRouter();
 	const toast = useToast();
+	const dispatch = useDispatch();
 	const auth = useSelector((state) => state.auth);
 
 	const handleSubmit = async (values, setSubmitting) => {
-		const res = await signIn('credentials', {
-			...values,
-			redirect: false,
-		});
-
+		dispatch(login(values));
 		setSubmitting(false);
-		if (!res.error && res.status === 200) {
+	};
+
+	useEffect(() => {
+		if (!auth.error) {
 			if (!toast.isActive('error-toast') && !toast.isActive('success-toast')) {
 				toast({
 					title: 'Logged In!',
@@ -28,18 +30,19 @@ const LoginLayout = (props) => {
 				});
 			}
 			return router.push('/home');
-		} else if (res.error) {
+		} else {
 			if (!toast.isActive('error-toast') && !toast.isActive('success-toast')) {
 				return toast({
 					title: 'Error',
 					id: 'error-toast',
-					description: res.error,
+					description: auth.error.message,
 					status: 'error',
 					duration: 4000,
 				});
 			}
 		}
-	};
+	}, [auth]);
+
 	return (
 		<Grid h='200px' templateRows='repeat(1, 1fr)' templateColumns='repeat(10, 1fr)' gap={1} h={'90vh'}>
 			<GridItem colSpan={6} rowSpan={1}>

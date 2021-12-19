@@ -15,8 +15,7 @@ export default async (req, res) => {
 		}
 
 		const getToken = cookie.parse(req.headers.cookie);
-		const token = getToken.token;
-
+		const token = getToken.refreshToken;
 		if (!token) {
 			return res.status(401).json({
 				status: 'Unauthorized',

@@ -13,7 +13,6 @@ const RegisterLayout = ({ onRegisterSuccess }) => {
 
 	const toast = useToast();
 	const handleSubmit = (values) => {
-		console.log(values);
 		dispatch(register(values));
 		setCredentials({ email: values.email, password: values.password });
 	};

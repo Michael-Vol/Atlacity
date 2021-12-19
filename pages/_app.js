@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { ChakraProvider, extendTheme, theme as base } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
 
@@ -5,6 +6,7 @@ import Navbar from '../components/sections/Landing/Navbar';
 import '../styles/globals.css';
 import { Provider } from 'react-redux';
 import useStore from '../store/store';
+import { refreshToken } from '../actions/auth/login';
 
 const breakpoints = createBreakpoints({
 	sm: '30em',
@@ -42,6 +44,16 @@ const theme = extendTheme({
 
 function AtlacityApp({ Component, pageProps }) {
 	const store = useStore(pageProps.initialReduxState);
+	// const dispatch = useDispatch();
+
+	useEffect(() => {
+		const authRefresh = async () => {
+			store.dispatch(refreshToken());
+		};
+		setInterval(authRefresh, 100 * 60 * 60);
+		authRefresh();
+	}, []);
+
 	return (
 		<Provider store={store}>
 			<ChakraProvider theme={theme}>
