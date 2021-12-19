@@ -19,7 +19,8 @@ const LoginLayout = (props) => {
 	};
 
 	useEffect(() => {
-		if (!auth.error) {
+		console.log(auth);
+		if (auth.isAuthenticated) {
 			if (!toast.isActive('error-toast') && !toast.isActive('success-toast')) {
 				toast({
 					title: 'Logged In!',
@@ -30,12 +31,12 @@ const LoginLayout = (props) => {
 				});
 			}
 			return router.push('/home');
-		} else {
+		} else if (auth.error) {
 			if (!toast.isActive('error-toast') && !toast.isActive('success-toast')) {
 				return toast({
 					title: 'Error',
 					id: 'error-toast',
-					description: auth.error.message,
+					description: auth.message || auth.error.response.data.message,
 					status: 'error',
 					duration: 4000,
 				});

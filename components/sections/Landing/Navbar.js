@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Button from '../../ui/Button';
 import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import logout from '../../../actions/auth/logout';
 
 const MenuItems = (props) => {
 	const { children, isLast, to, ...rest } = props;
@@ -24,9 +26,17 @@ const MenuItems = (props) => {
 		</Text>
 	);
 };
-
 const Navbar = () => {
 	const router = useRouter();
+	const dispatch = useDispatch();
+	const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
+	const auth = useSelector((state) => state.auth);
+
+	const handleLogout = async () => {
+		await dispatch(logout());
+		router.push('/');
+	};
+
 	return (
 		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='20px' h={'80px'}>
 			<Flex justify='center'>
@@ -49,28 +59,22 @@ const Navbar = () => {
 			</Flex>
 
 			<Flex align='center' justify='center'>
-				<Fragment>
-					<Box mr={'20px'}>
-						<Button onClick={() => router.push('/auth/login')}>Login</Button>
-					</Box>
-					<Box>
-						<Button onClick={() => router.push('/auth/register')}>Register</Button>
-					</Box>
-				</Fragment>
-				{/* ) : (
+				{!isAuthenticated ? (
+					<Fragment>
 						<Box mr={'20px'}>
-							<Button
-								bg='red.400'
-								_hover={{ bg: 'red.500' }}
-								onClick={() =>
-									signOut({
-										callbackUrl: 'http://localhost:3000/',
-									})
-								}>
-								Logout
-							</Button>
+							<Button onClick={() => router.push('/auth/login')}>Login</Button>
 						</Box>
-					)} */}
+						<Box>
+							<Button onClick={() => router.push('/auth/register')}>Register</Button>
+						</Box>
+					</Fragment>
+				) : (
+					<Box mr={'20px'}>
+						<Button bg='red.400' _hover={{ bg: 'red.500' }} onClick={handleLogout}>
+							Logout
+						</Button>
+					</Box>
+				)}
 			</Flex>
 		</Flex>
 	);

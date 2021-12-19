@@ -12,15 +12,9 @@ const CompleteProfileLayout = () => {
 	return (
 		<Grid minH={'100%'} templateRows='repeat(1, 1fr)' templateColumns='repeat(10, 1fr)' gap={1}>
 			<GridItem colSpan={6} rowSpan={'1'}>
-				<Image src='/images/auth.jpg' alt='register image' />
+				<Image src='/images/auth.jpg' alt='register image' minW={'100%'} minH={'100%'} />
 			</GridItem>
-			<GridItem
-				colSpan={4}
-				mt={'40px'}
-				color={'blue.300'}
-				ml={'20px'}
-				maxH={'80vh'}
-				overflowY={'scroll'}>
+			<GridItem colSpan={4} mt={'40px'} color={'blue.300'} ml={'20px'} overflowY={'scroll'}>
 				<Heading mt={'5px'} color={'blue.300'}>
 					Complete Your Profile
 				</Heading>

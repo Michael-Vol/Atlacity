@@ -52,7 +52,12 @@ const CompleteProfileForm = ({ onSubmit }) => {
 					onSubmit(values);
 				}}>
 				{(props) => (
-					<Form>
+					<Form
+						onKeyDown={(keyEvent) => {
+							if (keyEvent.key === 'Enter') {
+								keyEvent.preventDefault();
+							}
+						}}>
 						<Flex>
 							<Field name='photo'>
 								{({ field, form }) => (

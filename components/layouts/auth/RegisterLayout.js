@@ -10,38 +10,40 @@ const RegisterLayout = ({ onRegisterSuccess }) => {
 	const dispatch = useDispatch();
 	const auth = useSelector((state) => state.auth);
 	const [credentials, setCredentials] = useState({});
-
+	const [hasSubmitted, setHasSubmitted] = useState(false);
 	const toast = useToast();
 	const handleSubmit = (values) => {
+		setHasSubmitted(true);
 		dispatch(register(values));
 		setCredentials({ email: values.email, password: values.password });
 	};
 
 	useEffect(() => {
-		if (!auth.loading && auth.error) {
-			if (!toast.isActive('error-toast') && !toast.isActive('success-toast'))
-				return toast({
-					id: 'error-toast',
-					title: 'Error',
-					description: auth.error.response.data.message,
-					status: 'error',
-					duration: 4000,
-					isClosable: true,
-				});
-		} else if (!auth.loading && auth.user) {
-			if (!toast.isActive('success-toast') && !toast.isActive('error-toast'))
-				toast({
-					id: 'success-toast',
-					title: 'Success',
-					description: auth.message,
-					status: 'success',
-					duration: 4000,
-					isClosable: true,
-				});
-
-			onRegisterSuccess();
+		if (!auth.isLoading && hasSubmitted) {
+			if (auth.isAuthenticated) {
+				if (!toast.isActive('success-toast') && !toast.isActive('error-toast'))
+					toast({
+						id: 'success-toast',
+						title: 'Success',
+						description: auth.message,
+						status: 'success',
+						duration: 4000,
+						isClosable: true,
+					});
+				onRegisterSuccess();
+			} else if (auth.error) {
+				if (!toast.isActive('error-toast') && !toast.isActive('success-toast'))
+					return toast({
+						id: 'error-toast',
+						title: 'Error',
+						description: auth.message || auth.error.response.data.message,
+						status: 'error',
+						duration: 4000,
+						isClosable: true,
+					});
+			}
+			setHasSubmitted(false);
 		}
-		console.log(auth);
 	}, [auth]);
 	return (
 		<Grid minH={'100%'} templateRows='repeat(1, 1fr)' templateColumns='repeat(10, 1fr)' gap={1}>

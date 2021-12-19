@@ -44,7 +44,7 @@ const theme = extendTheme({
 
 function AtlacityApp({ Component, pageProps }) {
 	const store = useStore(pageProps.initialReduxState);
-	// const dispatch = useDispatch();
+	const auth = store.getState().auth;
 
 	useEffect(() => {
 		const authRefresh = async () => {
@@ -55,12 +55,14 @@ function AtlacityApp({ Component, pageProps }) {
 	}, []);
 
 	return (
-		<Provider store={store}>
-			<ChakraProvider theme={theme}>
-				<Navbar />
-				<Component {...pageProps} />
-			</ChakraProvider>
-		</Provider>
+		!auth.isLoading && (
+			<Provider store={store}>
+				<ChakraProvider theme={theme}>
+					<Navbar />
+					<Component {...pageProps} />
+				</ChakraProvider>
+			</Provider>
+		)
 	);
 }
 
