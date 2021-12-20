@@ -7,20 +7,8 @@ const citySchema = new mongoose.Schema({
 		required: true,
 		maxlength: 50,
 	},
-	location: {
-		type: [
-			{
-				type: Number,
-				required: true,
-				validate: {
-					validator(value) {
-						//check that coordinates are valid
-						return isLatLong(value);
-					},
-				},
-			},
-		], //custom validation for coordinates array length
-		validate: [(val) => val.length == 2, `Coordinates array must have exactly 2 elements`],
+	locationId: {
+		type: String,
 		required: true,
 	},
 	visitors: [
@@ -36,6 +24,6 @@ const citySchema = new mongoose.Schema({
 	],
 });
 
-const City = mongoose.model('City', citySchema);
+const City = mongoose.models.City || mongoose.model('City', citySchema);
 
 export default City;

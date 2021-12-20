@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { isLatLong } from 'validator';
 
 const placeSchema = new mongoose.Schema({
 	name: {
@@ -7,26 +6,13 @@ const placeSchema = new mongoose.Schema({
 		required: true,
 		maxlength: 50,
 	},
-	location: {
-		type: [
-			{
-				type: Number,
-				required: true,
-				validate: {
-					validator(value) {
-						//check that coordinates are valid
-						return isLatLong(value);
-					},
-				},
-			},
-		], //custom validation for coordinates array length
-		validate: [(val) => val.length == 2, `Coordinates array must have exactly 2 elements`],
+	locationId: {
+		type: String,
 		required: true,
 	},
 	city: {
 		type: mongoose.SchemaTypes.ObjectId,
 		ref: 'City',
-		required: true,
 	},
 	images: [
 		//todo: convert to cdn urls
@@ -61,6 +47,6 @@ const placeSchema = new mongoose.Schema({
 	],
 });
 
-const Place = mongoose.model('Place', placeSchema);
+const Place = mongoose.models.Place || mongoose.model('Place', placeSchema);
 
 export default Place;

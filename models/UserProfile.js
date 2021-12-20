@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { isLatLong } from 'validator';
+
 const userProfileSchema = new mongoose.Schema(
 	{
 		user: {
@@ -21,19 +21,8 @@ const userProfileSchema = new mongoose.Schema(
 			},
 		],
 		currentLocation: {
-			type: [
-				{
-					type: Number,
-					required: true,
-					validate: {
-						validator(value) {
-							//check that coordinates are valid
-							return isLatLong(value);
-						},
-					},
-				},
-			], //custom validation for coordinates array length
-			validate: [(val) => val.length == 2, `Coordinates array must have exactly 2 elements`],
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Place',
 			required: true,
 		},
 		favouritePlaces: [
@@ -58,6 +47,6 @@ const userProfileSchema = new mongoose.Schema(
 	}
 );
 
-const UserProfile = mongoose.model('UserProfile', userProfileSchema);
+const UserProfile = mongoose.models.UserProfile || mongoose.model('UserProfile', userProfileSchema);
 
 export default UserProfile;
