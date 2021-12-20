@@ -46,7 +46,7 @@ const RegisterLayout = ({ onRegisterSuccess }) => {
 		}
 	}, [auth]);
 	return (
-		<Grid minH={'100%'} templateRows='repeat(1, 1fr)' templateColumns='repeat(10, 1fr)' gap={1}>
+		<Grid height={'90vh'} templateRows='repeat(1, 1fr)' templateColumns='repeat(10, 1fr)' gap={1}>
 			<GridItem colSpan={6} rowSpan={'1'}>
 				<Image src='/images/auth.jpg' alt='register image' minW={'100%'} minH={'100%'} />
 			</GridItem>

@@ -38,7 +38,7 @@ const Navbar = () => {
 	};
 
 	return (
-		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='20px' h={'80px'}>
+		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='20px' h={'10vh'}>
 			<Flex justify='center'>
 				<Box display={{ base: 'block', md: 'none' }}>
 					<HamburgerIcon boxSize={6} />

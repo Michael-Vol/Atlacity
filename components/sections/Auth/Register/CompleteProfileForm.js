@@ -8,6 +8,7 @@ import {
 	FormErrorMessage,
 	Badge,
 	FormHelperText,
+	Textarea,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 
@@ -24,25 +25,24 @@ const CompleteProfileForm = ({ onSubmit }) => {
 	const onFileAccepted = (file) => {};
 	const handleValidation = (values) => {
 		const errors = {};
-		if (Object.keys(formData.currentLocation) === 0) {
+		if (Object.keys(formData.currentLocation).length === 0) {
 			errors.currentLocation = 'Please select your current location';
 		}
 		if (formData.favouriteCities.length === 0) {
 			errors.favouriteCities = 'Please select at least one favourite city';
 		}
-		console.log(errors);
+		if (formData.about.length === 0) {
+			errors.about = 'Please enter a brief description of yourself';
+		}
+		if (formData.about.length > 1000) {
+			errors.about = 'Maximum 1000 characters allowed';
+		}
+
 		return errors;
 	};
 
-	const selectCurrentLocation = (place) => {
-		setFormData({
-			...formData,
-			currentLocation: place,
-		});
-	};
-
 	return (
-		<Flex flexDir={'column'} mr={'50px'} h={'90%'}>
+		<Flex flexDir={'column'} mr={'50px'}>
 			<Formik
 				enableReinitialize
 				initialValues={formData}
@@ -58,7 +58,7 @@ const CompleteProfileForm = ({ onSubmit }) => {
 								keyEvent.preventDefault();
 							}
 						}}>
-						<Flex>
+						{/* <Flex>
 							<Field name='photo'>
 								{({ field, form }) => (
 									<FormControl>
@@ -69,10 +69,12 @@ const CompleteProfileForm = ({ onSubmit }) => {
 									</FormControl>
 								)}
 							</Field>
-						</Flex>
+						</Flex> */}
 						<Field name='location'>
 							{({ field, form }) => (
-								<FormControl mt={'20px'}>
+								<FormControl
+									mt={'20px'}
+									isInvalid={form.errors.currentLocation && form.touched.currentLocation}>
 									<FormLabel htmlFor='location'>Current Location</FormLabel>
 									{Object.keys(formData.currentLocation).length > 0 && (
 										<Badge mb={2} mr={2} colorScheme={'green'}>
@@ -82,16 +84,24 @@ const CompleteProfileForm = ({ onSubmit }) => {
 									<PlacesAutocomplete
 										id='locationAutocomplete'
 										type='location'
-										onSelectedPlace={selectCurrentLocation}
+										onSelectedPlace={(place) => {
+											setFormData({
+												...formData,
+												currentLocation: place,
+											});
+											form.setTouched({ ...form.touched, currentLocation: true });
+										}}
 									/>
 									<FormHelperText>Select your current location </FormHelperText>
-									<FormErrorMessage>{form.errors.location}</FormErrorMessage>
+									<FormErrorMessage>{form.errors.currentLocation}</FormErrorMessage>
 								</FormControl>
 							)}
 						</Field>
 						<Field name='favouriteCities'>
 							{({ field, form }) => (
-								<FormControl mt={'20px'}>
+								<FormControl
+									mt={'20px'}
+									isInvalid={form.errors.favouriteCities && form.touched.favouriteCities}>
 									<FormLabel htmlFor='favouriteCities'>Favourite Cities</FormLabel>
 									{formData.favouriteCities.map((place, index) => {
 										return (
@@ -117,6 +127,7 @@ const CompleteProfileForm = ({ onSubmit }) => {
 													...formData,
 													favouriteCities: [...formData.favouriteCities, place],
 												});
+												form.setTouched({ ...form.touched, favouriteCities: true });
 											}
 										}}
 										clearSelectedPlace={() => {
@@ -131,6 +142,24 @@ const CompleteProfileForm = ({ onSubmit }) => {
 								</FormControl>
 							)}
 						</Field>
+						<Field name='about'>
+							{({ field, form }) => (
+								<FormControl mt={'20px'} isInvalid={form.errors.about && form.touched.about}>
+									<FormLabel htmlFor='about'>About me</FormLabel>
+									<Textarea
+										{...field}
+										onChange={(e) => setFormData({ ...formData, about: e.target.value })}
+									/>
+									{!form.values.about && (
+										<FormHelperText>
+											Write a few words about yourself to help others find common
+											interests.
+										</FormHelperText>
+									)}
+									<FormErrorMessage>{form.errors.about}</FormErrorMessage>
+								</FormControl>
+							)}
+						</Field>
 
 						<Box mt={'40px'} textAlign={'end'} mb={'20px'}>
 							<Button
@@ -138,7 +167,7 @@ const CompleteProfileForm = ({ onSubmit }) => {
 								color={'white'}
 								size='lg'
 								isLoading={props.isSubmitting}
-								isDisabled={!props.isValid}
+								isDisabled={!props.isValid || props.isValidating}
 								type='submit'>
 								Continue
 							</Button>
