@@ -4,9 +4,19 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CompleteProfileForm from '../../sections/Auth/Register/CompleteProfileForm';
+import { uploadProfile, uploadAvatar } from '../../../actions/auth/register';
+
 const CompleteProfileLayout = () => {
+	const auth = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
+
 	const handleSubmit = (values) => {
 		console.log('values : ', values);
+		const fileImage = values.photo;
+		if (fileImage) {
+			dispatch(uploadAvatar(fileImage));
+		}
+		dispatch(uploadProfile(values.filter((item) => item.name !== 'photo')));
 	};
 
 	return (

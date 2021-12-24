@@ -16,13 +16,17 @@ import Button from '../../../ui/Button';
 import FileUploader from '../../../ui/FileUploader';
 import PlacesAutocomplete from '../../../ui/PlacesAutocomplete';
 const CompleteProfileForm = ({ onSubmit }) => {
+	const [avatar, setAvatar] = useState(null);
 	const [formData, setFormData] = useState({
 		about: '',
 		photo: null,
 		currentLocation: {},
 		favouriteCities: [],
 	});
-	const onFileAccepted = (file) => {};
+	const onFileAccepted = (file) => {
+		console.log(file);
+		setFormData({ ...formData, photo: file });
+	};
 	const handleValidation = (values) => {
 		const errors = {};
 		if (Object.keys(formData.currentLocation).length === 0) {
@@ -58,7 +62,7 @@ const CompleteProfileForm = ({ onSubmit }) => {
 								keyEvent.preventDefault();
 							}
 						}}>
-						{/* <Flex>
+						<Flex>
 							<Field name='photo'>
 								{({ field, form }) => (
 									<FormControl>
@@ -69,7 +73,7 @@ const CompleteProfileForm = ({ onSubmit }) => {
 									</FormControl>
 								)}
 							</Field>
-						</Flex> */}
+						</Flex>
 						<Field name='location'>
 							{({ field, form }) => (
 								<FormControl

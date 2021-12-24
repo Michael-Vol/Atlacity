@@ -11,7 +11,7 @@ export default function Dropzone({ onFileAccepted }) {
 			setFileLoaded(true);
 			const imageURL = URL.createObjectURL(acceptedFiles[0]);
 			setImage(imageURL);
-			console.log(imageURL);
+			acceptedFiles[0].imageURL = imageURL;
 			onFileAccepted(acceptedFiles[0]);
 		},
 		[onFileAccepted]

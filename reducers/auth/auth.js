@@ -7,6 +7,7 @@ const initialState = {
 	user: null,
 	message: null,
 	accessToken: null,
+	profile: null,
 };
 
 export default (state = initialState, action) => {
@@ -16,6 +17,7 @@ export default (state = initialState, action) => {
 		case types.REFRESH_TOKEN_REQUEST:
 		case types.LOGIN_REQUEST:
 		case types.REGISTER_REQUEST:
+		case types.UPLOAD_PROFILE_REQUEST:
 			return {
 				...state,
 				isLoading: true,
@@ -54,6 +56,24 @@ export default (state = initialState, action) => {
 				user: null,
 				accessToken: null,
 				message: payload.message,
+			};
+		case types.UPLOAD_PROFILE_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				isAuthenticated: true,
+				error: null,
+				message: payload.message,
+				profile: payload.profile,
+			};
+		case types.UPLOAD_PROFILE_FAILURE:
+			return {
+				...state,
+				isLoading: false,
+				isAuthenticated: true,
+				error: payload,
+				message: null,
+				profile: null,
 			};
 		default: {
 			return state;
