@@ -24,7 +24,7 @@ const RegisterLayout = ({ onRegisterSuccess }) => {
 				if (!toast.isActive('success-toast') && !toast.isActive('error-toast'))
 					toast({
 						id: 'success-toast',
-						title: 'Success',
+						title: 'Success!',
 						description: auth.message,
 						status: 'success',
 						duration: 4000,

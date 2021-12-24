@@ -8,6 +8,7 @@ const initialState = {
 	message: null,
 	accessToken: null,
 	profile: null,
+	avatar: null,
 };
 
 export default (state = initialState, action) => {
@@ -18,6 +19,7 @@ export default (state = initialState, action) => {
 		case types.LOGIN_REQUEST:
 		case types.REGISTER_REQUEST:
 		case types.UPLOAD_PROFILE_REQUEST:
+		case types.UPLOAD_AVATAR_REQUEST:
 			return {
 				...state,
 				isLoading: true,
@@ -61,7 +63,6 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				isLoading: false,
-				isAuthenticated: true,
 				error: null,
 				message: payload.message,
 				profile: payload.profile,
@@ -70,10 +71,25 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				isLoading: false,
-				isAuthenticated: true,
 				error: payload,
 				message: null,
 				profile: null,
+			};
+		case types.UPLOAD_AVATAR_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				error: null,
+				message: payload.message,
+				avatarUploaded: payload.avatarUploaded,
+			};
+		case types.UPLOAD_AVATAR_FAILURE:
+			return {
+				...state,
+				isLoading: false,
+				error: payload,
+				message: null,
+				avatarUploaded: payload.avatarUploaded,
 			};
 		default: {
 			return state;

@@ -7,10 +7,10 @@ const Register = () => {
 
 	switch (registerStatus) {
 		case 'preregister':
-			return <CompleteProfileLayout />;
+			return <CompleteProfileLayout onRegisterSuccess={() => setRegisterStatus('verifyemail')} />;
 			return <RegisterLayout onRegisterSuccess={() => setRegisterStatus('completeprofile')} />;
 		case 'completeprofile':
-			return <CompleteProfileLayout />;
+			return <CompleteProfileLayout onRegisterSuccess={() => setRegisterStatus('verifyemail')} />;
 		case 'verifyemail':
 			return <VerifyEmailLayout />;
 		default:
