@@ -7,7 +7,7 @@ const userProfileSchema = new mongoose.Schema(
 			ref: 'User',
 			required: true,
 		},
-		photo: {
+		avatar: {
 			type: Buffer,
 		},
 		about: {

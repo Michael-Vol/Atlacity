@@ -105,4 +105,4 @@ const profileHandler = async (req, res) => {
 	}
 };
 
-export default checkAuth(userExists(profileHandler));
+export default checkAuth(profileHandler);

@@ -26,33 +26,39 @@ const upload = multer({
 const avatarHandler = async (req, res) => {
 	switch (req.method) {
 		case 'POST':
-			await connectToDB();
+			try {
+				if (!req.user._id.equals(req.query.userId)) {
+					return res.status(403).json({
+						status: 403,
+						message: 'You are not authorized to perform this action',
+					});
+				}
 
-			await runMiddleware(req, res, upload.single('avatar'));
+				await connectToDB();
 
-			console.log(req.file);
+				await runMiddleware(req, res, upload.single('avatar'));
 
-			let profile = await UserProfile.findOne({
-				user: req.user._id,
-			});
+				let profile = await UserProfile.findOne({
+					user: req.user._id,
+				});
+				if (!profile) {
+					return res.status(400).json({
+						message: 'You need to create a profile first in order to upload an avatar!',
+					});
+				}
 
-			// if (!profile) {
-			// 	//Create new profile
-			// 	profile = new UserProfile({
-			// 		user: req.user._id,
-			// 		// avatar: req.file.buffer,
-			// 	});
-			// } else {
-			// 	//Update existing profile
-			// 	// console.log(req.file.buffer);
-			// 	// profile.avatar = req.file.buffer;
-			// }
-			// await profile.save();
+				profile.avatar = req.file.buffer;
+				await profile.save();
 
-			return res.status(200).json({
-				avatarUploaded: true,
-				message: 'Avatar uploaded successfully',
-			});
+				return res.status(200).json({
+					avatarUploaded: true,
+					message: 'Avatar uploaded successfully',
+				});
+			} catch (error) {
+				return res.status(400).json({
+					message: error.message,
+				});
+			}
 		default:
 			return res.status(405).json({ message: 'Invalid HTTP Method' });
 	}
