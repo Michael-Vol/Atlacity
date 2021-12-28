@@ -1,8 +1,7 @@
 import { check, validationResult } from 'express-validator';
 import initializeMiddleware from '../../../../lib/middleware/initializeMiddleware';
 import validateMiddleware from '../../../../lib/middleware/validateMiddleware';
-import userExists from '../../../../lib/middleware/userExistsMiddleware';
-import User from '../../../../models/User';
+import checkUserAccess from '../../../../lib/middleware/checkUserAccess';
 import UserProfile from '../../../../models/UserProfile';
 import Place from '../../../../models/Place';
 import City from '../../../../models/City';
@@ -105,4 +104,4 @@ const profileHandler = async (req, res) => {
 	}
 };
 
-export default checkAuth(profileHandler);
+export default checkAuth(checkUserAccess(profileHandler));

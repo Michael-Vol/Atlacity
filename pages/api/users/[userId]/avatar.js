@@ -4,6 +4,7 @@ import connectToDB from '../../../../lib/db';
 import checkAuth from '../../../../lib/middleware/checkAuth';
 import UserProfile from '../../../../models/UserProfile';
 import runMiddleware from '../../../../lib/middleware/runMiddleware';
+import checkUserAccess from '../../../../lib/middleware/checkUserAccess';
 
 export const config = {
 	api: {
@@ -27,13 +28,6 @@ const avatarHandler = async (req, res) => {
 	switch (req.method) {
 		case 'POST':
 			try {
-				if (!req.user._id.equals(req.query.userId)) {
-					return res.status(403).json({
-						status: 403,
-						message: 'You are not authorized to perform this action',
-					});
-				}
-
 				await connectToDB();
 
 				await runMiddleware(req, res, upload.single('avatar'));
@@ -64,4 +58,4 @@ const avatarHandler = async (req, res) => {
 	}
 };
 
-export default checkAuth(avatarHandler);
+export default checkAuth(checkUserAccess(avatarHandler));
