@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs';
 import connectToDB from '../../../lib/db';
 import initializeMiddleware from '../../../lib/middleware/initializeMiddleware';
 import validateMiddleware from '../../../lib/middleware/validateMiddleware';
-import userExistsMiddleware from '../../../lib/middleware/userExistsMiddleware';
 import { createAccessToken, createRefreshToken, sendRefreshToken } from '../../../lib/auth';
 import User from '../../../models/User';
 
@@ -42,8 +41,13 @@ export default async (req, res) => {
 			const db = await connectToDB();
 
 			//check if user already exists (email must be unique)
-			const userAlreadyExists = initializeMiddleware(userExistsMiddleware(email, db));
-			await userAlreadyExists(req, res);
+			const existsingUser = await User.findOne({ email });
+
+			if (existsingUser) {
+				return res.status(409).json({
+					message: 'User Already Exists',
+				});
+			}
 
 			//hash user password before storing it in db
 

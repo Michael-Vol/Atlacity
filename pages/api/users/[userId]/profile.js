@@ -1,7 +1,7 @@
 import { check, validationResult } from 'express-validator';
 import initializeMiddleware from '../../../../lib/middleware/initializeMiddleware';
 import validateMiddleware from '../../../../lib/middleware/validateMiddleware';
-import userExistsMiddleware from '../../../../lib/middleware/userExistsMiddleware';
+import userExists from '../../../../lib/middleware/userExistsMiddleware';
 import User from '../../../../models/User';
 import UserProfile from '../../../../models/UserProfile';
 import Place from '../../../../models/Place';
@@ -26,9 +26,10 @@ const profileHandler = async (req, res) => {
 	switch (req.method) {
 		case 'POST':
 			try {
+				const db = await connectToDB();
+
 				await validateBody(req, res);
 
-				await connectToDB();
 				//Check if current location place already exists
 				let currentLocation = await Place.findOne({
 					locationId: req.body.currentLocation.place_id,
@@ -104,4 +105,4 @@ const profileHandler = async (req, res) => {
 	}
 };
 
-export default checkAuth(profileHandler);
+export default checkAuth(userExists(profileHandler));
