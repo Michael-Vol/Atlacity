@@ -54,7 +54,7 @@ const CompleteProfileLayout = ({ onRegisterSuccess }) => {
 			} else if (auth.avatarUploaded) {
 				//2nd stage - uploaded avatar
 				toast({
-					id: 'success-toast',
+					id: 'success-avatar-toast',
 					title: 'Success',
 					description: auth.message,
 					status: 'success',

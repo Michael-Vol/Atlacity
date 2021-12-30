@@ -58,7 +58,7 @@ const emailVerificationHandler = async (req, res) => {
 						verified: true,
 					});
 				}
-				return res.json({
+				return res.status(400).json({
 					message: 'Invalid verification code',
 					verified: false,
 				});
