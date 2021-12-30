@@ -31,7 +31,7 @@ const profileHandler = async (req, res) => {
 
 				//Check if current location place already exists
 				let currentLocation = await Place.findOne({
-					locationId: req.body.currentLocation.place_id,
+					locationId: req.body.currentLocation.properties.place_id,
 				});
 
 				if (!currentLocation) {
@@ -46,7 +46,6 @@ const profileHandler = async (req, res) => {
 					});
 
 					if (!city) {
-						console.log(cityInfo.data.features[0]);
 						city = new City({
 							name: cityInfo.data.features[0].properties.name,
 							locationId: cityInfo.data.features[0].properties.place_id,
@@ -56,8 +55,10 @@ const profileHandler = async (req, res) => {
 
 					//Create new Location based on locationId (place_id on geoapify api)
 					currentLocation = new Place({
-						locationId: req.body.currentLocation.place_id,
-						name: req.body.currentLocation.name,
+						locationId: req.body.currentLocation.properties.place_id,
+						name:
+							req.body.currentLocation.properties.name ||
+							req.body.currentLocation.properties.city,
 						city: city._id,
 					});
 					await currentLocation.save();
@@ -66,12 +67,13 @@ const profileHandler = async (req, res) => {
 				//Check which favouriteCities already exist
 				const favouriteCities = await Promise.all(
 					req.body.favouriteCities.map(async (location) => {
+						console.log(location);
 						//find city based on locationId
-						let city = await City.findOne({ locationId: location.place_id });
+						let city = await City.findOne({ locationId: location.properties.place_id });
 						if (!city) {
 							city = new City({
-								locationId: location.place_id,
-								name: location.name,
+								locationId: location.properties.place_id,
+								name: location.properties.name,
 							});
 							await city.save();
 						}

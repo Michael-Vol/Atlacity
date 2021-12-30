@@ -3,41 +3,42 @@ import { Grid, GridItem, Heading, Text, Box, Image, useToast } from '@chakra-ui/
 import { useDispatch, useSelector } from 'react-redux';
 
 import CompleteProfileForm from '../../sections/Auth/Register/CompleteProfileForm';
-import { uploadProfile, uploadAvatar } from '../../../actions/auth/register';
+import { uploadProfile, uploadAvatar } from '../../../actions/profile/profile';
+import checkAuth from '../../../lib/checkAuthClient';
 
 const CompleteProfileLayout = ({ onRegisterSuccess }) => {
 	const auth = useSelector((state) => state.auth);
 	const [hasSubmitted, setHasSubmitted] = useState(false);
 	const [hasSubmittedAvatar, setHasSubmittedAvatar] = useState(false);
+	const [avatar, setAvatar] = useState();
 	const dispatch = useDispatch();
 	const toast = useToast();
 
 	const handleSubmit = (values) => {
-		console.log('values : ', values);
 		setHasSubmitted(true);
-		const fileImage = values.photo;
-		if (fileImage) {
-			setHasSubmittedAvatar(true);
-			dispatch(uploadAvatar(fileImage));
+		if (values.photo) {
+			setAvatar(values.photo);
 		}
-		dispatch(uploadProfile(values.filter((item) => item.name !== 'photo')));
+
+		const profileValues = Object.keys(values)
+			.filter((key) => key !== 'photo')
+			.reduce((obj, key) => {
+				obj[key] = values[key];
+				return obj;
+			}, {});
+
+		dispatch(uploadProfile(profileValues, auth.user._id));
+	};
+
+	const handleUploadAvatar = () => {
+		setHasSubmittedAvatar(true);
+		dispatch(uploadAvatar(avatar, auth.user._id));
 	};
 
 	useEffect(() => {
 		if (!auth.isLoading && hasSubmitted) {
-			if (auth.profile && (!auth.hasSubmittedAvatar || (hasSubmittedAvatar && auth.avatar))) {
-				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
-					toast({
-						id: 'success-toast',
-						title: 'Success!',
-						description: auth.message,
-						status: 'success',
-						duration: 4000,
-						isClosable: true,
-					});
-					onRegisterSuccess();
-				}
-			} else if (auth.error) {
+			if (auth.error) {
+				// upload profile/avatar error
 				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
 					return toast({
 						id: 'error-toast',
@@ -50,6 +51,33 @@ const CompleteProfileLayout = ({ onRegisterSuccess }) => {
 				}
 				setHasSubmitted(false);
 				setHasSubmittedAvatar(false);
+			} else if (auth.avatarUploaded) {
+				//2nd stage - uploaded avatar
+				toast({
+					id: 'success-toast',
+					title: 'Success',
+					description: auth.message,
+					status: 'success',
+					duration: 4000,
+					isClosable: true,
+				});
+				onRegisterSuccess();
+			} else if (auth.profile) {
+				//1st-stage - uploaded profile
+				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
+					toast({
+						id: 'success-toast',
+						title: 'Success!',
+						description: auth.message,
+						status: 'success',
+						duration: 4000,
+						isClosable: true,
+					});
+					if (avatar) {
+						return handleUploadAvatar();
+					}
+					onRegisterSuccess();
+				}
 			}
 		}
 	}, [auth]);
@@ -82,4 +110,4 @@ const CompleteProfileLayout = ({ onRegisterSuccess }) => {
 	);
 };
 
-export default CompleteProfileLayout;
+export default checkAuth(CompleteProfileLayout);

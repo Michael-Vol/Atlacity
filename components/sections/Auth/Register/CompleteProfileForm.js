@@ -170,7 +170,7 @@ const CompleteProfileForm = ({ onSubmit }) => {
 								bg='blue.400'
 								color={'white'}
 								size='lg'
-								isLoading={props.isSubmitting}
+								// isLoading={props.isSubmitting}
 								isDisabled={!props.isValid || props.isValidating}
 								type='submit'>
 								Continue

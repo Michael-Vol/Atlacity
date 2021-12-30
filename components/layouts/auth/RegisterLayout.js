@@ -9,13 +9,11 @@ import register from '../../../actions/auth/register';
 const RegisterLayout = ({ onRegisterSuccess }) => {
 	const dispatch = useDispatch();
 	const auth = useSelector((state) => state.auth);
-	const [credentials, setCredentials] = useState({});
 	const [hasSubmitted, setHasSubmitted] = useState(false);
 	const toast = useToast();
 	const handleSubmit = (values) => {
 		setHasSubmitted(true);
 		dispatch(register(values));
-		setCredentials({ email: values.email, password: values.password });
 	};
 
 	useEffect(() => {

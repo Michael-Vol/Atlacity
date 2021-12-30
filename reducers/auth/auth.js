@@ -1,4 +1,5 @@
 import * as types from '../../actions/types';
+import axios from 'axios';
 
 const initialState = {
 	isLoading: false,
@@ -8,7 +9,7 @@ const initialState = {
 	message: null,
 	accessToken: null,
 	profile: null,
-	avatar: null,
+	avatarUploaded: false,
 };
 
 export default (state = initialState, action) => {
@@ -27,6 +28,7 @@ export default (state = initialState, action) => {
 		case types.REFRESH_TOKEN_SUCCESS:
 		case types.LOGIN_SUCCESS:
 		case types.REGISTER_SUCCESS:
+			axios.defaults.headers.common['Authorization'] = `Bearer ${payload.accessToken}`;
 			return {
 				...state,
 				isLoading: false,
@@ -89,7 +91,7 @@ export default (state = initialState, action) => {
 				isLoading: false,
 				error: payload,
 				message: null,
-				avatarUploaded: payload.avatarUploaded,
+				avatarUploaded: false,
 			};
 		default: {
 			return state;
