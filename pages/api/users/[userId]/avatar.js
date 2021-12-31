@@ -62,12 +62,11 @@ const avatarHandler = async (req, res) => {
 					user: req.user._id,
 				});
 				if (!profile || !profile.avatar) {
-					return res.status(400).json({
+					return res.status(404).json({
 						message: 'No Profile Avatar found',
 					});
 				}
-				res.setHeader('content-type', profile.avatar.imageType);
-				return res.send(profile.avatar.buffer);
+				return res.send(profile.avatar);
 			} catch (error) {
 				return res.status(400).json({
 					message: error.message,

@@ -8,6 +8,7 @@ import checkAuth from '../../../lib/checkAuthClient';
 
 const CompleteProfileLayout = ({ onRegisterSuccess }) => {
 	const auth = useSelector((state) => state.auth);
+	const profile = useSelector((state) => state.profile);
 	const [hasSubmitted, setHasSubmitted] = useState(false);
 	const [hasSubmittedAvatar, setHasSubmittedAvatar] = useState(false);
 	const [avatar, setAvatar] = useState();
@@ -36,14 +37,14 @@ const CompleteProfileLayout = ({ onRegisterSuccess }) => {
 	};
 
 	useEffect(() => {
-		if (!auth.isLoading && hasSubmitted) {
-			if (auth.error) {
+		if (!profile.isLoading && hasSubmitted) {
+			if (profile.error) {
 				// upload profile/avatar error
 				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
 					return toast({
 						id: 'error-toast',
 						title: 'Error',
-						description: auth.message || auth.error.response.data.message,
+						description: profile.message || profile.error.response.data.message,
 						status: 'error',
 						duration: 4000,
 						isClosable: true,
@@ -51,24 +52,24 @@ const CompleteProfileLayout = ({ onRegisterSuccess }) => {
 				}
 				setHasSubmitted(false);
 				setHasSubmittedAvatar(false);
-			} else if (auth.avatarUploaded) {
+			} else if (profile.avatarUploaded) {
 				//2nd stage - uploaded avatar
 				toast({
 					id: 'success-avatar-toast',
 					title: 'Success',
-					description: auth.message,
+					description: profile.message,
 					status: 'success',
 					duration: 4000,
 					isClosable: true,
 				});
 				onRegisterSuccess();
-			} else if (auth.profile) {
+			} else if (profile.profile) {
 				//1st-stage - uploaded profile
 				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
 					toast({
 						id: 'success-toast',
 						title: 'Success!',
-						description: auth.message,
+						description: profile.message,
 						status: 'success',
 						duration: 4000,
 						isClosable: true,
@@ -80,7 +81,7 @@ const CompleteProfileLayout = ({ onRegisterSuccess }) => {
 				}
 			}
 		}
-	}, [auth]);
+	}, [profile]);
 
 	return (
 		<Grid templateColumns='repeat(10, 1fr)' gap={1} height={'90vh'}>

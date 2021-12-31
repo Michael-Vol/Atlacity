@@ -1,5 +1,6 @@
 import * as types from '../types';
 import axios from 'axios';
+import useStore from '../../store/store';
 
 export const uploadProfile = (profileData, userId) => async (dispatch) => {
 	try {
@@ -37,7 +38,10 @@ export const uploadAvatar = (image, userId) => async (dispatch) => {
 
 export const getAvatar = (userId) => async (dispatch) => {
 	try {
+		dispatch({ type: types.FETCH_AVATAR_REQUEST });
+		const res = await axios.get(`/api/users/${userId}/avatar`);
+		dispatch({ type: types.FETCH_AVATAR_SUCCESS, payload: res.data });
 	} catch (error) {
-		dispatch({ type: types.UPLOAD_AVATAR_FAILURE, payload: error });
+		dispatch({ type: types.FETCH_AVATAR_FAILURE, payload: error });
 	}
 };
