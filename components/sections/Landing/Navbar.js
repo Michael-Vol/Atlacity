@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Flex, Box, Text, Avatar } from '@chakra-ui/react';
+import { Flex, Box, Text, Avatar, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,6 +8,9 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import logout from '../../../actions/auth/logout';
 import { getAvatar } from '../../../actions/profile/profile';
+import { RiArrowDownSFill } from 'react-icons/ri';
+import { CgProfile } from 'react-icons/cg';
+import { FiLogOut, FiSettings } from 'react-icons/fi';
 
 const MenuItems = (props) => {
 	const { children, isLast, to, ...rest } = props;
@@ -30,10 +33,13 @@ const MenuItems = (props) => {
 const Navbar = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
+
 	const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
 	const auth = useSelector((state) => state.auth);
 	const profile = useSelector((state) => state.profile);
+
 	const [avatar, setAvatar] = useState(null);
+	const [showMenu, setShowMenu] = useState(false);
 
 	const handleLogout = async () => {
 		await dispatch(logout());
@@ -43,12 +49,8 @@ const Navbar = () => {
 	useEffect(() => {
 		if (!profile.isLoading && !avatar) {
 			if (profile.avatarFetched) {
-				console.log(profile.avatar);
-				// const blob = new Blob([profile.avatar], { type: 'image/png' });
-				// const imageURL = URL.createObjectURL(blob);
 				setAvatar(Buffer.from(profile.avatar.buffer.data).toString('base64'));
 			} else if (auth.isAuthenticated && !profile.error) {
-				console.log('dispatching');
 				dispatch(getAvatar(auth.user._id));
 			}
 		}
@@ -86,11 +88,46 @@ const Navbar = () => {
 						</Box>
 					</Fragment>
 				) : (
-					<Box mr={'20px'}>
+					<Flex mr={'20px'} alignItems={'center'}>
 						{avatar && (
-							<Avatar name={auth.user.firstName} src={`data:image/png;base64,${avatar}`} />
+							<Avatar
+								mr={'10px'}
+								name={auth.user.firstName}
+								src={`data:image/png;base64,${avatar}`}
+							/>
 						)}
-					</Box>
+						<Menu>
+							<MenuButton>
+								<RiArrowDownSFill size={'20px'} onClick={() => setShowMenu(!showMenu)} />
+							</MenuButton>
+							<MenuList
+								mt={'20px'}
+								minW={0}
+								w={'auto'}
+								p={'10px'}
+								borderRadius={'10px'}
+								color={'blue.500'}>
+								<MenuItem>
+									<CgProfile />
+									<Text ml={'10px'} as='span'>
+										Profile
+									</Text>
+								</MenuItem>
+								<MenuItem>
+									<FiSettings />
+									<Text ml={'10px'} as='span'>
+										Settings
+									</Text>
+								</MenuItem>
+								<MenuItem onClick={handleLogout}>
+									<FiLogOut />
+									<Text ml={'10px'} as='span'>
+										Logout
+									</Text>
+								</MenuItem>
+							</MenuList>
+						</Menu>
+					</Flex>
 				)}
 			</Flex>
 		</Flex>
