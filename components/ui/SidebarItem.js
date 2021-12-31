@@ -10,7 +10,8 @@ const SidebarItem = (props) => {
 			textAlign={'center'}
 			transition={'all 0.2s ease-in-out'}
 			fontSize={props.fontSize || '18px'}
-			color={props.active ? 'white' : 'gray.400'}>
+			color={props.active ? 'white' : 'gray.400'}
+			_hover={props.hover || { color: 'white' }}>
 			{props.children}
 			{props.active && <Box w={'4px'} ml={'auto'} bgColor={'white'}></Box>}
 		</Flex>

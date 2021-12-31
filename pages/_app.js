@@ -7,6 +7,7 @@ import '../styles/globals.css';
 import { Provider } from 'react-redux';
 import useStore from '../store/store';
 import { refreshToken } from '../actions/auth/login';
+import Layout from '../components/layouts/Layout';
 
 const breakpoints = createBreakpoints({
 	sm: '30em',
@@ -47,6 +48,7 @@ function AtlacityApp({ Component, pageProps }) {
 	const auth = store.getState().auth;
 
 	useEffect(() => {
+		//Request new access token every 6 minutes
 		if (auth.isAuthenticated) {
 			const authRefresh = async () => {
 				store.dispatch(refreshToken());
@@ -60,8 +62,10 @@ function AtlacityApp({ Component, pageProps }) {
 		!auth.isLoading && (
 			<Provider store={store}>
 				<ChakraProvider theme={theme}>
-					<Navbar />
-					<Component {...pageProps} />
+					<Layout>
+						<Navbar />
+						<Component {...pageProps} />
+					</Layout>
 				</ChakraProvider>
 			</Provider>
 		)

@@ -1,6 +1,5 @@
 import * as types from '../types';
 import axios from 'axios';
-import useStore from '../../store/store';
 
 export const uploadProfile = (profileData, userId) => async (dispatch) => {
 	try {

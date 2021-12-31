@@ -1,6 +1,7 @@
 import React from 'react';
+import checkAuth from '../../lib/checkAuthClient';
 const Home = () => {
 	return <div></div>;
 };
 
-export default Home;
+export default checkAuth(Home);

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const initialState = {
 	isLoading: false,
-	isAuthenticated: false,
+	isAuthenticated: null,
 	error: null,
 	user: null,
 	message: null,
@@ -19,6 +19,7 @@ export default (state = initialState, action) => {
 		case types.REFRESH_TOKEN_REQUEST:
 		case types.LOGIN_REQUEST:
 		case types.REGISTER_REQUEST:
+		case types.LOAD_USER_REQUEST:
 			return {
 				...state,
 				isLoading: true,
@@ -26,7 +27,9 @@ export default (state = initialState, action) => {
 		case types.REFRESH_TOKEN_SUCCESS:
 		case types.LOGIN_SUCCESS:
 		case types.REGISTER_SUCCESS:
+		case types.LOAD_USER_SUCCESS:
 			axios.defaults.headers.common['Authorization'] = `Bearer ${payload.accessToken}`;
+			localStorage.setItem('accessToken', payload.accessToken);
 			return {
 				...state,
 				isLoading: false,
@@ -40,6 +43,7 @@ export default (state = initialState, action) => {
 		case types.REFRESH_TOKEN_FAILURE:
 		case types.LOGIN_FAILURE:
 		case types.REGISTER_FAILURE:
+		case types.LOAD_USER_FAILURE:
 			return {
 				...state,
 				isLoading: false,

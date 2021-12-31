@@ -29,7 +29,7 @@ const SettingsLayout = () => {
 
 	return (
 		<Grid height={'90vh'} templateRows='repeat(1, 1fr)' templateColumns='repeat(20, 1fr)' gap={1}>
-			<GridItem w={'260px'} rowSpan={'1'}>
+			<GridItem colSpan={4} rowSpan={'1'}>
 				<Sidebar header='Settings'>
 					<SidebarItem
 						active={'account-info' === activeOption}
