@@ -24,16 +24,19 @@ export const uploadAvatar = (image, userId) => async (dispatch) => {
 		};
 
 		const formData = new FormData();
-		// const blob = await fetch(image.imageURL)
-		// 	.then((r) => r.blob())
-		// 	.then((blobFile) => new File([blobFile], 'avatar', { type: blob.type }));
-		// console.log(blob, formData);
 		formData.append('avatar', image);
-		console.log(formData.entries());
+
 		dispatch({ type: types.UPLOAD_AVATAR_REQUEST });
 
 		const res = await axios.post(`/api/users/${userId}/avatar`, formData, config);
 		dispatch({ type: types.UPLOAD_AVATAR_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.UPLOAD_AVATAR_FAILURE, payload: error });
+	}
+};
+
+export const getAvatar = (userId) => async (dispatch) => {
+	try {
 	} catch (error) {
 		dispatch({ type: types.UPLOAD_AVATAR_FAILURE, payload: error });
 	}

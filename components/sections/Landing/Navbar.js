@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Flex, Box, Text } from '@chakra-ui/react';
+import { Flex, Box, Text, Avatar } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -70,9 +70,7 @@ const Navbar = () => {
 					</Fragment>
 				) : (
 					<Box mr={'20px'}>
-						<Button bg='red.400' _hover={{ bg: 'red.500' }} onClick={handleLogout}>
-							Logout
-						</Button>
+						<Avatar name='user-avatar' />
 					</Box>
 				)}
 			</Flex>

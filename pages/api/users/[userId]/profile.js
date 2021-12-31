@@ -47,7 +47,9 @@ const profileHandler = async (req, res) => {
 
 					if (!city) {
 						city = new City({
-							name: cityInfo.data.features[0].properties.name,
+							name:
+								cityInfo.data.features[0].properties.name ||
+								req.body.currentLocation.properties.city,
 							locationId: cityInfo.data.features[0].properties.place_id,
 						});
 						await city.save();
@@ -73,7 +75,7 @@ const profileHandler = async (req, res) => {
 						if (!city) {
 							city = new City({
 								locationId: location.properties.place_id,
-								name: location.properties.name,
+								name: location.properties.name || location.properties.city,
 							});
 							await city.save();
 						}
