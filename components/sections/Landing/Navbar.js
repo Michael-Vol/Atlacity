@@ -71,6 +71,7 @@ const Navbar = () => {
 				) : (
 					<Box mr={'20px'}>
 						<Avatar name='user-avatar' />
+						<Button onClick={handleLogout}>Logout</Button>
 					</Box>
 				)}
 			</Flex>

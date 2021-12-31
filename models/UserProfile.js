@@ -8,7 +8,12 @@ const userProfileSchema = new mongoose.Schema(
 			required: true,
 		},
 		avatar: {
-			type: Buffer,
+			buffer: {
+				type: Buffer,
+			},
+			imageType: {
+				type: String,
+			},
 		},
 		about: {
 			type: String,

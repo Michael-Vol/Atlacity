@@ -26,7 +26,7 @@ const VerifyEmailLayout = ({ onVerificationSuccess }) => {
 						duration: 4000,
 						isClosable: true,
 					});
-					onVerificationSuccess();
+					// onVerificationSuccess();
 				}
 			} else {
 				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {

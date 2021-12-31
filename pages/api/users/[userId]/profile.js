@@ -25,6 +25,15 @@ const profileHandler = async (req, res) => {
 	switch (req.method) {
 		case 'POST':
 			try {
+				//Check if profile exists
+				const existingProfile = await UserProfile.findOne({
+					user: req.user._id,
+				});
+				if (existingProfile) {
+					return res.status(400).json({
+						message: 'Profile already exists',
+					});
+				}
 				const db = await connectToDB();
 
 				await validateBody(req, res);
@@ -83,7 +92,6 @@ const profileHandler = async (req, res) => {
 						return city._id;
 					})
 				);
-
 				const profile = new UserProfile({
 					user: req.user._id,
 					about: req.body.about,
@@ -108,4 +116,4 @@ const profileHandler = async (req, res) => {
 	}
 };
 
-export default checkAuth(checkUserAccess(profileHandler));
+export default checkAuth(checkUserAccess(profileHandler, { methods: ['POST'] }));

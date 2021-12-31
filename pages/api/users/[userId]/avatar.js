@@ -40,8 +40,9 @@ const avatarHandler = async (req, res) => {
 						message: 'You need to create a profile first in order to upload an avatar!',
 					});
 				}
-
-				profile.avatar = req.file.buffer;
+				console.log(req.file);
+				profile.avatar.imageType = req.file.mimetype;
+				profile.avatar.buffer = req.file.buffer;
 				await profile.save();
 
 				return res.status(200).json({
@@ -53,9 +54,28 @@ const avatarHandler = async (req, res) => {
 					message: error.message,
 				});
 			}
+		case 'GET':
+			try {
+				await connectToDB();
+
+				const profile = await UserProfile.findOne({
+					user: req.user._id,
+				});
+				if (!profile || !profile.avatar) {
+					return res.status(400).json({
+						message: 'No Profile Avatar found',
+					});
+				}
+				res.setHeader('content-type', profile.avatar.imageType);
+				return res.send(profile.avatar.buffer);
+			} catch (error) {
+				return res.status(400).json({
+					message: error.message,
+				});
+			}
 		default:
 			return res.status(405).json({ message: 'Invalid HTTP Method' });
 	}
 };
 
-export default checkAuth(checkUserAccess(avatarHandler));
+export default checkAuth(checkUserAccess(avatarHandler, { methods: ['POST'] }));
