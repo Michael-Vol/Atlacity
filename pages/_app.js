@@ -47,12 +47,14 @@ function AtlacityApp({ Component, pageProps }) {
 	const auth = store.getState().auth;
 
 	useEffect(() => {
-		const authRefresh = async () => {
-			store.dispatch(refreshToken());
-		};
-		setInterval(authRefresh, 100 * 60 * 60);
-		authRefresh();
-	}, []);
+		if (auth.isAuthenticated) {
+			const authRefresh = async () => {
+				store.dispatch(refreshToken());
+			};
+			setInterval(authRefresh, 100 * 60 * 60);
+			authRefresh();
+		}
+	}, [auth]);
 
 	return (
 		!auth.isLoading && (

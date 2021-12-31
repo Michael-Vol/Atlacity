@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Flex, Box, Text, Avatar, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
+import { Flex, Box, Text, Image, Avatar, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
-import Image from 'next/image';
 import Link from 'next/link';
 import Button from '../../ui/Button';
 import { useRouter } from 'next/router';
@@ -65,7 +64,13 @@ const Navbar = () => {
 
 				<Flex mr='15px'>
 					<Box onClick={() => router.push('/')}>
-						<Image src='/vectors/atlacity-logo.png' width={72} height={62} layout='fixed' />
+						<Image
+							src='/vectors/atlacity-logo.png'
+							width={'72px'}
+							height={'62px'}
+							layout='fixed'
+							cursor={'pointer'}
+						/>
 					</Box>
 				</Flex>
 
