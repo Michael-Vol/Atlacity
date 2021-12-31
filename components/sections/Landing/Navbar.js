@@ -107,13 +107,13 @@ const Navbar = () => {
 								p={'10px'}
 								borderRadius={'10px'}
 								color={'blue.500'}>
-								<MenuItem>
+								<MenuItem onClick={() => router.push('/user/profile')}>
 									<CgProfile />
 									<Text ml={'10px'} as='span'>
 										Profile
 									</Text>
 								</MenuItem>
-								<MenuItem>
+								<MenuItem onClick={() => router.push('/user/settings')}>
 									<FiSettings />
 									<Text ml={'10px'} as='span'>
 										Settings
