@@ -1,6 +1,5 @@
 import * as types from '../../actions/types';
 import axios from 'axios';
-
 const initialState = {
 	isLoading: false,
 	isAuthenticated: null,
@@ -43,7 +42,6 @@ export default (state = initialState, action) => {
 		case types.REFRESH_TOKEN_FAILURE:
 		case types.LOGIN_FAILURE:
 		case types.REGISTER_FAILURE:
-		case types.LOAD_USER_FAILURE:
 			return {
 				...state,
 				isLoading: false,
@@ -53,7 +51,18 @@ export default (state = initialState, action) => {
 				user: null,
 				accessToken: null,
 			};
+		case types.LOAD_USER_FAILURE:
+			return {
+				...state,
+				isLoading: false,
+				isAuthenticated: false,
+				message: null,
+				user: null,
+				accessToken: null,
+			};
 		case types.LOGOUT_SUCCESS:
+			localStorage.removeItem('accessToken');
+
 			return {
 				...state,
 				isLoading: false,

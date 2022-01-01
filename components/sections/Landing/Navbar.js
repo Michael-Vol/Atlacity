@@ -20,6 +20,7 @@ const MenuItems = (props) => {
 			display='block'
 			color='blue.500'
 			fontSize={20}
+			fontWeight={'500'}
 			transition={'all .1s ease-in-out'}
 			_hover={{
 				color: 'blue.100',
@@ -42,7 +43,6 @@ const Navbar = () => {
 
 	const handleLogout = async () => {
 		await dispatch(logout());
-		router.push('/');
 	};
 
 	useEffect(() => {
@@ -75,9 +75,9 @@ const Navbar = () => {
 				</Flex>
 
 				<Flex align='center' justify='center'>
-					<MenuItems to='/explore'> Explore</MenuItems>
+					<MenuItems to='/explore'>Explore</MenuItems>
 					<MenuItems to='/cities'>Cities</MenuItems>
-					<MenuItems to='/blogs'>Blogs</MenuItems>
+					<MenuItems to='/blogs'>Blog</MenuItems>
 					<MenuItems to='/about'>About</MenuItems>
 				</Flex>
 			</Flex>

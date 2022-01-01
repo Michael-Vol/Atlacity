@@ -72,14 +72,14 @@ export default async (req, res) => {
 				sendRefreshToken(res, refreshToken);
 
 				// //Create twilio email verification
-				// const accountSID = getEnv('TWILIO_ACCOUNT_SID');
-				// const authToken = getEnv('TWILIO_AUTH_TOKEN');
-				// const emailServiceSid = getEnv('TWILIO_EMAIL_SERVICE_SID');
-				// const twilioClient = twilio(accountSID, authToken);
+				const accountSID = getEnv('TWILIO_ACCOUNT_SID');
+				const authToken = getEnv('TWILIO_AUTH_TOKEN');
+				const emailServiceSid = getEnv('TWILIO_EMAIL_SERVICE_SID');
+				const twilioClient = twilio(accountSID, authToken);
 
-				// const verification = await twilioClient.verify
-				// 	.services(emailServiceSid)
-				// 	.verifications.create({ to: user.email, channel: 'email' });
+				const verification = await twilioClient.verify
+					.services(emailServiceSid)
+					.verifications.create({ to: user.email, channel: 'email' });
 
 				await user.save(); //save user to db
 				return res.status(201).json({

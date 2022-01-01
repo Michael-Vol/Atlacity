@@ -7,12 +7,16 @@ import { useRouter } from 'next/router';
 export default () => {
 	const auth = useSelector((state) => state.auth);
 	const router = useRouter();
-
 	useEffect(() => {
 		if (auth.isAuthenticated) {
 			return router.push('/home');
 		}
 	}, [auth]);
+	console.log(auth);
 
-	return <LandingLayout />;
+	if (!auth.isAuthenticated) {
+		return <LandingLayout />;
+	}
+
+	return <div>Loading...</div>;
 };

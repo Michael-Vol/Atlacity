@@ -11,12 +11,12 @@ export default (state = initialState, action) => {
 	const { type, payload } = action;
 
 	switch (type) {
-		case 'VERIFY_EMAIL_REQUEST':
+		case types.VERIFY_EMAIL_REQUEST:
 			return {
 				...state,
 				isLoading: true,
 			};
-		case 'VERIFY_EMAIL_SUCCESS':
+		case types.VERIFY_EMAIL_SUCCESS:
 			return {
 				...state,
 				isLoading: false,
@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
 				verified: payload.verified,
 				message: payload.message,
 			};
-		case 'VERIFY_EMAIL_FAILURE':
+		case types.VERIFY_EMAIL_FAILURE:
 			return {
 				...state,
 				isLoading: false,

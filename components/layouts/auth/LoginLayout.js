@@ -32,11 +32,12 @@ const LoginLayout = (props) => {
 			}
 			return router.push('/home');
 		} else if (auth.error) {
+			//show error excluding load user attempts
 			if (!toast.isActive('error-toast') && !toast.isActive('success-toast')) {
 				return toast({
 					title: 'Error',
 					id: 'error-toast',
-					description: auth.message || auth.error.response.data.message,
+					description: auth.message || auth.error.message,
 					status: 'error',
 					duration: 4000,
 				});

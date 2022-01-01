@@ -5,9 +5,11 @@ import { createBreakpoints } from '@chakra-ui/theme-tools';
 import Navbar from '../components/sections/Landing/Navbar';
 import '../styles/globals.css';
 import { Provider } from 'react-redux';
-import useStore from '../store/store';
 import { refreshToken } from '../actions/auth/login';
-import Layout from '../components/layouts/Layout';
+import { loadUser } from '../actions/auth/loadUser';
+import { useStore } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { wrapper } from '../store/store';
 
 const breakpoints = createBreakpoints({
 	sm: '30em',
@@ -58,18 +60,20 @@ function AtlacityApp({ Component, pageProps }) {
 		}
 	}, [auth]);
 
+	useEffect(() => {
+		store.dispatch(loadUser());
+	}, []);
+
 	return (
 		!auth.isLoading && (
-			<Provider store={store}>
+			<PersistGate loading={null} persistor={store.__persistor}>
 				<ChakraProvider theme={theme}>
-					<Layout>
-						<Navbar />
-						<Component {...pageProps} />
-					</Layout>
+					<Navbar />
+					<Component {...pageProps} />
 				</ChakraProvider>
-			</Provider>
+			</PersistGate>
 		)
 	);
 }
 
-export default AtlacityApp;
+export default wrapper.withRedux(AtlacityApp);
