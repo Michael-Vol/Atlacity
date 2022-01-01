@@ -9,6 +9,7 @@ const initialState = {
 	accessToken: null,
 	profile: null,
 	avatarUploaded: false,
+	userUpdated: null,
 };
 
 export default (state = initialState, action) => {
@@ -19,6 +20,7 @@ export default (state = initialState, action) => {
 		case types.LOGIN_REQUEST:
 		case types.REGISTER_REQUEST:
 		case types.LOAD_USER_REQUEST:
+		case types.UPDATE_ACCOUNT_INFO_REQUEST:
 			return {
 				...state,
 				isLoading: true,
@@ -72,6 +74,23 @@ export default (state = initialState, action) => {
 				accessToken: null,
 				message: payload.message,
 			};
+		case types.UPDATE_ACCOUNT_INFO_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				error: null,
+				message: payload.message,
+				user: payload.user,
+				userUpdated: payload.isUpdated,
+			};
+		case types.UPDATE_ACCOUNT_INFO_FAILURE:
+			return {
+				...state,
+				isLoading: false,
+				message: null,
+				userUpdated: payload.isUpdated,
+			};
+
 		default: {
 			return state;
 		}

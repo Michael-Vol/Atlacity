@@ -6,18 +6,25 @@ import {
 	FormControl,
 	FormLabel,
 	FormErrorMessage,
-	FormHelperText,
 	Input,
 	Box,
 	Badge,
+	useToast,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import Button from '../../../ui/Button';
 import checkAuth from '../../../../lib/checkAuthClient';
+
+import { updateAccountInfo } from '../../../../actions/auth/updateAccountInfo';
+
 const AccountInfo = () => {
 	const auth = useSelector((state) => state.auth);
+	const [dispatched, setDispatched] = useState(false);
+	const dispatch = useDispatch();
+	const toast = useToast();
+
 	const initialData = {
 		firstName: auth.user.firstName,
 		lastName: auth.user.lastName,
@@ -28,7 +35,38 @@ const AccountInfo = () => {
 
 	const handleSubmit = () => {
 		console.log(formData);
+		dispatch(updateAccountInfo(formData));
+		setDispatched(true);
 	};
+
+	useEffect(() => {
+		if (!auth.isLoading && dispatched) {
+			setDispatched(false);
+			if (auth.userUpdated === true) {
+				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
+					toast({
+						id: 'success-toast',
+						title: 'Success',
+						description: auth.message,
+						status: 'success',
+						duration: 4000,
+						isClosable: true,
+					});
+				}
+			} else if (auth.userUpdated === false) {
+				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
+					toast({
+						id: 'error-toast',
+						title: 'Error',
+						description: auth.message,
+						status: 'error',
+						duration: 4000,
+						isClosable: true,
+					});
+				}
+			}
+		}
+	}, [auth]);
 
 	const handleValidation = () => {
 		const errors = {};
@@ -89,7 +127,12 @@ const AccountInfo = () => {
 					handleSubmit();
 				}}>
 				{(props) => (
-					<Form>
+					<Form
+						onKeyDown={(keyEvent) => {
+							if (keyEvent.key === 'Enter') {
+								keyEvent.preventDefault();
+							}
+						}}>
 						<Flex>
 							<Field name='firstName'>
 								{({ field, form }) => (
@@ -176,7 +219,6 @@ const AccountInfo = () => {
 								// color={'white'}
 								size='lg'
 								mr={'20px'}
-								isLoading={auth.isLoading}
 								variant={'outline'}
 								color={'blue.400'}
 								bg={'white'}

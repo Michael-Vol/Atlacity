@@ -29,19 +29,22 @@ const meHandler = async (req, res) => {
 				if (!isValidOperation) {
 					return res.status(400).json({
 						message: 'Invalid updates',
+						isUpdated: false,
 					});
 				}
 				await connectToDB();
 				updates.forEach((update) => (req.user[update] = req.body[update]));
 				await req.user.save();
 				return res.json({
-					message: 'Successfully updated User',
+					message: 'Updated Account Info!',
 					user: req.user,
+					isUpdated: true,
 				});
 			} catch (error) {
 				console.log(error);
 				return res.status(500).json({
 					message: 'Something went wrong',
+					isUpdated: false,
 				});
 			}
 		default:
