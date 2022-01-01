@@ -14,6 +14,7 @@ import { Formik, Form, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../../ui/Button';
 import checkAuth from '../../../../lib/checkAuthClient';
+import { updatePassword } from '../../../../actions/auth/updatePassword';
 
 const ChangePassword = () => {
 	const auth = useSelector((state) => state.auth);
@@ -30,38 +31,43 @@ const ChangePassword = () => {
 
 	const handleSubmit = () => {
 		console.log(formData);
-		// dispatch(updateAccountInfo(formData));
+		dispatch(
+			updatePassword({
+				oldPassword: formData.oldPassword,
+				newPassword: formData.newPassword,
+			})
+		);
 		setDispatched(true);
 	};
 
-	// useEffect(() => {
-	// 	if (!auth.isLoading && dispatched) {
-	// 		setDispatched(false);
-	// 		if (auth.userUpdated === true) {
-	// 			if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
-	// 				toast({
-	// 					id: 'success-toast',
-	// 					title: 'Success',
-	// 					description: auth.message,
-	// 					status: 'success',
-	// 					duration: 4000,
-	// 					isClosable: true,
-	// 				});
-	// 			}
-	// 		} else if (auth.userUpdated === false) {
-	// 			if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
-	// 				toast({
-	// 					id: 'error-toast',
-	// 					title: 'Error',
-	// 					description: auth.message,
-	// 					status: 'error',
-	// 					duration: 4000,
-	// 					isClosable: true,
-	// 				});
-	// 			}
-	// 		}
-	// 	}
-	// }, [auth]);
+	useEffect(() => {
+		if (!auth.isLoading && dispatched) {
+			setDispatched(false);
+			if (auth.passwordUpdated === true) {
+				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
+					toast({
+						id: 'success-toast',
+						title: 'Success',
+						description: auth.message,
+						status: 'success',
+						duration: 4000,
+						isClosable: true,
+					});
+				}
+			} else if (auth.passwordUpdated === false) {
+				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
+					toast({
+						id: 'error-toast',
+						title: 'Error',
+						description: auth.message,
+						status: 'error',
+						duration: 4000,
+						isClosable: true,
+					});
+				}
+			}
+		}
+	}, [auth]);
 
 	const handleValidation = () => {
 		const errors = {};
@@ -108,12 +114,12 @@ const ChangePassword = () => {
 										<FormLabel htmlFor='oldPassword'>Old Password</FormLabel>
 										<Input
 											{...field}
+											type='password'
 											variant={'filled'}
 											value={formData.oldPassword}
 											onChange={(e) =>
 												setFormData({ ...formData, oldPassword: e.target.value })
 											}
-											type='text'
 											id='oldPassword'
 											placeholder=' Insert your old password'
 										/>
@@ -134,7 +140,7 @@ const ChangePassword = () => {
 												onChange={(e) =>
 													setFormData({ ...formData, newPassword: e.target.value })
 												}
-												type='text'
+												type='password'
 												id='newPassword'
 												placeholder=' Insert your current password'
 											/>
@@ -159,7 +165,7 @@ const ChangePassword = () => {
 														verifyPassword: e.target.value,
 													})
 												}
-												type='text'
+												type='password'
 												id='verifyPassword'
 												placeholder='Type again your new password'
 											/>

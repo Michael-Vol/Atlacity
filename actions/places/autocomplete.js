@@ -11,6 +11,6 @@ export const placesAutocomplete =
 			dispatch({ type: types.PLACES_AUTOCOMPLETE_SUCCESS, payload: res.data.places });
 		} catch (error) {
 			console.log(error);
-			dispatch({ type: types.PLACES_AUTOCOMPLETE_FAILURE, payload: error });
+			dispatch({ type: types.PLACES_AUTOCOMPLETE_FAILURE, payload: error.response.data });
 		}
 	};

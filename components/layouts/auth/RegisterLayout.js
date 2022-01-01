@@ -34,7 +34,7 @@ const RegisterLayout = ({ onRegisterSuccess }) => {
 					return toast({
 						id: 'error-toast',
 						title: 'Error',
-						description: auth.message || auth.error.response.data.message,
+						description: auth.message || auth.error.message || 'Something went wrong',
 						status: 'error',
 						duration: 4000,
 						isClosable: true,

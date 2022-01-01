@@ -11,7 +11,7 @@ export const uploadProfile = (profileData, userId) => async (dispatch) => {
 		});
 		dispatch({ type: types.UPLOAD_PROFILE_SUCCESS, payload: res.data });
 	} catch (error) {
-		dispatch({ type: types.UPLOAD_PROFILE_FAILURE, payload: error });
+		dispatch({ type: types.UPLOAD_PROFILE_FAILURE, payload: error.response.data });
 	}
 };
 
@@ -31,7 +31,7 @@ export const uploadAvatar = (image, userId) => async (dispatch) => {
 		const res = await axios.post(`/api/users/${userId}/avatar`, formData, config);
 		dispatch({ type: types.UPLOAD_AVATAR_SUCCESS, payload: res.data });
 	} catch (error) {
-		dispatch({ type: types.UPLOAD_AVATAR_FAILURE, payload: error });
+		dispatch({ type: types.UPLOAD_AVATAR_FAILURE, payload: error.response.data });
 	}
 };
 
@@ -41,6 +41,6 @@ export const getAvatar = (userId) => async (dispatch) => {
 		const res = await axios.get(`/api/users/${userId}/avatar`);
 		dispatch({ type: types.FETCH_AVATAR_SUCCESS, payload: res.data });
 	} catch (error) {
-		dispatch({ type: types.FETCH_AVATAR_FAILURE, payload: error });
+		dispatch({ type: types.FETCH_AVATAR_FAILURE, payload: error.response.data });
 	}
 };

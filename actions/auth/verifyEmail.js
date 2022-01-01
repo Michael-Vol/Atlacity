@@ -9,7 +9,7 @@ export const verifyEmail = (verificationCode) => async (dispatch) => {
 	} catch (error) {
 		dispatch({
 			type: types.VERIFY_EMAIL_FAILURE,
-			payload: error,
+			payload: error.response.data,
 		});
 	}
 };

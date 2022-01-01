@@ -10,6 +10,7 @@ const initialState = {
 	profile: null,
 	avatarUploaded: false,
 	userUpdated: null,
+	passwordUpdated: null,
 };
 
 export default (state = initialState, action) => {
@@ -21,6 +22,7 @@ export default (state = initialState, action) => {
 		case types.REGISTER_REQUEST:
 		case types.LOAD_USER_REQUEST:
 		case types.UPDATE_ACCOUNT_INFO_REQUEST:
+		case types.UPDATE_PASSWORD_REQUEST:
 			return {
 				...state,
 				isLoading: true,
@@ -90,7 +92,21 @@ export default (state = initialState, action) => {
 				message: null,
 				userUpdated: payload.isUpdated,
 			};
-
+		case types.UPDATE_PASSWORD_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				error: null,
+				message: payload.message,
+				passwordUpdated: payload.passwordUpdated,
+			};
+		case types.UPDATE_PASSWORD_FAILURE:
+			return {
+				...state,
+				isLoading: false,
+				message: payload.message,
+				passwordUpdated: payload.passwordUpdated,
+			};
 		default: {
 			return state;
 		}

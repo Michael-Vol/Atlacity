@@ -11,7 +11,7 @@ const register = (registerData) => async (dispatch) => {
 		const res = await axios.post('/api/auth/register', registerData, config);
 		dispatch({ type: types.REGISTER_SUCCESS, payload: res.data });
 	} catch (error) {
-		dispatch({ type: types.REGISTER_FAILURE, payload: error });
+		dispatch({ type: types.REGISTER_FAILURE, payload: error.response.data });
 	}
 };
 

@@ -12,7 +12,7 @@ const login = (loginData) => async (dispatch) => {
 
 		dispatch({ type: types.LOGIN_SUCCESS, payload: res.data });
 	} catch (error) {
-		dispatch({ type: types.LOGIN_FAILURE, payload: error });
+		dispatch({ type: types.LOGIN_FAILURE, payload: error.response.data });
 	}
 };
 
@@ -22,7 +22,7 @@ export const refreshToken = () => async (dispatch) => {
 		const res = await axios.post('/api/auth/refresh_token');
 		dispatch({ type: types.REFRESH_TOKEN_SUCCESS, payload: res.data });
 	} catch (error) {
-		dispatch({ type: types.REFRESH_TOKEN_FAILURE, payload: error });
+		dispatch({ type: types.REFRESH_TOKEN_FAILURE, payload: error.response.data });
 	}
 };
 
