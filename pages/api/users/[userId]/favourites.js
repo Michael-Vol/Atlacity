@@ -1,5 +1,7 @@
 import connectToDB from '../../../../lib/db';
 import UserProfile from '../../../../models/UserProfile';
+import Place from '../../../../models/Place';
+import City from '../../../../models/City';
 
 export default async (req, res) => {
 	switch (req.method) {
@@ -13,10 +15,23 @@ export default async (req, res) => {
 					message: 'User Profile not found',
 				});
 			}
+			const { favouritePlaces, favouriteCities } = profile;
+			const populatedPlaces = await Promise.all(
+				favouritePlaces.map(async (placeId) => {
+					const place = await Place.findById(placeId);
+					return place;
+				})
+			);
+			const populatedCities = await Promise.all(
+				favouriteCities.map(async (cityId) => {
+					const city = await City.findById(cityId);
+					return city;
+				})
+			);
 
 			return res.json({
-				favouritePlaces: profile.favouritePlaces,
-				favouriteCities: profile.favouriteCities,
+				favouritePlaces: populatedPlaces,
+				favouriteCities: populatedCities,
 			});
 
 		default:
