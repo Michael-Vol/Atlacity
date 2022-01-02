@@ -115,7 +115,7 @@ const AccountInfo = () => {
 							Click here
 						</Text>
 					</Link>
-					to verify your Atlacity account.
+					{'  '}to verify your Atlacity account.
 				</Text>
 			)}
 

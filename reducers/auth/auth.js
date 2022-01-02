@@ -29,8 +29,8 @@ export default (state = initialState, action) => {
 			};
 		case types.REFRESH_TOKEN_SUCCESS:
 		case types.LOGIN_SUCCESS:
-		case types.REGISTER_SUCCESS:
 		case types.LOAD_USER_SUCCESS:
+		case types.REGISTER_SUCCESS:
 			axios.defaults.headers.common['Authorization'] = `Bearer ${payload.accessToken}`;
 			localStorage.setItem('accessToken', payload.accessToken);
 			return {
@@ -67,15 +67,7 @@ export default (state = initialState, action) => {
 		case types.LOGOUT_SUCCESS:
 			localStorage.removeItem('accessToken');
 
-			return {
-				...state,
-				isLoading: false,
-				isAuthenticated: false,
-				error: null,
-				user: null,
-				accessToken: null,
-				message: payload.message,
-			};
+			return state;
 		case types.UPDATE_ACCOUNT_INFO_SUCCESS:
 			return {
 				...state,

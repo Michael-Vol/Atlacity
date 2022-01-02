@@ -13,6 +13,7 @@ const meHandler = async (req, res) => {
 				return res.json({
 					message: 'Successfully loaded User',
 					user: req.user,
+					avatar: req.user.avatar,
 					accessToken,
 				});
 			} catch (error) {

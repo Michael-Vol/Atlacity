@@ -14,7 +14,7 @@ import {
 import { Formik, Form, Field } from 'formik';
 import Button from '../../../ui/Button';
 
-const EmailVerificationForm = ({ onSubmit }) => {
+const EmailVerificationForm = ({ onSubmit, onSkip }) => {
 	const [formData, setFormData] = useState({
 		code: '',
 	});
@@ -64,8 +64,18 @@ const EmailVerificationForm = ({ onSubmit }) => {
 								</FormControl>
 							)}
 						</Field>
+						<Flex justifyContent={'space-around'} mt={'30px'}>
+							<Button
+								size='lg'
+								mr={'20px'}
+								variant={'outline'}
+								color={'blue.400'}
+								bg={'white'}
+								_hover={{ bg: 'gray.100' }}
+								onClick={onSkip}>
+								Skip
+							</Button>
 
-						<Box mt={'40px'} mb={'20px'} textAlign={'center'}>
 							<Button
 								bg='blue.400'
 								color={'white'}
@@ -75,7 +85,7 @@ const EmailVerificationForm = ({ onSubmit }) => {
 								type='submit'>
 								Continue
 							</Button>
-						</Box>
+						</Flex>
 					</Form>
 				)}
 			</Formik>

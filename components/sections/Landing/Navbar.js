@@ -10,6 +10,7 @@ import { getAvatar } from '../../../actions/profile/profile';
 import { RiArrowDownSFill } from 'react-icons/ri';
 import { CgProfile } from 'react-icons/cg';
 import { FiLogOut, FiSettings } from 'react-icons/fi';
+import { useStore } from 'react-redux';
 
 const MenuItems = (props) => {
 	const { children, isLast, to, ...rest } = props;
@@ -33,6 +34,7 @@ const MenuItems = (props) => {
 const Navbar = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
+	const store = useStore();
 
 	const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
 	const auth = useSelector((state) => state.auth);
@@ -43,6 +45,8 @@ const Navbar = () => {
 
 	const handleLogout = async () => {
 		await dispatch(logout());
+		store.__persistor.purge();
+		router.push('/');
 	};
 
 	useEffect(() => {
@@ -94,12 +98,10 @@ const Navbar = () => {
 					</Fragment>
 				) : (
 					<Flex mr={'20px'} alignItems={'center'}>
-						{avatar && (
-							<Avatar
-								mr={'10px'}
-								name={auth.user.firstName}
-								src={`data:image/png;base64,${avatar}`}
-							/>
+						{profile.avatar ? (
+							<Avatar mr={'10px'} src={`data:image/png;base64,${avatar}`} />
+						) : (
+							<Avatar mr={'10px'} name={`${auth.user.firstName} ${auth.user.lastName}`} />
 						)}
 						<Menu>
 							<MenuButton>

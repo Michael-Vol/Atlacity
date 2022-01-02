@@ -78,7 +78,6 @@ const profileHandler = async (req, res) => {
 				//Check which favouriteCities already exist
 				const favouriteCities = await Promise.all(
 					req.body.favouriteCities.map(async (location) => {
-						console.log(location);
 						//find city based on locationId
 						let city = await City.findOne({ locationId: location.properties.place_id });
 						if (!city) {

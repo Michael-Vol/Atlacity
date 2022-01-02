@@ -6,7 +6,7 @@ import CompleteProfileForm from '../../sections/Auth/Register/CompleteProfileFor
 import { uploadProfile, uploadAvatar } from '../../../actions/profile/profile';
 import checkAuth from '../../../lib/checkAuthClient';
 
-const CompleteProfileLayout = ({ onRegisterSuccess }) => {
+const CompleteProfileLayout = ({ onRegisterSuccess, onSkip }) => {
 	const auth = useSelector((state) => state.auth);
 	const profile = useSelector((state) => state.profile);
 	const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -104,7 +104,7 @@ const CompleteProfileLayout = ({ onRegisterSuccess }) => {
 					</Text>
 				</Text>
 				<Box mt={'50px'}>
-					<CompleteProfileForm onSubmit={handleSubmit} />
+					<CompleteProfileForm onSubmit={handleSubmit} onSkip={onSkip} />
 				</Box>
 			</GridItem>
 		</Grid>

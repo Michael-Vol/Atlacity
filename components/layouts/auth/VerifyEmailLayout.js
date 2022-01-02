@@ -5,17 +5,20 @@ import checkAuth from '../../../lib/checkAuthClient';
 import EmailVerificationForm from '../../sections/Auth/Register/EmailVerificationForm';
 import { verifyEmail } from '../../../actions/auth/verifyEmail';
 
-const VerifyEmailLayout = ({ onVerificationSuccess }) => {
+const VerifyEmailLayout = ({ onVerificationSuccess, onSkip }) => {
 	const dispatch = useDispatch();
 	const emailVerification = useSelector((state) => state.emailVerification);
+	const [dispatched, setDispatched] = useState(false);
 	const toast = useToast();
 	const handleSubmit = async (formData) => {
 		console.log(formData);
 		dispatch(verifyEmail(formData));
+		setDispatched(true);
 	};
 
 	useEffect(() => {
-		if (!emailVerification.isLoading) {
+		if (!emailVerification.isLoading && dispatched) {
+			setDispatched(false);
 			if (emailVerification.verified) {
 				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
 					toast({
@@ -67,7 +70,7 @@ const VerifyEmailLayout = ({ onVerificationSuccess }) => {
 					</Text>
 					<Image src='/vectors/verification_email.png' alt='verification_email' maxH={'34vh'} />
 
-					<EmailVerificationForm onSubmit={handleSubmit} />
+					<EmailVerificationForm onSubmit={handleSubmit} onSkip={onSkip} />
 				</Flex>
 			</GridItem>
 		</Grid>

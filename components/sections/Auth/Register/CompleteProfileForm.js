@@ -15,7 +15,7 @@ import { Formik, Form, Field } from 'formik';
 import Button from '../../../ui/Button';
 import FileUploader from '../../../ui/FileUploader';
 import PlacesAutocomplete from '../../../ui/PlacesAutocomplete';
-const CompleteProfileForm = ({ onSubmit }) => {
+const CompleteProfileForm = ({ onSubmit, onSkip }) => {
 	const [avatar, setAvatar] = useState(null);
 	const [formData, setFormData] = useState({
 		about: '',
@@ -165,7 +165,18 @@ const CompleteProfileForm = ({ onSubmit }) => {
 							)}
 						</Field>
 
-						<Box mt={'40px'} textAlign={'end'} mb={'20px'}>
+						<Flex justifyContent={'space-around'} mt={'30px'}>
+							<Button
+								size='lg'
+								mr={'20px'}
+								variant={'outline'}
+								color={'blue.400'}
+								bg={'white'}
+								_hover={{ bg: 'gray.100' }}
+								onClick={onSkip}>
+								Skip
+							</Button>
+
 							<Button
 								bg='blue.400'
 								color={'white'}
@@ -175,7 +186,7 @@ const CompleteProfileForm = ({ onSubmit }) => {
 								type='submit'>
 								Continue
 							</Button>
-						</Box>
+						</Flex>
 					</Form>
 				)}
 			</Formik>
