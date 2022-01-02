@@ -18,7 +18,6 @@ const PlacesAutocomplete = ({ onSelectedPlace, type, clearSelectedPlace }) => {
 	const dispatch = useDispatch();
 
 	const searchPlace = () => {
-		console.log('searching', searchTerm);
 		if (searchTerm.length >= 3 && selectedLocationName !== searchTerm) {
 			setIsSearching(true);
 			setOptions([]);

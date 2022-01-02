@@ -4,48 +4,21 @@ import LandingLayout from '../components/layouts/LandingLayout';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import * as cookie from 'cookie';
+import HomeLayout from '../components/layouts/Home/HomeLayout';
 
-export default (props) => {
+export default () => {
 	const auth = useSelector((state) => state.auth);
 	const router = useRouter();
-	// useEffect(() => {
-	// 	if (auth.isAuthenticated) {
-	// 		return router.push('/home');
-	// 	}
-	// }, [auth]);
 
-	// if (!auth.isAuthenticated) {
-	// 	return <LandingLayout />;
-	// }
+	useEffect(() => {
+		if (!auth.isLoading) {
+			if (auth.isAuthenticated) {
+				return <HomeLayout />;
+			} else {
+				return <LandingLayout />;
+			}
+		}
+	}, [auth]);
 
-	// return <div>Loading...</div>;
-	return <div>{!props.isAuthenticated && <LandingLayout />}</div>;
-};
-
-export const getServerSideProps = async (context) => {
-	const cookies = context.req ? context.req.headers.cookie : null;
-	let isAuthenticated = false;
-	if (!cookies) {
-		return {
-			props: {
-				isAuthenticated,
-			},
-		};
-	}
-
-	const parsedCookies = cookie.parse(cookies);
-
-	if (parsedCookies.refreshToken) {
-		return {
-			redirect: {
-				destination: '/home',
-			},
-		};
-	}
-
-	return {
-		props: {
-			isAuthenticated,
-		},
-	};
+	return <div>{!auth.isLoading && (!auth.isAuthenticated ? <LandingLayout /> : null)}</div>;
 };

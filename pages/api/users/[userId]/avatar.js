@@ -40,7 +40,6 @@ const avatarHandler = async (req, res) => {
 						message: 'You need to create a profile first in order to upload an avatar!',
 					});
 				}
-				console.log(req.file);
 				profile.avatar.imageType = req.file.mimetype;
 				profile.avatar.buffer = req.file.buffer;
 				await profile.save();
@@ -61,7 +60,8 @@ const avatarHandler = async (req, res) => {
 				const profile = await UserProfile.findOne({
 					user: req.user._id,
 				});
-				if (!profile || !profile.avatar) {
+
+				if (!profile || !profile.avatar.buffer) {
 					return res.status(404).json({
 						message: 'No Profile Avatar found',
 					});

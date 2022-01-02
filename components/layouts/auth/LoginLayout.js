@@ -29,8 +29,8 @@ const LoginLayout = (props) => {
 					status: 'success',
 					duration: 4000,
 				});
+				router.push('/');
 			}
-			return router.push('/home');
 		} else if (auth.error) {
 			//show error excluding load user attempts
 			if (!toast.isActive('error-toast') && !toast.isActive('success-toast')) {

@@ -24,7 +24,6 @@ const CompleteProfileForm = ({ onSubmit, onSkip }) => {
 		favouriteCities: [],
 	});
 	const onFileAccepted = (file) => {
-		console.log(file);
 		setFormData({ ...formData, photo: file });
 	};
 	const handleValidation = (values) => {

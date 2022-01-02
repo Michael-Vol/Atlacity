@@ -91,6 +91,8 @@ const profileHandler = async (req, res) => {
 						return city._id;
 					})
 				);
+
+				console.log(favouriteCities);
 				const profile = new UserProfile({
 					user: req.user._id,
 					about: req.body.about,

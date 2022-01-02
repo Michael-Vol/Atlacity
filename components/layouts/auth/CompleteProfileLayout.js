@@ -44,7 +44,7 @@ const CompleteProfileLayout = ({ onRegisterSuccess, onSkip }) => {
 					return toast({
 						id: 'error-toast',
 						title: 'Error',
-						description: profile.message || profile.error.response.data.message,
+						description: profile.message || profile.error.message || 'Something went wrong',
 						status: 'error',
 						duration: 4000,
 						isClosable: true,

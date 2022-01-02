@@ -10,7 +10,7 @@ import { loadUser } from '../actions/auth/loadUser';
 import { useStore } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { wrapper } from '../store/store';
-
+import Router from 'next/router';
 const breakpoints = createBreakpoints({
 	sm: '30em',
 	md: '48em',
@@ -51,12 +51,14 @@ function AtlacityApp({ Component, pageProps }) {
 
 	useEffect(() => {
 		//Request new access token every 6 minutes
-		if (auth.isAuthenticated) {
-			const authRefresh = async () => {
-				store.dispatch(refreshToken());
-			};
-			setInterval(authRefresh, 100 * 60 * 60);
-			authRefresh();
+		if (!auth.isLoading) {
+			if (auth.isAuthenticated) {
+				const authRefresh = async () => {
+					store.dispatch(refreshToken());
+				};
+				setInterval(authRefresh, 100 * 60 * 60);
+				authRefresh();
+			}
 		}
 	}, [auth]);
 

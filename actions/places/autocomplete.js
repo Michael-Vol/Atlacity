@@ -7,10 +7,8 @@ export const placesAutocomplete =
 		try {
 			dispatch({ type: types.PLACES_AUTOCOMPLETE_REQUEST });
 			const res = await axios.get(`/api/places/autocomplete?place=${place}&limit=${limit}`);
-			console.log(res);
 			dispatch({ type: types.PLACES_AUTOCOMPLETE_SUCCESS, payload: res.data.places });
 		} catch (error) {
-			console.log(error);
 			dispatch({ type: types.PLACES_AUTOCOMPLETE_FAILURE, payload: error.response.data });
 		}
 	};
