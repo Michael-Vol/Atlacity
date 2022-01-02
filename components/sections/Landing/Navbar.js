@@ -50,7 +50,6 @@ const Navbar = () => {
 	};
 
 	useEffect(() => {
-		console.log(profile.isLoading, !!avatar, profile.avatarFetched);
 		if (!profile.isLoading) {
 			if (profile.avatarFetched) {
 				setAvatar(Buffer.from(profile.avatar.buffer.data).toString('base64'));

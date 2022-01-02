@@ -87,7 +87,7 @@ const ChangePassword = () => {
 	};
 
 	return (
-		<Flex flexDir={'column'} color={'blue.500'}>
+		<Flex flexDir={'column'} color={'red.400'}>
 			<Heading fontSize={'36px'} fontWeight={'500'} mb={'40px'}>
 				Change Your Password
 			</Heading>
@@ -182,14 +182,14 @@ const ChangePassword = () => {
 								size='lg'
 								mr={'20px'}
 								variant={'outline'}
-								color={'blue.400'}
+								color={'red.400'}
 								bg={'white'}
 								_hover={{ bg: 'gray.100' }}
 								onClick={() => setFormData(initialData)}>
 								Clear
 							</Button>
 							<Button
-								bg='blue.400'
+								bg='red.400'
 								color={'white'}
 								size='lg'
 								isLoading={auth.isLoading}

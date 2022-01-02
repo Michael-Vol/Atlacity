@@ -9,6 +9,7 @@ const initialState = {
 	avatarUploaded: false,
 	avatarFetched: false,
 	avatar: null,
+	favourites: null,
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +18,7 @@ export default (state = initialState, action) => {
 		case types.UPLOAD_PROFILE_REQUEST:
 		case types.UPLOAD_AVATAR_REQUEST:
 		case types.FETCH_AVATAR_REQUEST:
+		case types.FETCH_FAVOURITES_REQUEST:
 			return {
 				...state,
 				isLoading: true,
@@ -69,6 +71,22 @@ export default (state = initialState, action) => {
 				avatar: null,
 				avatarFetched: false,
 			};
+		case types.FETCH_FAVOURITES_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				error: null,
+				favourites: payload,
+			};
+		case types.FETCH_FAVOURITES_FAILURE:
+			return {
+				...state,
+				isLoading: false,
+				error: payload,
+				favourites: null,
+				message: payload.message,
+			};
+
 		default:
 			return state;
 	}

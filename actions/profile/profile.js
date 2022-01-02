@@ -44,3 +44,13 @@ export const getAvatar = (userId) => async (dispatch) => {
 		dispatch({ type: types.FETCH_AVATAR_FAILURE, payload: error.response.data });
 	}
 };
+
+export const getFavourites = (userId) => async (dispatch) => {
+	try {
+		dispatch({ type: types.FETCH_FAVOURITES_REQUEST });
+		const res = await axios.get(`/api/users/${userId}/favourites`);
+		dispatch({ type: types.FETCH_FAVOURITES_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.FETCH_FAVOURITES_FAILURE, payload: error.response.data });
+	}
+};

@@ -13,6 +13,11 @@ import withAuth from '../../../lib/checkAuthClient';
 import { useSelector } from 'react-redux';
 
 const SettingsLayout = () => {
+	const colorScheme = {
+		'account-info': 'blue.500',
+		'change-password': 'red.800',
+		favourites: 'teal',
+	};
 	const [activeOption, setActiveOption] = useState('account-info');
 	const auth = useSelector((state) => state.auth);
 	const renderActiveOption = () => {
@@ -31,7 +36,7 @@ const SettingsLayout = () => {
 		return (
 			<Grid height={'90vh'} templateRows='repeat(1, 1fr)' templateColumns='repeat(20, 1fr)' gap={1}>
 				<GridItem colSpan={4} rowSpan={'1'}>
-					<Sidebar header='Settings'>
+					<Sidebar header='Settings' bgColor={colorScheme[activeOption]}>
 						<SidebarItem
 							active={'account-info' === activeOption}
 							onClick={() => setActiveOption('account-info')}>
