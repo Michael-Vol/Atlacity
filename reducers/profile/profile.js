@@ -19,6 +19,7 @@ export default (state = initialState, action) => {
 		case types.UPLOAD_AVATAR_REQUEST:
 		case types.FETCH_AVATAR_REQUEST:
 		case types.FETCH_FAVOURITES_REQUEST:
+		case types.ADD_FAVOURITES_REQUEST:
 			return {
 				...state,
 				isLoading: true,
@@ -72,6 +73,7 @@ export default (state = initialState, action) => {
 				avatarFetched: false,
 			};
 		case types.FETCH_FAVOURITES_SUCCESS:
+		case types.ADD_FAVOURITES_SUCCESS:
 			return {
 				...state,
 				isLoading: false,
@@ -79,6 +81,7 @@ export default (state = initialState, action) => {
 				favourites: payload,
 			};
 		case types.FETCH_FAVOURITES_FAILURE:
+		case types.ADD_FAVOURITES_FAILURE:
 			return {
 				...state,
 				isLoading: false,

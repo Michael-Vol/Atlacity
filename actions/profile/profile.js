@@ -54,3 +54,19 @@ export const getFavourites = (userId) => async (dispatch) => {
 		dispatch({ type: types.FETCH_FAVOURITES_FAILURE, payload: error.response.data });
 	}
 };
+
+export const addFavourites = (userId, formData) => async (dispatch) => {
+	try {
+		dispatch({ type: types.ADD_FAVOURITES_REQUEST });
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		const res = await axios.patch(`/api/users/${userId}/favourites`, formData, config);
+
+		dispatch({ type: types.ADD_FAVOURITES_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.ADD_FAVOURITES_FAILURE, payload: error.response.data });
+	}
+};
