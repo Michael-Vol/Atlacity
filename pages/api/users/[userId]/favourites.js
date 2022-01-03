@@ -7,6 +7,8 @@ import validateMiddleware from '../../../../lib/middleware/validateMiddleware';
 import { check, validationResult } from 'express-validator/check';
 import checkUserAccess from '../../../../lib/middleware/checkUserAccess';
 import checkAuth from '../../../../lib/middleware/checkAuth';
+import getEnv from '../../../../config/env';
+import axios from 'axios';
 
 const favouritesHandler = async (req, res) => {
 	switch (req.method) {
@@ -95,6 +97,12 @@ const favouritesHandler = async (req, res) => {
 									locationId: favouriteCity.properties.place_id,
 									name: favouriteCity.properties.name || favouriteCity.properties.city,
 								});
+								//Get photo for city
+								const unsplashKey = getEnv('UNSPLASH_CLIENT_ID');
+								const unsplashResponse = await axios.get(
+									`https://api.unsplash.com/search/photos?page=1&query=${city.name}&client_id=${unsplashKey}`
+								);
+								city.photos = unsplashResponse.data.results[0].urls;
 								await city.save();
 								profile.favouriteCities.push(city._id);
 								await profile.save();
@@ -111,7 +119,9 @@ const favouritesHandler = async (req, res) => {
 					populatedCities = await Promise.all(
 						profile.favouriteCities.map(async (cityId) => {
 							const city = await City.findById(cityId);
-							return city;
+							if (city) {
+								return city;
+							}
 						})
 					);
 				} else if (type === 'favouritePlaces') {
@@ -145,7 +155,9 @@ const favouritesHandler = async (req, res) => {
 					populatedPlaces = await Promise.all(
 						profile.favouritePlaces.map(async (placeId) => {
 							const place = await Place.findById(placeId);
-							return place;
+							if (place) {
+								return place;
+							}
 						})
 					);
 				}

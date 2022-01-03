@@ -8,6 +8,7 @@ import {
 	Grid,
 	GridItem,
 	TagLabel,
+	Box,
 	useDisclosure,
 } from '@chakra-ui/react';
 
@@ -53,7 +54,7 @@ const Favourites = () => {
 				Favourites
 			</Heading>
 
-			{profile.profile.favouriteCities && (
+			{profile.profile && profile.profile.favouriteCities && (
 				<Flex flexDir={'column'}>
 					<Flex
 						alignItems={'center'}
@@ -76,25 +77,46 @@ const Favourites = () => {
 							onSubmit={handleSubmit}
 						/>
 					</Flex>
-					<Grid templateRows='repeat(4, 1fr)' templateColumns='repeat(4, 1fr)' gap={4}>
-						{profile.profile.favouriteCities.map((city, index) => (
-							<Link key={index} href={`/city/${city.name}`}>
-								<GridItem cursor={'pointer'}>
-									<Tag
-										m={'auto'}
-										name={city.name}
-										colorScheme={'teal'}
-										size={'md'}
-										p={'22px'}
-										fontSize={'18px'}
-										borderRadius={'6px'}
-										w={'100%'}>
-										<TagLabel textAlign={'center'}>{city.name}</TagLabel>
-									</Tag>
-								</GridItem>
-							</Link>
-						))}
-					</Grid>
+					{profile.profile.favouriteCities.length > 0 ? (
+						<Grid templateRows='repeat(4, 1fr)' templateColumns='repeat(4, 1fr)' gap={1}>
+							{profile.profile.favouriteCities.map((city, index) => {
+								if (city) {
+									return (
+										<Link key={index} href={`/city/${city.name}`}>
+											<GridItem cursor={'pointer'}>
+												<Flex
+													bgImage={`url(${city.photos.thumb})`}
+													mb={'10px'}
+													w={'200px'}
+													h={'133px'}
+													color={'white'}
+													borderRadius={'6px'}
+													alignItems={'center'}
+													justifyContent={'center'}
+													transition={'all 0.3s ease-in-out'}
+													_hover={{
+														boxShadow:
+															'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px',
+														transform: 'translateY(-5px)',
+													}}>
+													<Text
+														fontSize={'24px'}
+														fontWeight={'700'}
+														textAlign={'center'}>
+														{city.name}
+													</Text>
+												</Flex>
+											</GridItem>
+										</Link>
+									);
+								}
+							})}
+						</Grid>
+					) : (
+						<Text textAlign={'center'} fontSize={'24px'}>
+							You have no favourite cities
+						</Text>
+					)}
 				</Flex>
 			)}
 		</Flex>

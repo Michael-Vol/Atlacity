@@ -61,6 +61,13 @@ const profileHandler = async (req, res) => {
 								req.body.currentLocation.properties.city,
 							locationId: cityInfo.data.features[0].properties.place_id,
 						});
+
+						//Get photo for city
+						const unsplashKey = getEnv('UNSPLASH_API_KEY');
+						const unsplashResponse = await axios.get(
+							`api.unsplash.com/search/photos?page=1&query=${city.name}&client_id=${unsplashKey}`
+						);
+						city.photos = unsplashResponse.data.results[0].urls;
 						await city.save();
 					}
 
@@ -85,6 +92,12 @@ const profileHandler = async (req, res) => {
 								locationId: location.properties.place_id,
 								name: location.properties.name || location.properties.city,
 							});
+							//Get photo for city
+							const unsplashKey = getEnv('UNSPLASH_API_KEY');
+							const unsplashResponse = await axios.get(
+								`api.unsplash.com/search/photos?page=1&query=${city.name}&client_id=${unsplashKey}`
+							);
+							city.photos = unsplashResponse.data.results[0].urls;
 							await city.save();
 						}
 

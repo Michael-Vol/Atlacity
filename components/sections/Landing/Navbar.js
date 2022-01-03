@@ -49,6 +49,10 @@ const Navbar = () => {
 		router.push('/');
 	};
 
+	const goToProfile = () => {
+		return router.push('/profile');
+	};
+
 	useEffect(() => {
 		if (!profile.isLoading) {
 			if (profile.avatarFetched) {
@@ -99,10 +103,21 @@ const Navbar = () => {
 				) : (
 					<Flex mr={'20px'} alignItems={'center'}>
 						{profile.avatar ? (
-							<Avatar mr={'10px'} src={`data:image/png;base64,${avatar}`} />
+							<Avatar
+								cursor={'pointer'}
+								onClick={goToProfile}
+								mr={'10px'}
+								src={`data:image/png;base64,${avatar}`}
+							/>
 						) : (
-							<Avatar mr={'10px'} name={`${auth.user.firstName} ${auth.user.lastName}`} />
+							<Avatar
+								cursor={'pointer'}
+								onClick={goToProfile}
+								mr={'10px'}
+								name={`${auth.user.firstName} ${auth.user.lastName}`}
+							/>
 						)}
+
 						<Menu>
 							<MenuButton>
 								<RiArrowDownSFill size={'20px'} onClick={() => setShowMenu(!showMenu)} />

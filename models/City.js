@@ -17,11 +17,9 @@ const citySchema = new mongoose.Schema({
 			ref: 'User',
 		},
 	],
-	photo: [
-		{
-			type: Buffer,
-		},
-	],
+	photos: {
+		type: Object,
+	},
 });
 
 const City = mongoose.models.City || mongoose.model('City', citySchema);
