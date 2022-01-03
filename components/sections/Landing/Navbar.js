@@ -31,7 +31,7 @@ const MenuItems = (props) => {
 		</Text>
 	);
 };
-const Navbar = () => {
+const Navbar = (props) => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const store = useStore();
@@ -45,12 +45,12 @@ const Navbar = () => {
 
 	const handleLogout = async () => {
 		await dispatch(logout());
-		store.__persistor.purge();
 		router.push('/');
+		store.__persistor.purge();
 	};
 
 	const goToProfile = () => {
-		return router.push('/profile');
+		return router.push('/user/profile');
 	};
 
 	useEffect(() => {
@@ -64,7 +64,15 @@ const Navbar = () => {
 	}, [auth, profile]);
 
 	return (
-		<Flex as='nav' align='center' justify='space-between' w='100%' px='15px' py='20px' h={'10vh'}>
+		<Flex
+			as='nav'
+			align='center'
+			justify='space-between'
+			w='100%'
+			px='15px'
+			py='20px'
+			h={'10vh'}
+			{...props}>
 			<Flex justify='center'>
 				<Box display={{ base: 'block', md: 'none' }}>
 					<HamburgerIcon boxSize={6} />
@@ -102,21 +110,13 @@ const Navbar = () => {
 					</Fragment>
 				) : (
 					<Flex mr={'20px'} alignItems={'center'}>
-						{profile.avatar ? (
-							<Avatar
-								cursor={'pointer'}
-								onClick={goToProfile}
-								mr={'10px'}
-								src={`data:image/png;base64,${avatar}`}
-							/>
-						) : (
-							<Avatar
-								cursor={'pointer'}
-								onClick={goToProfile}
-								mr={'10px'}
-								name={`${auth.user.firstName} ${auth.user.lastName}`}
-							/>
-						)}
+						<Avatar
+							cursor={'pointer'}
+							onClick={goToProfile}
+							mr={'10px'}
+							src={avatar && `data:image/png;base64,${avatar}`}
+							name={`${auth.user.firstName} ${auth.user.lastName}`}
+						/>
 
 						<Menu>
 							<MenuButton>

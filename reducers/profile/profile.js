@@ -10,6 +10,7 @@ const initialState = {
 	avatarFetched: false,
 	avatar: null,
 	favouritesUpdated: null,
+	favouritesFetched: null,
 };
 
 export default (state = initialState, action) => {
@@ -82,6 +83,7 @@ export default (state = initialState, action) => {
 					favouritePlaces: payload.favouritePlaces,
 					favouriteCities: payload.favouriteCities,
 				},
+				favouritesFetched: true,
 			};
 		case types.FETCH_FAVOURITES_FAILURE:
 			return {
@@ -89,6 +91,7 @@ export default (state = initialState, action) => {
 				isLoading: false,
 				error: payload,
 				message: payload.message,
+				favouritesFetched: false,
 			};
 
 		case types.ADD_FAVOURITES_SUCCESS:

@@ -70,7 +70,6 @@ function AtlacityApp({ Component, pageProps }) {
 		!auth.isLoading && (
 			<PersistGate loading={null} persistor={store.__persistor}>
 				<ChakraProvider theme={theme}>
-					<Navbar />
 					<Component {...pageProps} />
 				</ChakraProvider>
 			</PersistGate>

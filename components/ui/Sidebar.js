@@ -1,6 +1,5 @@
 import React from 'react';
 import { Flex, Heading } from '@chakra-ui/react';
-import SidebarItem from './SidebarItem';
 
 const Sidebar = (props) => {
 	return (
@@ -9,7 +8,8 @@ const Sidebar = (props) => {
 			flexDir={'column'}
 			bgColor={props.bgColor || 'blue.500'}
 			h={'100%'}
-			transition={'0.2s ease-in-out'}>
+			transition={'0.2s ease-in-out'}
+			{...props}>
 			{props.header && (
 				<Heading fontSize={'32px'} color={'white'} mb={'20px'}>
 					{props.header}

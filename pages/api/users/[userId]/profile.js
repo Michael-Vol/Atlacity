@@ -25,16 +25,16 @@ const profileHandler = async (req, res) => {
 	switch (req.method) {
 		case 'POST':
 			try {
-				//Check if profile exists
-				const existingProfile = await UserProfile.findOne({
-					user: req.user._id,
-				});
-				if (existingProfile) {
-					return res.status(400).json({
-						message: 'Profile already exists',
-					});
-				}
-				const db = await connectToDB();
+				// //Check if profile exists
+				// const existingProfile = await UserProfile.findOne({
+				// 	user: req.user._id,
+				// });
+				// if (existingProfile) {
+				// 	return res.status(400).json({
+				// 		message: 'Profile already exists',
+				// 	});
+				// }
+				await connectToDB();
 
 				await validateBody(req, res);
 
@@ -93,9 +93,9 @@ const profileHandler = async (req, res) => {
 								name: location.properties.name || location.properties.city,
 							});
 							//Get photo for city
-							const unsplashKey = getEnv('UNSPLASH_API_KEY');
+							const unsplashKey = getEnv('UNSPLASH_CLIENT_ID');
 							const unsplashResponse = await axios.get(
-								`api.unsplash.com/search/photos?page=1&query=${city.name}&client_id=${unsplashKey}`
+								`https://api.unsplash.com/search/photos?page=1&query=${city.name}&client_id=${unsplashKey}`
 							);
 							city.photos = unsplashResponse.data.results[0].urls;
 							await city.save();

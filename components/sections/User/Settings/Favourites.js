@@ -33,6 +33,7 @@ const Favourites = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	useEffect(() => {
+		console.log('profile.isLoading', profile.isLoading);
 		if (!profile.isLoading) {
 			dispatch(getFavourites(auth.user._id));
 		}
@@ -77,8 +78,8 @@ const Favourites = () => {
 							onSubmit={handleSubmit}
 						/>
 					</Flex>
-					{profile.profile.favouriteCities.length > 0 ? (
-						<Grid templateRows='repeat(4, 1fr)' templateColumns='repeat(4, 1fr)' gap={1}>
+					{profile.favouritesFetched && profile.profile.favouriteCities.length > 0 ? (
+						<Grid templateRows='repeat(4, 1fr)' templateColumns='repeat(4, 1fr)' gap={2}>
 							{profile.profile.favouriteCities.map((city, index) => {
 								if (city) {
 									return (

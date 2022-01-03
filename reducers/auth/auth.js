@@ -66,8 +66,8 @@ export default (state = initialState, action) => {
 			};
 		case types.LOGOUT_SUCCESS:
 			localStorage.removeItem('accessToken');
-
-			return state;
+			console.log(payload, state);
+			return { ...state, isLoading: false, isAuthenticated: false, user: null, accessToken: null };
 		case types.UPDATE_ACCOUNT_INFO_SUCCESS:
 			return {
 				...state,
