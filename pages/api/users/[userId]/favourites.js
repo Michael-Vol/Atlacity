@@ -80,6 +80,7 @@ const favouritesHandler = async (req, res) => {
 						message: 'Invalid update',
 					});
 				}
+				let populatedCities, populatedPlaces;
 
 				if (type === 'favouriteCities') {
 					await Promise.all(
@@ -96,6 +97,7 @@ const favouritesHandler = async (req, res) => {
 								});
 								await city.save();
 								profile.favouriteCities.push(city._id);
+								await profile.save();
 							} else {
 								//Check if city is already in profile favourites
 								const isProfileDuplicate = profile.favouriteCities.includes(existingCity._id);
@@ -104,6 +106,12 @@ const favouritesHandler = async (req, res) => {
 									await profile.save();
 								}
 							}
+						})
+					);
+					populatedCities = await Promise.all(
+						profile.favouriteCities.map(async (cityId) => {
+							const city = await City.findById(cityId);
+							return city;
 						})
 					);
 				} else if (type === 'favouritePlaces') {
@@ -134,11 +142,20 @@ const favouritesHandler = async (req, res) => {
 							}
 						})
 					);
+					populatedPlaces = await Promise.all(
+						profile.favouritePlaces.map(async (placeId) => {
+							const place = await Place.findById(placeId);
+							return place;
+						})
+					);
 				}
 				return res.json({
 					message: 'Favourites updated',
-					favourites:
-						type === 'favouriteCities' ? profile.favouriteCities : profile.favouritePlaces,
+					profile: {
+						...profile,
+						favouriteCities: populatedCities,
+						favouritePlaces: populatedPlaces,
+					},
 				});
 			} catch (error) {
 				console.log(error);

@@ -18,6 +18,7 @@ import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FaCity } from 'react-icons/fa';
 
 import AddFavouriteModal from './AddFavouriteModal';
+import { addFavourites } from '../../../../actions/profile/profile';
 
 const Favourites = () => {
 	const profile = useSelector((state) => state.profile);
@@ -36,30 +37,24 @@ const Favourites = () => {
 		}
 	}, []);
 
+	const handleSubmit = (values) => {
+		console.log(values);
+		dispatch(
+			addFavourites(auth.user._id, {
+				favourites: values.favouriteCities,
+				type: 'favouriteCities',
+			})
+		);
+	};
+
 	return (
 		<Flex flexDir={'column'} color={'teal.600'}>
 			<Heading fontSize={'38px'} fontWeight={'600'} mb={'20px'}>
 				Favourites
 			</Heading>
 
-			{profile.favourites && (
+			{profile.profile.favouriteCities && (
 				<Flex flexDir={'column'}>
-					<Grid templateRows='repeat(5, 1fr)' templateColumns='repeat(5, 1fr)' gap={1}>
-						{profile.favourites.favouritePlaces.map((place) => (
-							<GridItem>
-								<Tag
-									name={place.name}
-									m={'auto'}
-									colorScheme={'green'}
-									size={'md'}
-									p={'14px'}
-									fontSize={'18px'}
-									borderRadius={'6px'}>
-									{place.name}
-								</Tag>
-							</GridItem>
-						))}
-					</Grid>
 					<Flex
 						alignItems={'center'}
 						color={'teal.500'}
@@ -78,18 +73,19 @@ const Favourites = () => {
 							finalFocusRef={finalFocusRef}
 							isOpen={isOpen}
 							onClose={onClose}
+							onSubmit={handleSubmit}
 						/>
 					</Flex>
-					<Grid templateRows='repeat(5, 1fr)' templateColumns='repeat(5, 1fr)' gap={1}>
-						{profile.favourites.favouriteCities.map((city) => (
-							<Link href={`/city/${city.name}`}>
+					<Grid templateRows='repeat(4, 1fr)' templateColumns='repeat(4, 1fr)' gap={4}>
+						{profile.profile.favouriteCities.map((city, index) => (
+							<Link key={index} href={`/city/${city.name}`}>
 								<GridItem cursor={'pointer'}>
 									<Tag
 										m={'auto'}
 										name={city.name}
 										colorScheme={'teal'}
 										size={'md'}
-										p={'14px'}
+										p={'22px'}
 										fontSize={'18px'}
 										borderRadius={'6px'}
 										w={'100%'}>

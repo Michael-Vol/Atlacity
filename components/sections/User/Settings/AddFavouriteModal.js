@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Flex,
 	Text,
@@ -6,8 +6,6 @@ import {
 	FormControl,
 	FormLabel,
 	FormErrorMessage,
-	FormHelperText,
-	Input,
 	useToast,
 	Modal,
 	ModalHeader,
@@ -22,10 +20,11 @@ import Button from '../../../../components/ui/Button';
 import { Formik, Form, Field } from 'formik';
 import PlacesAutocomplete from '../../../ui/PlacesAutocomplete';
 
-const AddFavouriteModal = ({ type, initialFocusRef, finalFocusRef, isOpen, onClose }) => {
-	const [formData, setFormData] = useState({
+const AddFavouriteModal = ({ type, initialFocusRef, finalFocusRef, isOpen, onClose, onSubmit }) => {
+	const initialData = {
 		favouriteCities: [],
-	});
+	};
+	const [formData, setFormData] = useState(initialData);
 
 	const handleValidation = () => {
 		const errors = {};
@@ -47,14 +46,16 @@ const AddFavouriteModal = ({ type, initialFocusRef, finalFocusRef, isOpen, onClo
 				<ModalCloseButton />
 
 				<ModalBody>
-					<Flex flexDir={'column'} mr={'50px'}>
+					<Flex flexDir={'column'} justifyContent={'center'} px={'20px'}>
 						<Formik
-							enableReinitialize
-							initialValues={formData}
 							validate={handleValidation}
+							enableReinitialize
+							initialValues={initialData}
 							onSubmit={(values, { setSubmitting }) => {
 								setSubmitting(true);
-								onSubmit(values);
+								onSubmit(formData);
+								setFormData(initialData);
+								onClose();
 							}}>
 							{(props) => (
 								<Form
@@ -63,11 +64,10 @@ const AddFavouriteModal = ({ type, initialFocusRef, finalFocusRef, isOpen, onClo
 											keyEvent.preventDefault();
 										}
 									}}>
-									<Flex>
+									<Flex flexDir={'column'}>
 										<Field name='favouriteCities'>
 											{({ field, form }) => (
 												<FormControl
-													mt={'20px'}
 													isInvalid={
 														form.errors.favouriteCities &&
 														form.touched.favouriteCities
@@ -79,8 +79,9 @@ const AddFavouriteModal = ({ type, initialFocusRef, finalFocusRef, isOpen, onClo
 														return (
 															<Badge
 																key={index}
-																mb={2}
-																mr={2}
+																m={'0px 10px 10px 0px'}
+																p={'5px'}
+																borderRadius={'6px'}
 																colorScheme={'teal'}>
 																<span>
 																	{place.properties && (
@@ -100,7 +101,6 @@ const AddFavouriteModal = ({ type, initialFocusRef, finalFocusRef, isOpen, onClo
 																)
 															) {
 																setFormData({
-																	...formData,
 																	favouriteCities: [
 																		...formData.favouriteCities,
 																		place,
@@ -120,43 +120,43 @@ const AddFavouriteModal = ({ type, initialFocusRef, finalFocusRef, isOpen, onClo
 															});
 														}}
 													/>
-													<FormHelperText>
-														Choose your favourite cities{' '}
-													</FormHelperText>
+
 													<FormErrorMessage>
 														{form.errors.favouriteCities}
 													</FormErrorMessage>
 												</FormControl>
 											)}
 										</Field>
+
+										<Flex my={'20px'} justifyContent={'flex-end'}>
+											<Button
+												size='md'
+												mr={'20px'}
+												variant={'outline'}
+												color={'teal'}
+												bg={'white'}
+												_hover={{ bg: 'gray.100' }}
+												onClick={() => {
+													setFormData(initialData);
+													onClose();
+												}}>
+												Cancel
+											</Button>
+											<Button
+												color={'white'}
+												bg={'teal'}
+												size='md'
+												_hover={{ bg: 'teal.700' }}
+												type='submit'>
+												Add
+											</Button>
+										</Flex>
 									</Flex>
 								</Form>
 							)}
 						</Formik>
 					</Flex>
 				</ModalBody>
-				<ModalFooter>
-					<Flex>
-						<Button
-							size='md'
-							mr={'20px'}
-							variant={'outline'}
-							color={'teal'}
-							bg={'white'}
-							_hover={{ bg: 'gray.100' }}
-							onClick={onClose}>
-							Cancel
-						</Button>
-						<Button
-							color={'white'}
-							bg={'teal'}
-							size='md'
-							onClick={onClose}
-							_hover={{ bg: 'teal.700' }}>
-							Add
-						</Button>
-					</Flex>
-				</ModalFooter>
 			</ModalContent>
 		</Modal>
 	);

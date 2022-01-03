@@ -9,7 +9,7 @@ const initialState = {
 	avatarUploaded: false,
 	avatarFetched: false,
 	avatar: null,
-	favourites: null,
+	favouritesUpdated: null,
 };
 
 export default (state = initialState, action) => {
@@ -73,23 +73,41 @@ export default (state = initialState, action) => {
 				avatarFetched: false,
 			};
 		case types.FETCH_FAVOURITES_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				error: null,
+				profile: {
+					...state.profile,
+					favouritePlaces: payload.favouritePlaces,
+					favouriteCities: payload.favouriteCities,
+				},
+			};
+		case types.FETCH_FAVOURITES_FAILURE:
+			return {
+				...state,
+				isLoading: false,
+				error: payload,
+				message: payload.message,
+			};
+
 		case types.ADD_FAVOURITES_SUCCESS:
 			return {
 				...state,
 				isLoading: false,
 				error: null,
-				favourites: payload,
+				message: payload.message,
+				profile: payload.profile,
+				favouritesUpdated: true,
 			};
-		case types.FETCH_FAVOURITES_FAILURE:
 		case types.ADD_FAVOURITES_FAILURE:
 			return {
 				...state,
 				isLoading: false,
 				error: payload,
-				favourites: null,
 				message: payload.message,
+				favouritesUpdated: false,
 			};
-
 		default:
 			return state;
 	}

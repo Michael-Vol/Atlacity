@@ -22,7 +22,7 @@ const PlacesAutocomplete = ({ onSelectedPlace, type, clearSelectedPlace }) => {
 			setIsSearching(true);
 			setOptions([]);
 			setSelectedLocation(null);
-			dispatch(placesAutocomplete(searchTerm, 3));
+			dispatch(placesAutocomplete(searchTerm, 5));
 		}
 	};
 
@@ -50,7 +50,6 @@ const PlacesAutocomplete = ({ onSelectedPlace, type, clearSelectedPlace }) => {
 		setSelectedLocation(null);
 		setSearchTerm('');
 		setOptions([]);
-		// clearSelectedPlace();
 	};
 
 	return (
@@ -71,7 +70,15 @@ const PlacesAutocomplete = ({ onSelectedPlace, type, clearSelectedPlace }) => {
 				</InputRightElement>
 			</InputGroup>
 			{options.length > 0 && searchTerm !== '' && (
-				<Flex key={type} id={type} flexDir={'column'} bg='gray.50' rounded={'md'} p={'10px'}>
+				<Flex
+					key={type}
+					id={type}
+					flexDir={'column'}
+					bg='gray.50'
+					rounded={'md'}
+					p={'15px'}
+					maxH={'160px'}
+					overflow={'scroll'}>
 					{options.map((option, index) => (
 						<Box
 							key={index}

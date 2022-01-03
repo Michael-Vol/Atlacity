@@ -12,6 +12,7 @@ export default async (req, res) => {
 					`https://api.geoapify.com/v1/geocode/autocomplete?text=${place}&limit=${limit}&apiKey=${apiKey}`
 				);
 
+				console.log(places.data);
 				return res.json({
 					places: places.data.features,
 				});
