@@ -23,17 +23,50 @@ const validateBody = initializeMiddleware(
 
 const profileHandler = async (req, res) => {
 	switch (req.method) {
+		case 'GET':
+			try {
+				await connectToDB();
+				const profile = await UserProfile.findOne({ user: req.user._id });
+				if (!profile) {
+					return res.status(404).json({
+						message: 'User profile not found',
+					});
+				}
+				//Populate favourites
+
+				const { favouritePlaces, favouriteCities } = profile;
+				const populatedPlaces = await Promise.all(
+					favouritePlaces.map(async (placeId) => {
+						const place = await Place.findById(placeId);
+						return place;
+					})
+				);
+				const populatedCities = await Promise.all(
+					favouriteCities.map(async (cityId) => {
+						const city = await City.findById(cityId);
+						return city;
+					})
+				);
+
+				//Remove avatar from response
+				const { avatar, ...rest } = profile.toObject();
+				const filteredProfile = {
+					...rest,
+					favouritePlaces: populatedPlaces,
+					favouriteCities: populatedCities,
+				};
+
+				return res.json({
+					profile: filteredProfile,
+				});
+			} catch (error) {
+				console.log(error);
+				res.status(500).json({
+					message: 'Something went wrong',
+				});
+			}
 		case 'POST':
 			try {
-				// //Check if profile exists
-				// const existingProfile = await UserProfile.findOne({
-				// 	user: req.user._id,
-				// });
-				// if (existingProfile) {
-				// 	return res.status(400).json({
-				// 		message: 'Profile already exists',
-				// 	});
-				// }
 				await connectToDB();
 
 				await validateBody(req, res);
