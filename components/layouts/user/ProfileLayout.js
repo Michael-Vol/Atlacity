@@ -10,6 +10,8 @@ import { BiBook } from 'react-icons/bi';
 import { BsFillDoorOpenFill } from 'react-icons/bs';
 
 import AboutSection from '../../sections/User/Profile/AboutSection';
+import TimelineSection from '../../sections/User/Profile/TimelineSection';
+
 import Button from '../../ui/Button';
 import { getProfile } from '../../../actions/profile/profile';
 
@@ -41,6 +43,8 @@ const ProfileLayout = () => {
 	};
 	const renderActiveSection = () => {
 		switch (activeSection) {
+			case 'timeline':
+				return <TimelineSection />;
 			case 'about':
 				return <AboutSection />;
 			default:
@@ -104,7 +108,7 @@ const ProfileLayout = () => {
 							</Heading>
 						</Flex>
 						<Button bgColor={'blue.800'} size={'lg'}>
-							<Text fontSize={'14px'}>Connect</Text>
+							<Text fontSize={'14px'}>Follow</Text>
 						</Button>
 					</Flex>
 					{renderActiveSection()}

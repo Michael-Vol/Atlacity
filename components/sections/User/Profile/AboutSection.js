@@ -11,7 +11,7 @@ const AboutSection = () => {
 		<div>
 			{profile.profile && (
 				<Flex flexDir={'column'} mt={'40px'} p={'30px'} color={'blue.500'}>
-					<Flex flexDir={'column'} fontSize={'22px'} fontWeight={'400'}>
+					<Flex flexDir={'column'} fontSize={'18px'} fontWeight={'400'}>
 						<Flex alignItems={'center'}>
 							<MdPlace />
 							<Text ml={'10px'}> {profile.profile.currentLocation.name}</Text>
@@ -42,7 +42,12 @@ const AboutSection = () => {
 							Favourite Places
 						</Heading>
 						{profile.profile.favouritePlaces.length > 0 ? (
-							<Grid overflow={'scroll'} mt={'20px'} templateColumns='repeat(4, 1fr)' gap={2}>
+							<Grid
+								overflow={'scroll'}
+								mt={'20px'}
+								templateColumns='repeat(4, 1fr)'
+								gap={2}
+								p={'20px'}>
 								{profile.profile.favouritePlaces.map((city, index) => {
 									if (city) {
 										return <CityItem city={city} key={index} />;
@@ -59,7 +64,12 @@ const AboutSection = () => {
 						<Heading fontSize={'22px'} fontWeight={'500'}>
 							Favourite Cities
 						</Heading>
-						<Grid overflow={'scroll'} mt={'20px'} templateColumns='repeat(4, 1fr)' gap={2}>
+						<Grid
+							overflow={'scroll'}
+							mt={'20px'}
+							templateColumns='repeat(4, 1fr)'
+							gap={2}
+							p={'20px'}>
 							{profile.profile.favouriteCities.map((city, index) => {
 								if (city) {
 									return <CityItem city={city} key={index} />;
