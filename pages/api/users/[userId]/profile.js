@@ -32,9 +32,11 @@ const profileHandler = async (req, res) => {
 						message: 'User profile not found',
 					});
 				}
+				const { favouritePlaces, favouriteCities, currentLocation } = profile;
+				//Populate currentLocation
+				const populatedCurrentLocation = await Place.findById(currentLocation);
 				//Populate favourites
 
-				const { favouritePlaces, favouriteCities } = profile;
 				const populatedPlaces = await Promise.all(
 					favouritePlaces.map(async (placeId) => {
 						const place = await Place.findById(placeId);
@@ -54,10 +56,12 @@ const profileHandler = async (req, res) => {
 					...rest,
 					favouritePlaces: populatedPlaces,
 					favouriteCities: populatedCities,
+					currentLocation: populatedCurrentLocation,
 				};
 
 				return res.json({
 					profile: filteredProfile,
+					message: 'User profile found',
 				});
 			} catch (error) {
 				console.log(error);

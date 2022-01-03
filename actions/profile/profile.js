@@ -1,6 +1,16 @@
 import * as types from '../types';
 import axios from 'axios';
 
+export const getProfile = (userId) => async (dispatch) => {
+	try {
+		dispatch({ type: types.FETCH_PROFILE_REQUEST });
+		const res = await axios.get(`/api/users/${userId}/profile`);
+		dispatch({ type: types.FETCH_PROFILE_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.FETCH_PROFILE_FAILURE, payload: error.message });
+	}
+};
+
 export const uploadProfile = (profileData, userId) => async (dispatch) => {
 	try {
 		dispatch({ type: types.UPLOAD_PROFILE_REQUEST });

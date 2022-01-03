@@ -13,13 +13,12 @@ import {
 } from '@chakra-ui/react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getFavourites } from '../../../../actions/profile/profile';
-import Link from 'next/link';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FaCity } from 'react-icons/fa';
 
 import AddFavouriteModal from './AddFavouriteModal';
-import { addFavourites } from '../../../../actions/profile/profile';
+import CityItem from '../../../ui/CityItem';
+import { getProfile } from '../../../../actions/profile/profile';
 
 const Favourites = () => {
 	const profile = useSelector((state) => state.profile);
@@ -33,9 +32,8 @@ const Favourites = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	useEffect(() => {
-		console.log('profile.isLoading', profile.isLoading);
 		if (!profile.isLoading) {
-			dispatch(getFavourites(auth.user._id));
+			dispatch(getProfile(auth.user._id));
 		}
 	}, []);
 
@@ -82,34 +80,7 @@ const Favourites = () => {
 						<Grid templateRows='repeat(4, 1fr)' templateColumns='repeat(4, 1fr)' gap={2}>
 							{profile.profile.favouriteCities.map((city, index) => {
 								if (city) {
-									return (
-										<Link key={index} href={`/city/${city.name}`}>
-											<GridItem cursor={'pointer'}>
-												<Flex
-													bgImage={`url(${city.photos.thumb})`}
-													mb={'10px'}
-													w={'200px'}
-													h={'133px'}
-													color={'white'}
-													borderRadius={'6px'}
-													alignItems={'center'}
-													justifyContent={'center'}
-													transition={'all 0.3s ease-in-out'}
-													_hover={{
-														boxShadow:
-															'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px',
-														transform: 'translateY(-5px)',
-													}}>
-													<Text
-														fontSize={'24px'}
-														fontWeight={'700'}
-														textAlign={'center'}>
-														{city.name}
-													</Text>
-												</Flex>
-											</GridItem>
-										</Link>
-									);
+									return <CityItem city={city} key={index} />;
 								}
 							})}
 						</Grid>

@@ -16,15 +16,17 @@ const initialState = {
 export default (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
+		case types.FETCH_PROFILE_REQUEST:
 		case types.UPLOAD_PROFILE_REQUEST:
 		case types.UPLOAD_AVATAR_REQUEST:
 		case types.FETCH_AVATAR_REQUEST:
-		case types.FETCH_FAVOURITES_REQUEST:
+		// case types.FETCH_FAVOURITES_REQUEST:
 		case types.ADD_FAVOURITES_REQUEST:
 			return {
 				...state,
 				isLoading: true,
 			};
+		case types.FETCH_PROFILE_SUCCESS:
 		case types.UPLOAD_PROFILE_SUCCESS:
 			return {
 				...state,
@@ -33,6 +35,7 @@ export default (state = initialState, action) => {
 				message: payload.message,
 				profile: payload.profile,
 			};
+		case types.FETCH_PROFILE_FAILURE:
 		case types.UPLOAD_PROFILE_FAILURE:
 			return {
 				...state,
@@ -73,26 +76,26 @@ export default (state = initialState, action) => {
 				avatar: null,
 				avatarFetched: false,
 			};
-		case types.FETCH_FAVOURITES_SUCCESS:
-			return {
-				...state,
-				isLoading: false,
-				error: null,
-				profile: {
-					...state.profile,
-					favouritePlaces: payload.favouritePlaces,
-					favouriteCities: payload.favouriteCities,
-				},
-				favouritesFetched: true,
-			};
-		case types.FETCH_FAVOURITES_FAILURE:
-			return {
-				...state,
-				isLoading: false,
-				error: payload,
-				message: payload.message,
-				favouritesFetched: false,
-			};
+		// case types.FETCH_FAVOURITES_SUCCESS:
+		// 	return {
+		// 		...state,
+		// 		isLoading: false,
+		// 		error: null,
+		// 		profile: {
+		// 			...state.profile,
+		// 			favouritePlaces: payload.favouritePlaces,
+		// 			favouriteCities: payload.favouriteCities,
+		// 		},
+		// 		favouritesFetched: true,
+		// 	};
+		// case types.FETCH_FAVOURITES_FAILURE:
+		// 	return {
+		// 		...state,
+		// 		isLoading: false,
+		// 		error: payload,
+		// 		message: payload.message,
+		// 		favouritesFetched: false,
+		// 	};
 
 		case types.ADD_FAVOURITES_SUCCESS:
 			return {

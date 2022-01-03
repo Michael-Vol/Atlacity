@@ -6,21 +6,27 @@ import checkAuth from '../../../lib/checkAuthClient';
 import Sidebar from '../../ui/Sidebar';
 import SidebarItem from '../../ui/SidebarItem';
 import { FcTimeline, FcAbout } from 'react-icons/fc';
-import { MdPlace } from 'react-icons/md';
 import { BiBook } from 'react-icons/bi';
+import { BsFillDoorOpenFill } from 'react-icons/bs';
 
 import AboutSection from '../../sections/User/Profile/AboutSection';
 import Button from '../../ui/Button';
+import { getProfile } from '../../../actions/profile/profile';
 
 const ProfileLayout = () => {
+	const dispatch = useDispatch();
 	const auth = useSelector((state) => state.auth);
 	const profile = useSelector((state) => state.profile);
 	const [avatar, setAvatar] = useState();
 	const [activeSection, setActiveSection] = useState('timeline');
 	useEffect(() => {
 		if (!profile.isLoading && profile.avatar) {
-			//set avatar
-			setAvatar(Buffer.from(profile.avatar.buffer.data).toString('base64'));
+			if (profile.avatar) {
+				//set avatar
+				setAvatar(Buffer.from(profile.avatar.buffer.data).toString('base64'));
+			}
+			//Fetch full profile
+			dispatch(getProfile(auth.user._id));
 		}
 	}, []);
 
@@ -78,7 +84,7 @@ const ProfileLayout = () => {
 							<Text ml={'10px'}>About</Text>
 						</SidebarItem>
 						<SidebarItem {...sidebarItemProps} onClick={() => setActiveSection('visits')}>
-							<MdPlace />
+							<BsFillDoorOpenFill />
 							<Text ml={'10px'}>Visits</Text>
 						</SidebarItem>
 						<SidebarItem {...sidebarItemProps} onClick={() => setActiveSection('blog')}>
@@ -96,9 +102,6 @@ const ProfileLayout = () => {
 									{auth.user.firstName} {auth.user.lastName}
 								</Text>
 							</Heading>
-							<Text fontSize={'19px'} color={'blue.500'} mt={'5px'}>
-								Joined Atlacity on {new Date(auth.user.createdAt).toLocaleDateString()}
-							</Text>
 						</Flex>
 						<Button bgColor={'blue.800'} size={'lg'}>
 							<Text fontSize={'14px'}>Connect</Text>
