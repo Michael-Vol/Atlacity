@@ -7,6 +7,7 @@ import { FiTrendingUp } from 'react-icons/fi';
 import checkAuth from '../../../lib/checkAuthClient';
 import { getPopularCities } from '../../../actions/cities/city';
 import Link from 'next/link';
+import CityResults from '../../sections/Cities/Search/CityResults';
 
 const CitySearchLayout = () => {
 	const cities = useSelector((state) => state.cities);
@@ -24,7 +25,6 @@ const CitySearchLayout = () => {
 			if (popular.error) {
 				return console.log(popular.error);
 			} else if (popular.results.length > 0) {
-				console.log(popular.results);
 				setPopularCitiesFetched(true);
 			}
 		}
@@ -37,12 +37,8 @@ const CitySearchLayout = () => {
 					<Heading fontSize={'48px'} color={'white'}>
 						Atlacity Cities
 					</Heading>
-					<InputGroup mt={'30px'} w={'500px'} bgColor={'white'} rounded={'xl'}>
-						<Input placeholder='Search' size='lg' />
-						<InputRightElement mt={'4px'}>
-							<BiSearch size={'1.5em'} />
-						</InputRightElement>
-					</InputGroup>
+					<CityResults />
+
 					<Flex color={'white'} alignItems={'center'} mt={'10px'}>
 						<FiTrendingUp size={'1.5em'} />
 						<Text ml={'10px'} fontSize={'22px'} fontWeight={'500'}>
@@ -50,8 +46,8 @@ const CitySearchLayout = () => {
 						</Text>
 						<Flex ml={'10px'}>
 							{popularCitiesFetched &&
-								cities.popular.results.map((city) => (
-									<Link href={`/cities/name=${city.name}&id=${city._id}`}>
+								cities.popular.results.map((city, index) => (
+									<Link key={index} href={`/cities/name=${city.name}&id=${city._id}`}>
 										<Text
 											_hover={{
 												textDecoration: 'underline',

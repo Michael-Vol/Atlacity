@@ -19,7 +19,7 @@ import { FaCity } from 'react-icons/fa';
 import AddFavouriteModal from './AddFavouriteModal';
 import CityItem from '../../../ui/CityItem';
 import { getProfile } from '../../../../actions/profile/profile';
-
+import { addFavourites } from '../../../../actions/profile/profile';
 const Favourites = () => {
 	const profile = useSelector((state) => state.profile);
 	const auth = useSelector((state) => state.auth);
@@ -76,7 +76,7 @@ const Favourites = () => {
 							onSubmit={handleSubmit}
 						/>
 					</Flex>
-					{profile.favouritesFetched && profile.profile.favouriteCities.length > 0 ? (
+					{profile.profile.favouriteCities.length > 0 ? (
 						<Grid templateRows='repeat(4, 1fr)' templateColumns='repeat(4, 1fr)' gap={2}>
 							{profile.profile.favouriteCities.map((city, index) => {
 								if (city) {

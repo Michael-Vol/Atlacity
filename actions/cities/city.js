@@ -5,11 +5,11 @@ export const searchCities =
 	(name, limit = 5) =>
 	async (dispatch) => {
 		try {
-			dispatch({ type: types.CITIES_POPULAR_REQUEST });
+			dispatch({ type: types.SEARCH_CITIES_REQUEST });
 			const res = await axios.get(`/api/cities/search?name=${name}&limit=${limit}`);
-			dispatch({ type: types.CITIES_POPULAR_SUCCESS, payload: res.data });
+			dispatch({ type: types.SEARCH_CITIES_SUCCESS, payload: res.data });
 		} catch (error) {
-			dispatch({ type: types.FETCH_POPULAR_CITIES_FAILURE, payload: error.message });
+			dispatch({ type: types.SEARCH_CITIES_FAILURE, payload: error.message });
 		}
 	};
 
