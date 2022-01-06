@@ -6,7 +6,7 @@ import CityItem from '../../../ui/CityItem';
 import { BsFillDoorOpenFill, BsCalendarDate } from 'react-icons/bs';
 const AboutSection = () => {
 	const auth = useSelector((state) => state.auth);
-	const profile = useSelector((state) => state.profile);
+	const { profile, avatar } = useSelector((state) => state.profile);
 	return (
 		<div>
 			{profile.profile && (
@@ -41,7 +41,7 @@ const AboutSection = () => {
 						<Heading fontSize={'22px'} fontWeight={'500'}>
 							Favourite Places
 						</Heading>
-						{profile.profile.favouritePlaces.length > 0 ? (
+						{profile.profile.favouritePlaces ? (
 							<Grid
 								overflow={'scroll'}
 								mt={'20px'}

@@ -166,13 +166,13 @@ const favouritesHandler = async (req, res) => {
 						})
 					);
 				}
+
+				//Remove avatar from response
+
 				return res.json({
 					message: 'Favourites updated',
-					profile: {
-						...profile,
-						favouriteCities: populatedCities,
-						favouritePlaces: populatedPlaces,
-					},
+					favouriteCities: populatedCities,
+					favouritePlaces: populatedPlaces,
 				});
 			} catch (error) {
 				console.log(error);

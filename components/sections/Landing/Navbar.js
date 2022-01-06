@@ -38,9 +38,9 @@ const Navbar = (props) => {
 
 	const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
 	const auth = useSelector((state) => state.auth);
-	const profile = useSelector((state) => state.profile);
+	const { profile, avatar } = useSelector((state) => state.profile);
 
-	const [avatar, setAvatar] = useState(null);
+	const [avatarFile, setAvatarFile] = useState(null);
 	const [showMenu, setShowMenu] = useState(false);
 
 	const handleLogout = async () => {
@@ -54,14 +54,14 @@ const Navbar = (props) => {
 	};
 
 	useEffect(() => {
-		if (!profile.isLoading) {
-			if (profile.avatarFetched) {
-				setAvatar(Buffer.from(profile.avatar.buffer.data).toString('base64'));
-			} else if (auth.isAuthenticated && !profile.error) {
+		if (!avatar.isLoading && !avatarFile) {
+			if (avatar.avatar) {
+				setAvatarFile(Buffer.from(avatar.avatar.buffer.data).toString('base64'));
+			} else if (auth.isAuthenticated && !avatar.error) {
 				dispatch(getAvatar(auth.user._id));
 			}
 		}
-	}, [auth, profile]);
+	}, [auth, avatar]);
 
 	return (
 		<Flex
@@ -123,7 +123,7 @@ const Navbar = (props) => {
 							onClick={goToProfile}
 							mr={'10px'}
 							boxSize={'40px'}
-							src={avatar && `data:image/png;base64,${avatar}`}
+							src={avatarFile && `data:image/png;base64,${avatarFile}`}
 							name={`${auth.user.firstName} ${auth.user.lastName}`}
 						/>
 

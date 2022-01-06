@@ -18,15 +18,16 @@ import { getProfile } from '../../../actions/profile/profile';
 const ProfileLayout = () => {
 	const dispatch = useDispatch();
 	const auth = useSelector((state) => state.auth);
-	const profile = useSelector((state) => state.profile);
-	const [avatar, setAvatar] = useState();
+	const { profile, avatar } = useSelector((state) => state.profile);
+	const [avatarFile, setAvatarFile] = useState();
 	const [activeSection, setActiveSection] = useState('timeline');
+
 	useEffect(() => {
-		if (!profile.isLoading && profile.avatar) {
-			if (profile.avatar) {
-				//set avatar
-				setAvatar(Buffer.from(profile.avatar.buffer.data).toString('base64'));
-			}
+		if (!avatar.isLoading && avatar.avatar && !avatarFile) {
+			//set avatar
+			setAvatarFile(Buffer.from(avatar.avatar.buffer.data).toString('base64'));
+		}
+		if (!profile.isLoading && !profile.profile) {
 			//Fetch full profile
 			dispatch(getProfile(auth.user._id));
 		}
@@ -62,7 +63,7 @@ const ProfileLayout = () => {
 						mt={'-50px'}
 						mx={'20px'}
 						name={`${auth.user.firstName} ${auth.user.lastName}`}
-						src={avatar && `data:image/png;base64,${avatar}`}
+						src={avatarFile && `data:image/png;base64,${avatarFile}`}
 					/>
 					<Flex mt={'30px'}>
 						<Flex flexDir={'column'} fontSize={'20px'}>

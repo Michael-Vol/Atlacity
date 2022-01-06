@@ -74,12 +74,12 @@ const profileHandler = async (req, res) => {
 				await connectToDB();
 
 				await validateBody(req, res);
-
+				console.log(req.body);
 				//Check if current location place already exists
 				let currentLocation = await Place.findOne({
 					locationId: req.body.currentLocation.properties.place_id,
 				});
-
+				console.log('currentLocation', currentLocation);
 				if (!currentLocation) {
 					//Get current location city info from geoapify
 					const apiKey = getEnv('GEOAPIFY_API_KEY');

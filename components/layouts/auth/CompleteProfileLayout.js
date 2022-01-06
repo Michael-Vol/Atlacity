@@ -8,17 +8,17 @@ import checkAuth from '../../../lib/checkAuthClient';
 
 const CompleteProfileLayout = ({ onRegisterSuccess, onSkip }) => {
 	const auth = useSelector((state) => state.auth);
-	const profile = useSelector((state) => state.profile);
+	const { profile, avatar } = useSelector((state) => state.profile);
+
 	const [hasSubmitted, setHasSubmitted] = useState(false);
-	const [hasSubmittedAvatar, setHasSubmittedAvatar] = useState(false);
-	const [avatar, setAvatar] = useState();
+	const [file, setFile] = useState();
 	const dispatch = useDispatch();
 	const toast = useToast();
 
 	const handleSubmit = (values) => {
 		setHasSubmitted(true);
 		if (values.photo) {
-			setAvatar(values.photo);
+			setFile(values.photo);
 		}
 
 		const profileValues = Object.keys(values)
@@ -31,58 +31,54 @@ const CompleteProfileLayout = ({ onRegisterSuccess, onSkip }) => {
 		dispatch(uploadProfile(profileValues, auth.user._id));
 	};
 
-	const handleUploadAvatar = () => {
-		setHasSubmittedAvatar(true);
-		dispatch(uploadAvatar(avatar, auth.user._id));
-	};
-
 	useEffect(() => {
 		if (!profile.isLoading && hasSubmitted) {
 			if (profile.error) {
-				// upload profile/avatar error
 				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
 					return toast({
 						id: 'error-toast',
-						title: 'Error',
-						description: profile.message || profile.error.message || 'Something went wrong',
+						title: profile.error.message || 'Something went wrong',
 						status: 'error',
-						duration: 4000,
-						isClosable: true,
 					});
 				}
-				setHasSubmitted(false);
-				setHasSubmittedAvatar(false);
-			} else if (profile.avatarUploaded) {
-				//2nd stage - uploaded avatar
-				toast({
-					id: 'success-avatar-toast',
-					title: 'Success',
-					description: profile.message,
-					status: 'success',
-					duration: 4000,
-					isClosable: true,
-				});
-				onRegisterSuccess();
 			} else if (profile.profile) {
-				//1st-stage - uploaded profile
+				if (file) return dispatch(uploadAvatar(file, auth.user._id));
+
 				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
 					toast({
 						id: 'success-toast',
-						title: 'Success!',
-						description: profile.message,
+						title: 'Profile updated successfully',
 						status: 'success',
-						duration: 4000,
-						isClosable: true,
 					});
-					if (avatar) {
-						console.log('uploading avatar');
-						return handleUploadAvatar();
-					}
-					onRegisterSuccess();
 				}
+				onRegisterSuccess();
 			}
 		}
 	}, [profile]);
+
+	useEffect(() => {
+		if (!avatar.isLoading) {
+			console.log(avatar);
+			if (avatar.error) {
+				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
+					return toast({
+						id: 'error-toast',
+						title: avatar.error.message || 'Something went wrong',
+						status: 'error',
+					});
+				}
+			} else if (avatar.avatarUploaded) {
+				if (!toast.isActive('success-toast') && !toast.isActive('error-toast')) {
+					toast({
+						id: 'success-toast',
+						title: 'Avatar updated successfully',
+						status: 'success',
+					});
+				}
+				onRegisterSuccess();
+			}
+		}
+	}, [avatar]);
 
 	return (
 		<Grid templateColumns='repeat(10, 1fr)' gap={1} height={'92vh'}>

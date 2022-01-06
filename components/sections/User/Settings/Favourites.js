@@ -21,7 +21,7 @@ import CityItem from '../../../ui/CityItem';
 import { getProfile } from '../../../../actions/profile/profile';
 import { addFavourites } from '../../../../actions/profile/profile';
 const Favourites = () => {
-	const profile = useSelector((state) => state.profile);
+	const { profile } = useSelector((state) => state.profile);
 	const auth = useSelector((state) => state.auth);
 
 	const [dispatched, setDispatched] = useState(false);
