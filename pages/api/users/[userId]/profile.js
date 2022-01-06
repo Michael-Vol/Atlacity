@@ -34,7 +34,8 @@ const profileHandler = async (req, res) => {
 				}
 				const { favouritePlaces, favouriteCities, currentLocation } = profile;
 				//Populate currentLocation
-				const populatedCurrentLocation = await Place.findById(currentLocation);
+				console.log(currentLocation);
+				const populatedCurrentLocation = await City.findById(currentLocation);
 				//Populate favourites
 
 				const populatedPlaces = await Promise.all(
@@ -75,48 +76,25 @@ const profileHandler = async (req, res) => {
 
 				await validateBody(req, res);
 				console.log(req.body);
-				//Check if current location place already exists
-				let currentLocation = await Place.findOne({
+
+				//Check if current location  already exists in cities
+
+				let currentLocation = await City.findOne({
 					locationId: req.body.currentLocation.properties.place_id,
 				});
-				console.log('currentLocation', currentLocation);
+
 				if (!currentLocation) {
-					//Get current location city info from geoapify
-					const apiKey = getEnv('GEOAPIFY_API_KEY');
-					const cityInfo = await axios.get(
-						`https://api.geoapify.com/v1/geocode/autocomplete?text=${req.body.currentLocation.city}&apiKey=${apiKey}`
-					);
-
-					let city = await City.findOne({
-						locationId: cityInfo.data.features[0].properties.place_id,
-					});
-
-					if (!city) {
-						city = new City({
-							name:
-								cityInfo.data.features[0].properties.name ||
-								req.body.currentLocation.properties.city,
-							locationId: cityInfo.data.features[0].properties.place_id,
-							info: cityInfo.data.features[0].properties,
-						});
-
-						//Get photo for city
-						const unsplashKey = getEnv('UNSPLASH_CLIENT_ID');
-						const unsplashResponse = await axios.get(
-							`https://api.unsplash.com/search/photos?page=1&query=${city.name}&client_id=${unsplashKey}`
-						);
-						city.photos = unsplashResponse.data.results[0].urls;
-					}
-					await city.save();
-
-					//Create new Location based on locationId (place_id on geoapify api)
-					currentLocation = new Place({
+					currentLocation = new City({
 						locationId: req.body.currentLocation.properties.place_id,
-						name:
-							req.body.currentLocation.properties.name ||
-							req.body.currentLocation.properties.city,
-						city: city._id,
+						name: req.body.currentLocation.properties.name,
+						info: req.body.currentLocation.properties,
 					});
+					//Get photo for city
+					const unsplashKey = getEnv('UNSPLASH_CLIENT_ID');
+					const unsplashResponse = await axios.get(
+						`https://api.unsplash.com/search/photos?page=1&query=${currentLocation.name}&client_id=${unsplashKey}`
+					);
+					currentLocation.photos = unsplashResponse.data.results[0].urls;
 					await currentLocation.save();
 				}
 
