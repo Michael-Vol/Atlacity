@@ -96,6 +96,7 @@ const favouritesHandler = async (req, res) => {
 								const city = new City({
 									locationId: favouriteCity.properties.place_id,
 									name: favouriteCity.properties.name || favouriteCity.properties.city,
+									info: favouriteCity.properties,
 								});
 								//Get photo for city
 								const unsplashKey = getEnv('UNSPLASH_CLIENT_ID');

@@ -20,6 +20,9 @@ const citySchema = new mongoose.Schema({
 	photos: {
 		type: Object,
 	},
+	info: {
+		type: Object,
+	},
 	popularityIndex: {
 		type: Number,
 		default: 0,

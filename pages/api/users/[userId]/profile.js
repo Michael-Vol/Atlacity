@@ -97,6 +97,7 @@ const profileHandler = async (req, res) => {
 								cityInfo.data.features[0].properties.name ||
 								req.body.currentLocation.properties.city,
 							locationId: cityInfo.data.features[0].properties.place_id,
+							info: cityInfo.data.features[0].properties,
 						});
 
 						//Get photo for city
@@ -128,6 +129,7 @@ const profileHandler = async (req, res) => {
 							city = new City({
 								locationId: location.properties.place_id,
 								name: location.properties.name || location.properties.city,
+								info: location.properties,
 							});
 							//Get photo for city
 							const unsplashKey = getEnv('UNSPLASH_CLIENT_ID');
