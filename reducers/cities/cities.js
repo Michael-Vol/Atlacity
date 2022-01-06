@@ -1,5 +1,4 @@
 import * as types from '../../actions/types';
-import axios from 'axios';
 
 const initialState = {
 	search: {
