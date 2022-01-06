@@ -20,6 +20,10 @@ const citySchema = new mongoose.Schema({
 	photos: {
 		type: Object,
 	},
+	popularityIndex: {
+		type: Number,
+		default: 0,
+	},
 });
 
 const City = mongoose.models.City || mongoose.model('City', citySchema);

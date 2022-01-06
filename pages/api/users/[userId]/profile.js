@@ -105,8 +105,8 @@ const profileHandler = async (req, res) => {
 							`api.unsplash.com/search/photos?page=1&query=${city.name}&client_id=${unsplashKey}`
 						);
 						city.photos = unsplashResponse.data.results[0].urls;
-						await city.save();
 					}
+					await city.save();
 
 					//Create new Location based on locationId (place_id on geoapify api)
 					currentLocation = new Place({
@@ -135,8 +135,10 @@ const profileHandler = async (req, res) => {
 								`https://api.unsplash.com/search/photos?page=1&query=${city.name}&client_id=${unsplashKey}`
 							);
 							city.photos = unsplashResponse.data.results[0].urls;
-							await city.save();
+						} else {
+							city.popularityIndex = city.popularityIndex + 1; //Increment popularity index if city already exists
 						}
+						await city.save();
 
 						return city._id;
 					})

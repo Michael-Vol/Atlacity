@@ -45,6 +45,10 @@ const placeSchema = new mongoose.Schema({
 			ref: 'Faq',
 		},
 	],
+	popularityIndex: {
+		type: Number,
+		default: 0,
+	},
 });
 
 const Place = mongoose.models.Place || mongoose.model('Place', placeSchema);

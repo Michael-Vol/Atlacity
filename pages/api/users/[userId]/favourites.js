@@ -110,6 +110,8 @@ const favouritesHandler = async (req, res) => {
 								//Check if city is already in profile favourites
 								const isProfileDuplicate = profile.favouriteCities.includes(existingCity._id);
 								if (!isProfileDuplicate) {
+									existingCity.popularityIndex = existingCity.popularityIndex + 1; //Increment popularity index when city already exists
+									await existingCity.save();
 									profile.favouriteCities.push(existingCity._id);
 									await profile.save();
 								}
@@ -146,6 +148,8 @@ const favouritesHandler = async (req, res) => {
 									existingPlace._id
 								);
 								if (!isProfileDuplicate) {
+									existingPlace.popularityIndex = existingPlace.popularityIndex + 1; //Increment popularity index when place already exists
+									await existingPlace.save();
 									profile.favouritePlaces.push(existingPlace._id);
 									await profile.save();
 								}
