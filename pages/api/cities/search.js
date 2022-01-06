@@ -5,14 +5,14 @@ import City from '../../../models/City';
 const CitySearchHandler = async (req, res) => {
 	switch (req.method) {
 		case 'GET':
-			const { name } = req.query;
+			const { name, limit = 5 } = req.query;
 			if (!name) {
 				return res.status(400).json({
 					message: 'Name is required as a query parameter',
 				});
 			}
 			await connectToDB();
-			const cities = await City.find({ name: new RegExp('^' + name, 'i') });
+			const cities = await City.find({ name: new RegExp('^' + name, 'i') }).limit(parseInt(limit));
 			return res.json({
 				cities,
 			});

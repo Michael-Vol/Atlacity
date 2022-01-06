@@ -14,7 +14,7 @@ const PopularCitiesHandler = async (req, res) => {
 				.limit(parseInt(limit));
 
 			return res.json({
-				popularCities,
+				cities: popularCities,
 			});
 
 		default:
