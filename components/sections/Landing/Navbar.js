@@ -19,12 +19,12 @@ const MenuItems = (props) => {
 			mb={{ base: isLast ? 0 : 8, sm: 0 }}
 			mr={{ base: 0, sm: isLast ? 0 : 8 }}
 			display='block'
-			color='blue.500'
-			fontSize={20}
-			fontWeight={'500'}
+			color={props.itemColor || 'blue.800'}
+			fontSize={18}
+			fontWeight={'400'}
 			transition={'all .1s ease-in-out'}
 			_hover={{
-				color: 'blue.100',
+				color: 'blue.400',
 			}}
 			{...rest}>
 			<Link href={to}>{children}</Link>
@@ -71,7 +71,8 @@ const Navbar = (props) => {
 			w='100%'
 			px='15px'
 			py='20px'
-			h={'10vh'}
+			h={'8vh'}
+			bgColor={'white'}
 			{...props}>
 			<Flex justify='center'>
 				<Box display={{ base: 'block', md: 'none' }}>
@@ -91,13 +92,20 @@ const Navbar = (props) => {
 				</Flex>
 
 				<Flex align='center' justify='center'>
-					<MenuItems to='/explore'>Explore</MenuItems>
-					<MenuItems to='/cities'>Cities</MenuItems>
-					<MenuItems to='/blogs'>Blog</MenuItems>
-					<MenuItems to='/about'>About</MenuItems>
+					<MenuItems {...props.itemProps} to='/explore'>
+						Explore
+					</MenuItems>
+					<MenuItems {...props.itemProps} to='/cities'>
+						Cities
+					</MenuItems>
+					<MenuItems {...props.itemProps} to='/blogs'>
+						Blog
+					</MenuItems>
+					<MenuItems {...props.itemProps} to='/about'>
+						About
+					</MenuItems>
 				</Flex>
 			</Flex>
-
 			<Flex align='center' justify='center'>
 				{!isAuthenticated ? (
 					<Fragment>
@@ -114,6 +122,7 @@ const Navbar = (props) => {
 							cursor={'pointer'}
 							onClick={goToProfile}
 							mr={'10px'}
+							boxSize={'40px'}
 							src={avatar && `data:image/png;base64,${avatar}`}
 							name={`${auth.user.firstName} ${auth.user.lastName}`}
 						/>

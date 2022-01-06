@@ -46,7 +46,7 @@ const LoginLayout = (props) => {
 	}, [auth]);
 
 	return (
-		<Grid h='200px' templateRows='repeat(1, 1fr)' templateColumns='repeat(10, 1fr)' gap={1} h={'90vh'}>
+		<Grid h='200px' templateRows='repeat(1, 1fr)' templateColumns='repeat(10, 1fr)' gap={1} h={'92vh'}>
 			<GridItem colSpan={6} rowSpan={1}>
 				<Image src='/images/auth.jpg' alt='register image' minW={'100%'} minH={'100%'} />
 			</GridItem>

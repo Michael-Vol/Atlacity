@@ -7,7 +7,7 @@ import HeroCard from '../../ui/HeroCard';
 const Hero = () => {
 	const router = useRouter();
 	return (
-		<Grid templateRows='repeat(1, 1fr)' h={'90vh'} templateColumns='repeat(10, 1fr)' gap={10}>
+		<Grid templateRows='repeat(1, 1fr)' h={'92vh'} templateColumns='repeat(10, 1fr)' gap={10}>
 			<GridItem colSpan={4} flexDir={'column'} ml={'20px'}>
 				<Heading as='h1' fontSize='6xl' color='primary' mt='5%'>
 					Atlacity
