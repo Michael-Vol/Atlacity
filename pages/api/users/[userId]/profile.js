@@ -101,9 +101,9 @@ const profileHandler = async (req, res) => {
 						});
 
 						//Get photo for city
-						const unsplashKey = getEnv('UNSPLASH_API_KEY');
+						const unsplashKey = getEnv('UNSPLASH_CLIENT_ID');
 						const unsplashResponse = await axios.get(
-							`api.unsplash.com/search/photos?page=1&query=${city.name}&client_id=${unsplashKey}`
+							`https://api.unsplash.com/search/photos?page=1&query=${city.name}&client_id=${unsplashKey}`
 						);
 						city.photos = unsplashResponse.data.results[0].urls;
 					}

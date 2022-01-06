@@ -4,6 +4,7 @@ import { BiSearch } from 'react-icons/bi';
 import { searchCities } from '../../../../actions/cities/city';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
+
 const CityResults = () => {
 	const [input, setInput] = useState('');
 	const [searchResults, setSearchResults] = useState([]);
@@ -50,10 +51,9 @@ const CityResults = () => {
 			<Flex flexDir={'column'}>
 				{input.length > 0 &&
 					searchResults.map((city, index) => (
-						<Link href={`/cities/name=${city.name}&id=${city._id}`}>
+						<Link key={index} href={`/cities/name=${city.name}&id=${city._id}`}>
 							<Flex
 								cursor={'pointer'}
-								key={index}
 								w={'100%'}
 								p={'10px'}
 								_hover={{

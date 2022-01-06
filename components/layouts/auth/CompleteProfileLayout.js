@@ -75,6 +75,7 @@ const CompleteProfileLayout = ({ onRegisterSuccess, onSkip }) => {
 						isClosable: true,
 					});
 					if (avatar) {
+						console.log('uploading avatar');
 						return handleUploadAvatar();
 					}
 					onRegisterSuccess();
