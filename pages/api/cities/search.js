@@ -21,4 +21,4 @@ const CitySearchHandler = async (req, res) => {
 	}
 };
 
-export default CitySearchHandler;
+export default checkAuth(CitySearchHandler);
