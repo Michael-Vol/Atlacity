@@ -1,5 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Flex, Box, Text, Image, Avatar, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
+import {
+	Flex,
+	Box,
+	Text,
+	Image,
+	Avatar,
+	Menu,
+	MenuButton,
+	MenuList,
+	MenuItem,
+	Spinner,
+} from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
 import Button from '../../ui/Button';
@@ -36,7 +47,7 @@ const Navbar = (props) => {
 	const dispatch = useDispatch();
 	const store = useStore();
 
-	const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
+	const { isAuthenticated } = useSelector((state) => state.auth);
 	const auth = useSelector((state) => state.auth);
 	const { profile, avatar } = useSelector((state) => state.profile);
 
@@ -45,8 +56,8 @@ const Navbar = (props) => {
 
 	const handleLogout = async () => {
 		await dispatch(logout());
-		router.push('/');
 		store.__persistor.purge();
+		router.push('/');
 	};
 
 	const goToProfile = () => {
@@ -118,14 +129,18 @@ const Navbar = (props) => {
 					</Fragment>
 				) : (
 					<Flex mr={'20px'} alignItems={'center'}>
-						<Avatar
-							cursor={'pointer'}
-							onClick={goToProfile}
-							mr={'10px'}
-							boxSize={'40px'}
-							src={avatarFile && `data:image/png;base64,${avatarFile}`}
-							name={`${auth.user.firstName} ${auth.user.lastName}`}
-						/>
+						{!avatar.isLoading ? (
+							<Avatar
+								cursor={'pointer'}
+								onClick={goToProfile}
+								mr={'10px'}
+								boxSize={'40px'}
+								src={avatarFile && `data:image/png;base64,${avatarFile}`}
+								name={`${auth.user.firstName} ${auth.user.lastName}`}
+							/>
+						) : (
+							<Spinner boxSize={'30px'} />
+						)}
 
 						<Menu>
 							<MenuButton>

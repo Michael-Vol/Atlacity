@@ -66,7 +66,6 @@ export default (state = initialState, action) => {
 			};
 		case types.LOGOUT_SUCCESS:
 			localStorage.clear();
-			console.log(payload, state);
 			return state;
 		case types.UPDATE_ACCOUNT_INFO_SUCCESS:
 			return {

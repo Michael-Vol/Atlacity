@@ -115,6 +115,7 @@ const ProfileLayout = () => {
 					{renderActiveSection()}
 				</Flex>
 			</Flex>
+			}
 		</Flex>
 	);
 };
