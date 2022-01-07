@@ -5,15 +5,20 @@ import Button from '../../ui/Button';
 import { MdPlace } from 'react-icons/md';
 import { BiPencil } from 'react-icons/bi';
 import AddVisitModal from '../../sections/Home/AddVisitModal';
-
+import AddPlaceModal from '../../sections/Home/AddPlaceModal';
+import LocationSelector from '../../sections/Home/LocationSelector';
 const HomeLayout = () => {
 	const auth = useSelector((state) => state.auth);
 	const { profile, avatar } = useSelector((state) => state.profile);
 	const [avatarFile, setAvatarFile] = useState();
 
-	const initialFocusRef = useRef();
-	const finalFocusRef = useRef();
-	const { isOpen, onOpen, onClose } = useDisclosure();
+	const VisitInitialFocusRef = useRef();
+	const VisitFinalFocusRef = useRef();
+	const { isOpen: VisitIsOpen, onOpen: VisitOnOpen, onClose: VisitOnClose } = useDisclosure();
+
+	const PlaceInitialFocusRef = useRef();
+	const PlaceFinalFocusRef = useRef();
+	const { isOpen: PlaceIsOpen, onOpen: PlaceOnOpen, onClose: PlaceOnClose } = useDisclosure();
 
 	useEffect(() => {
 		if (!avatar.isLoading && !avatarFile) {
@@ -25,12 +30,15 @@ const HomeLayout = () => {
 	const handleAddVisit = (values) => {
 		console.log(values);
 	};
+	const handleAddPlace = (values) => {
+		console.log(values);
+	};
 
 	return (
 		<Grid templateColumns={'repeat(20,1fr)'} h={'100vh'}>
 			<GridItem colSpan={3}></GridItem>
 			<GridItem colSpan={14}>
-				<Flex color={'blue.700'} py={'30px'} px={'60px'} flexDir={'column'}>
+				<Flex color={'blue.700'} py={'30px'} px={'30px'} mx={'60px'} flexDir={'column'}>
 					<Heading fontSize={'28px'} fontWeight={'500'}>
 						Welcome back, {auth.user.firstName}
 					</Heading>
@@ -51,13 +59,13 @@ const HomeLayout = () => {
 								w={'100%'}
 								ml={'10px'}
 								textAlign={'left'}
-								onClick={onOpen}>
+								onClick={VisitOnOpen}>
 								<Flex textAlign={'left'}>Add your latest visit</Flex>
 								<AddVisitModal
-									initialFocusRef={initialFocusRef}
-									finalFocusRef={finalFocusRef}
-									isOpen={isOpen}
-									onClose={onClose}
+									initialFocusRef={VisitInitialFocusRef}
+									finalFocusRef={VisitFinalFocusRef}
+									isOpen={VisitIsOpen}
+									onClose={VisitOnClose}
 									onSubmit={handleAddVisit}
 								/>
 							</Button>
@@ -68,6 +76,7 @@ const HomeLayout = () => {
 							justifyContent={'space-around'}
 							alignContent={'center'}>
 							<Button
+								onClick={PlaceOnOpen}
 								bgColor={'#fff'}
 								_hover={{ bgColor: 'gray.200' }}
 								color={'blue.700'}
@@ -76,6 +85,13 @@ const HomeLayout = () => {
 								<Flex fontSize={'18px'}>
 									<MdPlace />
 									<Text ml={'10px'}>New Place</Text>
+									<AddPlaceModal
+										initialFocusRef={PlaceInitialFocusRef}
+										finalFocusRef={PlaceFinalFocusRef}
+										isOpen={PlaceIsOpen}
+										onClose={PlaceOnClose}
+										onSubmit={handleAddPlace}
+									/>
 								</Flex>
 							</Button>
 							<Button
