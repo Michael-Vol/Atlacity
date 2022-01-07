@@ -37,6 +37,10 @@ const visitSchema = new mongoose.Schema({
 			ref: 'Visit-Comment',
 		},
 	],
+	isRecommended: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 const Visit = mongoose.model('Visit', visitSchema);

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { InputGroup, Input, InputRightElement, Flex, Text, Spinner } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
-import { searchCities } from '../../../../actions/cities/city';
+import { searchPlaces } from '../../../actions/places/search';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 
-const CityResults = () => {
+const PlaceResults = () => {
 	const [input, setInput] = useState('');
 	const [searchResults, setSearchResults] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
@@ -14,12 +14,16 @@ const CityResults = () => {
 
 	useEffect(() => {
 		handleSearch();
+		if (input.length <= 2) {
+			setSearchResults([]);
+			setIsSearching(false);
+		}
 	}, [input]);
 
 	const handleSearch = () => {
 		if (input.length > 2) {
 			setIsSearching(true);
-			return dispatch(searchCities(input));
+			return dispatch(searchPlaces(input));
 		}
 		setSearchResults([]);
 	};
@@ -36,7 +40,7 @@ const CityResults = () => {
 		}
 	}, [cities.search]);
 	return (
-		<Flex mt={'30px'} w={'500px'} bgColor={'white'} rounded='md' flexDir={'column'}>
+		<Flex w={'100%'} bgColor={'white'} rounded='md' flexDir={'column'}>
 			<InputGroup rounded={'xl'}>
 				<Input
 					placeholder='Search'
@@ -48,10 +52,10 @@ const CityResults = () => {
 					{isSearching ? <Spinner boxSize={'1.5em'} /> : <BiSearch size={'1.5em'} />}
 				</InputRightElement>
 			</InputGroup>
-			<Flex flexDir={'column'}>
+			{/* <Flex flexDir={'column'}>
 				{input.length > 0 &&
-					searchResults.map((city, index) => (
-						<Link key={index} href={`/cities/name=${city.name}&id=${city._id}`}>
+					searchResults.map((city, index) => ({
+						  <Link key={index} href={`/cities/name=${city.name}&id=${city._id}`}>
 							<Flex
 								cursor={'pointer'}
 								w={'100%'}
@@ -65,10 +69,10 @@ const CityResults = () => {
 								</Text>
 							</Flex>
 						</Link>
-					))}
-			</Flex>
+					}))}
+			</Flex> */}
 		</Flex>
 	);
 };
 
-export default CityResults;
+export default PlaceResults;

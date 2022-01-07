@@ -10,6 +10,8 @@ import {
 	TagLabel,
 	Box,
 	useDisclosure,
+	Stack,
+	Skeleton,
 } from '@chakra-ui/react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -76,7 +78,13 @@ const Favourites = () => {
 							onSubmit={handleSubmit}
 						/>
 					</Flex>
-					{profile.profile.favouriteCities.length > 0 ? (
+					{profile.isLoading ? (
+						<Stack>
+							<Skeleton height='20px' />
+							<Skeleton height='20px' />
+							<Skeleton height='20px' />
+						</Stack>
+					) : profile.profile.favouriteCities.length > 0 ? (
 						<Grid templateRows='repeat(4, 1fr)' templateColumns='repeat(4, 1fr)' gap={2}>
 							{profile.profile.favouriteCities.map((city, index) => {
 								if (city) {
