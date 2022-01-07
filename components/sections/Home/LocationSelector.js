@@ -45,8 +45,8 @@ const LocationSelector = ({ onSelect, cityCoords }) => {
 				<Marker
 					latitude={selectedCoord[1]}
 					longitude={selectedCoord[0]}
-					offsetLeft={-25}
-					offsetTop={-30}>
+					offsetLeft={-13}
+					offsetTop={-27}>
 					<MdLocationPin size={'32px'} />
 				</Marker>
 			)}
