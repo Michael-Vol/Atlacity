@@ -1,7 +1,9 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
-import MapGL, { Marker, NavigationControl } from 'react-map-gl';
+import MapGL, { Marker, NavigationControl, GeolocateControl } from 'react-map-gl';
+
 import { MdLocationPin } from 'react-icons/md';
+
 const MAPBOX_TOKEN =
 	'pk.eyJ1IjoibWljaGFlbHZvbCIsImEiOiJja2RhcTJ0bmgxMjA0MnlrNmI1YWZqbmJoIn0.m6J1J-HNN5o4VhQ5ix26Yg';
 
@@ -26,6 +28,10 @@ const LocationSelector = ({ onSelect, cityCoords }) => {
 		right: 40,
 		top: 10,
 	};
+	const geolocateControlStyle = {
+		right: 40,
+		top: 105,
+	};
 
 	const [selectedCoord, setSelectedCoord] = useState();
 	return (
@@ -38,15 +44,23 @@ const LocationSelector = ({ onSelect, cityCoords }) => {
 			mapboxApiAccessToken={MAPBOX_TOKEN}
 			onClick={(map) => {
 				setSelectedCoord(map.lngLat);
-				onSelect(map.lngLat);
+				onSelect({
+					coords: map.lngLat,
+				});
 			}}>
 			<NavigationControl style={navControlStyle} />
+			<GeolocateControl
+				style={geolocateControlStyle}
+				positionOptions={{ enableHighAccuracy: true }}
+				trackUserLocation={true}
+				auto
+			/>
 			{selectedCoord && (
 				<Marker
 					latitude={selectedCoord[1]}
 					longitude={selectedCoord[0]}
-					offsetLeft={-13}
-					offsetTop={-27}>
+					offsetLeft={-27}
+					offsetTop={-30}>
 					<MdLocationPin size={'32px'} />
 				</Marker>
 			)}

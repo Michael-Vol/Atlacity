@@ -1,16 +1,34 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Flex, Text, Avatar, Input, Heading, Grid, GridItem, useDisclosure } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import {
+	Flex,
+	Text,
+	Avatar,
+	Input,
+	Heading,
+	Grid,
+	GridItem,
+	useDisclosure,
+	useToast,
+} from '@chakra-ui/react';
+import { useSelector, useDispatch } from 'react-redux';
 import Button from '../../ui/Button';
 import { MdPlace } from 'react-icons/md';
 import { BiPencil } from 'react-icons/bi';
 import AddVisitModal from '../../sections/Home/AddVisitModal';
 import AddPlaceModal from '../../sections/Home/AddPlaceModal';
-import LocationSelector from '../../sections/Home/LocationSelector';
+import { addPlace } from '../../../actions/places/places';
+import { useRouter } from 'next/router';
+
 const HomeLayout = () => {
+	const dispatch = useDispatch();
+	const toast = useToast();
+	const router = useRouter();
+
 	const auth = useSelector((state) => state.auth);
 	const { profile, avatar } = useSelector((state) => state.profile);
+	const { place } = useSelector((state) => state.places);
 	const [avatarFile, setAvatarFile] = useState();
+	const [newPlaceSubmitted, setNewPlaceSubmitted] = useState(false);
 
 	const VisitInitialFocusRef = useRef();
 	const VisitFinalFocusRef = useRef();
@@ -30,9 +48,32 @@ const HomeLayout = () => {
 	const handleAddVisit = (values) => {
 		console.log(values);
 	};
-	const handleAddPlace = (values) => {
-		console.log(values);
+	const handleAddPlace = (place) => {
+		setNewPlaceSubmitted(true);
+		dispatch(addPlace(place));
 	};
+
+	useEffect(() => {
+		if (!place.isLoading) {
+			if (place.place && newPlaceSubmitted) {
+				setNewPlaceSubmitted(false);
+				toast({
+					title: 'Place added successfully',
+					status: 'success',
+					duration: 2000,
+					isClosable: true,
+				});
+				router.push(`/places/${place.place._id}`);
+			} else if (place.error) {
+				toast({
+					title: place.error.message,
+					status: 'error',
+					duration: 2000,
+					isClosable: true,
+				});
+			}
+		}
+	}, [place]);
 
 	return (
 		<Grid templateColumns={'repeat(20,1fr)'} h={'100vh'}>

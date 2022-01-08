@@ -21,17 +21,18 @@ import Button from '../../ui/Button';
 import { Formik, Form, Field } from 'formik';
 import CityResults from './CityResults';
 import LocationSelector from './LocationSelector';
+import axios from 'axios';
 
 const AddPlaceModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubmit }) => {
 	const initialData = {
+		name: '',
 		coords: {
 			lng: NaN,
 			lat: NaN,
 		},
-		name: '',
 		city: {},
+		address: '',
 		description: '',
-		location: {},
 	};
 	const [formData, setFormData] = useState(initialData);
 	const [cityCoords, setCityCoords] = useState({
@@ -42,20 +43,15 @@ const AddPlaceModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 
 	useEffect(() => {
 		if (Object.keys(formData.city).length > 0) {
-			console.log(formData.city.info);
 			setCityCoords({
-				lat: formData.city.info.lat,
-				lng: formData.city.info.lon,
-			});
-			console.log({
 				lat: formData.city.info.lat,
 				lng: formData.city.info.lon,
 			});
 		}
 	}, [formData.city]);
 
-	const handleLocationCoord = (coord) => {
-		setFormData({ ...formData, coords: { lng: coord[0], lat: coord[1] } });
+	const handleLocationSelect = async ({ coords, address }) => {
+		setFormData({ ...formData, coords: { lng: coords[0], lat: coords[1] } });
 	};
 
 	const handleValidation = () => {
@@ -68,6 +64,9 @@ const AddPlaceModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 		}
 		if (Object.keys(formData.city).length === 0) {
 			errors.city = 'Please select a city';
+		}
+		if (!formData.address) {
+			errors.address = 'Please enter a address';
 		}
 		if (isNaN(formData.coords.lat) || isNaN(formData.coords.lng)) {
 			errors.location = 'Please select a location';
@@ -97,7 +96,7 @@ const AddPlaceModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 								setSubmitting(true);
 								onSubmit(formData);
 								// setFormData(initialData);
-								// onClose();
+								onClose();
 							}}>
 							{(props) => (
 								<Form
@@ -139,19 +138,41 @@ const AddPlaceModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 												</FormControl>
 											)}
 										</Field>
+										<Field name='address'>
+											{({ field, form }) => (
+												<FormControl
+													isInvalid={form.errors.address && form.touched.address}
+													mt={'20px'}>
+													<FormLabel htmlFor='address'>Address</FormLabel>
+													<Input
+														{...field}
+														value={formData.address}
+														onChange={handleChange}
+														id='address'
+													/>
+
+													<FormErrorMessage>{form.errors.address}</FormErrorMessage>
+												</FormControl>
+											)}
+										</Field>
 										<Field name='location'>
 											{({ field, form }) => (
 												<FormControl
 													isInvalid={form.errors.location && form.touched.location}
 													mt={'20px'}>
 													<FormLabel htmlFor='location'>Location</FormLabel>
+													<FormHelperText>
+														Select a place on the map to get the address
+													</FormHelperText>
 													<LocationSelector
-														onSelect={handleLocationCoord}
+														{...field}
+														onSelect={handleLocationSelect}
 														cityCoords={cityCoords}
 													/>
-													<FormErrorMessage>
+
+													<Flex color={'red'} mt={'10px'}>
 														{form.errors.location}
-													</FormErrorMessage>
+													</Flex>
 												</FormControl>
 											)}
 										</Field>
