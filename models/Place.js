@@ -6,18 +6,24 @@ const placeSchema = new mongoose.Schema({
 		required: true,
 		maxlength: 50,
 	},
-	locationId: {
-		type: String,
-		required: true,
+	coords: {
+		lat: {
+			type: Number,
+			required: true,
+		},
+		lng: {
+			type: Number,
+			required: true,
+		},
 	},
 	city: {
 		type: mongoose.SchemaTypes.ObjectId,
 		ref: 'City',
 	},
-	images: [
+	photos: [
 		//todo: convert to cdn urls
 		{
-			type: Buffer,
+			type: Object,
 		},
 	],
 	videos: [
