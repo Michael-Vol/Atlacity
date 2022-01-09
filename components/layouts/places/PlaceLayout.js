@@ -23,6 +23,7 @@ import { IoMdPhotos } from 'react-icons/io';
 import { MdLocationPin } from 'react-icons/md';
 import { AiOutlineInfoCircle, AiOutlineStar } from 'react-icons/ai';
 import PlaceCarousel from '../../sections/places/PlaceCarousel';
+import PlaceVisits from '../../sections/Places/PlaceVisits';
 
 const PlaceLayout = () => {
 	const router = useRouter();
@@ -31,6 +32,17 @@ const PlaceLayout = () => {
 
 	const auth = useSelector((state) => state.auth);
 	const { place } = useSelector((state) => state.places);
+
+	const [activeTab, setActiveTab] = useState('visits');
+
+	const renderactiveTab = () => {
+		switch (activeTab) {
+			case 'visits':
+				return <PlaceVisits placeId={place.place._id} />;
+			default:
+				return <PlaceVisits placeId={place.place._id} />;
+		}
+	};
 
 	useEffect(() => {
 		console.log(router.query.placeId, place.isLoading);
@@ -108,11 +120,12 @@ const PlaceLayout = () => {
 					<Flex h={'7vh'} color={'blue.800'}>
 						<Tabs colorScheme={'blue'} size={'lg'} w={'100%'} variant={'enclosed'}>
 							<TabList>
-								<Tab> Visits</Tab>
-								<Tab> FAQ</Tab>
+								<Tab onClick={() => setActiveTab('visits')}> Visits</Tab>
+								<Tab onClick={() => setActiveTab('faq')}> FAQ</Tab>
 							</TabList>
 						</Tabs>
 					</Flex>
+					{renderactiveTab()}
 				</Flex>
 			) : (
 				<Stack>
