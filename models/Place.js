@@ -16,6 +16,10 @@ const placeSchema = new mongoose.Schema({
 			required: true,
 		},
 	},
+	address: {
+		type: String,
+		required: true,
+	},
 	city: {
 		type: mongoose.SchemaTypes.ObjectId,
 		ref: 'City',

@@ -54,8 +54,8 @@ const HomeLayout = () => {
 	};
 
 	useEffect(() => {
-		if (!place.isLoading) {
-			if (place.place && newPlaceSubmitted) {
+		if (!place.isLoading && newPlaceSubmitted) {
+			if (place.place) {
 				setNewPlaceSubmitted(false);
 				toast({
 					title: 'Place added successfully',

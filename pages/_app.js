@@ -23,7 +23,8 @@ const theme = extendTheme({
 	colors: {
 		white: '#f7f8ff',
 		blue: {
-			1000: '#213963',
+			1000: '#1b2c42',
+			800: '#213963',
 			500: '#29487D',
 			400: '#4175CB',
 			300: '#5F88CE',

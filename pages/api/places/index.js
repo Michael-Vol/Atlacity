@@ -13,6 +13,8 @@ const placesHandler = async (req, res) => {
 					[
 						check('name').exists().withMessage('Name is required'),
 						check('name').isString().withMessage('Name must be a string'),
+						check('address').exists().withMessage('Address is required'),
+						check('address').isString().withMessage('Address must be a string'),
 						check('coords').exists().withMessage('Coords is required'),
 						check('coords').isObject().withMessage('Coords must be an object'),
 						check('description').exists().withMessage('Description is required'),
