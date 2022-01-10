@@ -50,7 +50,6 @@ const placeVisitsHandler = async (req, res) => {
 					});
 				}
 				//add photos to place
-				console.log(req.files);
 				place.photos.push(...req.files);
 
 				//add visit
@@ -65,9 +64,10 @@ const placeVisitsHandler = async (req, res) => {
 				});
 				await visit.save();
 				await place.save();
+				const visits = await Visit.find({ place: req.query.placeId });
 				return res.status(201).json({
 					message: 'Visit added successfully',
-					visit,
+					visits,
 				});
 			} catch (error) {
 				console.log(error);

@@ -23,14 +23,13 @@ const PlaceVisits = ({ placeId }) => {
 
 	const handleSubmit = async (visit) => {
 		//Convert to Form Data
-		console.log(visit);
 		const formData = new FormData();
-		await Promise.all(
-			visit.photos.map(async (url) => {
-				const blob = await fetch(url).then((r) => r.blob());
-				formData.append('photos', blob);
-			})
-		);
+
+		console.log(visit.photos);
+		visit.photos.forEach((photo) => {
+			formData.append('photos', photo);
+		});
+
 		for (const key in visit) {
 			if (key !== 'photos') {
 				formData.append(key, visit[key]);

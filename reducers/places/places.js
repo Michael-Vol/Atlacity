@@ -11,7 +11,7 @@ const initialState = {
 	visits: {
 		isLoading: false,
 		error: null,
-		visits: null,
+		visits: [],
 		visitsLoaded: false,
 	},
 };
@@ -91,7 +91,7 @@ const places = (state = initialState, action) => {
 					...state.visits,
 					isLoading: false,
 					error: payload,
-					visits: null,
+					visits: [],
 				},
 			};
 

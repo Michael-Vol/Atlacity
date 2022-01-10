@@ -2,7 +2,7 @@ import connectToDB from '../../../../lib/db';
 import Place from '../../../../models/Place';
 import checkAuth from '../../../../lib/middleware/checkAuth';
 import validateObjectId from '../../../../lib/middleware/validateObjectId';
-
+import City from '../../../../models/City';
 const placeHandler = async (req, res) => {
 	switch (req.method) {
 		case 'GET':

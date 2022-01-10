@@ -7,12 +7,15 @@ import Image from 'next/image';
 export default function Dropzone({ onFilesAccepted }) {
 	const [filesLoaded, setFilesLoaded] = useState(false);
 	const [urls, setUrls] = useState([]);
+	const [files, setFiles] = useState([]);
 	const onDrop = useCallback(
 		(acceptedFiles) => {
 			setFilesLoaded(true);
 			const newUrls = acceptedFiles.map((file) => URL.createObjectURL(file));
+
 			setUrls([...urls, ...newUrls]);
-			onFilesAccepted([...urls, ...newUrls]);
+			setFiles([...files, ...acceptedFiles]);
+			onFilesAccepted([...files, ...acceptedFiles]);
 		},
 		[onFilesAccepted]
 	);
@@ -57,8 +60,8 @@ export default function Dropzone({ onFilesAccepted }) {
 					border='2px solid'
 					borderColor={'gray.300'}
 					gap={6}>
-					{urls.map((url) => (
-						<Image src={url} width={'60px'} height={'60px'} />
+					{urls.map((url, index) => (
+						<Image key={index} src={url} width={'60px'} height={'60px'} />
 					))}
 				</Flex>
 			)}

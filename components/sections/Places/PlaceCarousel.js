@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SwiperCore, { Pagination, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text, Image } from '@chakra-ui/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { FiCameraOff } from 'react-icons/fi';
+
 SwiperCore.use([Pagination, Navigation]);
 
 const PlaceCarousel = ({ photos }) => {
@@ -21,11 +22,18 @@ const PlaceCarousel = ({ photos }) => {
 					}}
 					navigation={photos.length > 0}
 					className='mySwiper'>
-					{photos.map((photo, index) => (
-						<SwiperSlide key={index}>
-							<img src={photo.url} alt={photo.name} />
-						</SwiperSlide>
-					))}
+					{photos.map((photo, index) => {
+						return (
+							<SwiperSlide key={index}>
+								<Image
+									width={'100%'}
+									height={'100%'}
+									src={`data:image/jpg;base64,${Buffer.from(photo.buffer)}`}
+									alt={photo.name}
+								/>
+							</SwiperSlide>
+						);
+					})}
 				</Swiper>
 			) : (
 				<Flex justifyContent={'center'} w={'100%'} alignItems={'center'} flexDir={'column'}>
