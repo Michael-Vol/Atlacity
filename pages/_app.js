@@ -60,7 +60,7 @@ function AtlacityApp({ Component, pageProps }) {
 					store.dispatch(refreshToken());
 				};
 				setInterval(authRefresh, 100 * 60 * 60);
-				authRefresh();
+				// authRefresh();
 			}
 		}
 	}, [auth]);
@@ -70,13 +70,11 @@ function AtlacityApp({ Component, pageProps }) {
 	}, []);
 
 	return (
-		!auth.isLoading && (
-			<PersistGate loading={null} persistor={store.__persistor}>
-				<ChakraProvider theme={theme}>
-					<Component {...pageProps} />
-				</ChakraProvider>
-			</PersistGate>
-		)
+		<PersistGate loading={null} persistor={store.__persistor}>
+			<ChakraProvider theme={theme}>
+				<Component {...pageProps} />
+			</ChakraProvider>
+		</PersistGate>
 	);
 }
 
