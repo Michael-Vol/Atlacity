@@ -44,7 +44,7 @@ const HomeLayout = () => {
 				setAvatarFile(Buffer.from(avatar.avatar.buffer.data).toString('base64'));
 			}
 		}
-	}, []);
+	}, [avatar]);
 	const handleAddVisit = (values) => {
 		console.log(values);
 	};

@@ -25,3 +25,13 @@ export const getPlace = (placeId) => async (dispatch) => {
 		dispatch({ type: types.GET_PLACE_FAILURE, payload: error.response.data });
 	}
 };
+
+export const getPlaceVisits = (placeId) => async (dispatch) => {
+	try {
+		dispatch({ type: types.GET_PLACE_VISITS_REQUEST });
+		const res = await axios.get(`/api/places/${placeId}/visits`);
+		dispatch({ type: types.GET_PLACE_VISITS_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.GET_PLACE_VISITS_FAILURE, payload: error.response.data });
+	}
+};

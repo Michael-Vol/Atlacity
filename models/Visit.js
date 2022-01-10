@@ -43,6 +43,6 @@ const visitSchema = new mongoose.Schema({
 	},
 });
 
-const Visit = mongoose.model('Visit', visitSchema);
+const Visit = mongoose.models.Visit || mongoose.model('Visit', visitSchema);
 
 export default Visit;

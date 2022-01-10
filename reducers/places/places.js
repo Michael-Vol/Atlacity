@@ -8,6 +8,12 @@ const initialState = {
 		message: null,
 		placeLoaded: false,
 	},
+	visits: {
+		isLoading: false,
+		error: null,
+		visits: null,
+		visitsLoaded: false,
+	},
 };
 
 const places = (state = initialState, action) => {
@@ -52,6 +58,35 @@ const places = (state = initialState, action) => {
 					isLoading: false,
 					error: payload,
 					place: null,
+				},
+			};
+		case types.GET_PLACE_VISITS_REQUEST:
+			return {
+				...state,
+				visits: {
+					...state.visits,
+					isLoading: true,
+				},
+			};
+		case types.GET_PLACE_VISITS_SUCCESS:
+			return {
+				...state,
+				visits: {
+					...state.visits,
+					isLoading: false,
+					visits: payload.visits,
+					error: null,
+					visitsLoaded: true,
+				},
+			};
+		case types.GET_PLACE_VISITS_FAILURE:
+			return {
+				...state,
+				visits: {
+					...state.visits,
+					isLoading: false,
+					error: payload,
+					visits: null,
 				},
 			};
 
