@@ -50,3 +50,15 @@ export const addVisit = (placeId, visit) => async (dispatch) => {
 		dispatch({ type: types.ADD_VISIT_FAILURE, payload: error.response.data });
 	}
 };
+
+export const searchPlaces =
+	(name, limit = 5) =>
+	async (dispatch) => {
+		try {
+			dispatch({ type: types.SEARCH_PLACES_REQUEST });
+			const res = await axios.get(`/api/cities/search?name={$name}&limit=${limit}`);
+			dispatch({ type: types.SEARCH_PLACES_SUCCESS, payload: res.data });
+		} catch (error) {
+			dispatch({ type: types.SEARCH_PLACES_FAILURE, payload: error.message });
+		}
+	};

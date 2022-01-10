@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { InputGroup, Input, InputRightElement, Flex, Text, Spinner } from '@chakra-ui/react';
+import { InputGroup, Input, InputRightAddon, Flex, Text, Spinner } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
-import { searchPlaces } from '../../../actions/places/search';
+import { searchPlaces } from '../../../actions/places/places';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 
@@ -10,7 +10,7 @@ const PlaceResults = () => {
 	const [searchResults, setSearchResults] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
 	const dispatch = useDispatch();
-	const cities = useSelector((state) => state.cities);
+	const places = useSelector((state) => state.places);
 
 	useEffect(() => {
 		handleSearch();
@@ -28,7 +28,7 @@ const PlaceResults = () => {
 		setSearchResults([]);
 	};
 	useEffect(() => {
-		const { search } = cities;
+		const { search } = places;
 		if (!search.isLoading) {
 			if (search.error) {
 				setIsSearching(false);
@@ -38,24 +38,19 @@ const PlaceResults = () => {
 				setSearchResults(search.results);
 			}
 		}
-	}, [cities.search]);
+	}, [places.search]);
 	return (
-		<Flex w={'100%'} bgColor={'white'} rounded='md' flexDir={'column'}>
+		<Flex w={'250px'} bgColor={'white'} rounded='md' flexDir={'column'} mx={'20px'} alignItems={'center'}>
 			<InputGroup rounded={'xl'}>
-				<Input
-					placeholder='Search'
-					size='lg'
-					value={input}
-					onChange={(e) => setInput(e.target.value)}
-				/>
-				<InputRightElement mt={'4px'} cursor={'pointer'} onClick={handleSearch}>
+				<Input placeholder='Search' value={input} onChange={(e) => setInput(e.target.value)} />
+				<InputRightAddon cursor={'pointer'} onClick={handleSearch}>
 					{isSearching ? <Spinner boxSize={'1.5em'} /> : <BiSearch size={'1.5em'} />}
-				</InputRightElement>
+				</InputRightAddon>
 			</InputGroup>
-			{/* <Flex flexDir={'column'}>
+			<Flex flexDir={'column'}>
 				{input.length > 0 &&
-					searchResults.map((city, index) => ({
-						  <Link key={index} href={`/cities/name=${city.name}&id=${city._id}`}>
+					searchResults.map((place, index) => (
+						<Link key={index} href={`/places/${place._id}`}>
 							<Flex
 								cursor={'pointer'}
 								w={'100%'}
@@ -65,12 +60,12 @@ const PlaceResults = () => {
 									color: 'white',
 								}}>
 								<Text px={'20px'} fontSize={'20px'}>
-									{city.info.name},{city.info.state},{city.info.country}
+									{place.name}
 								</Text>
 							</Flex>
 						</Link>
-					}))}
-			</Flex> */}
+					))}
+			</Flex>
 		</Flex>
 	);
 };

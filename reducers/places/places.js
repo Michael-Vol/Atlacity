@@ -14,6 +14,11 @@ const initialState = {
 		visits: [],
 		visitsLoaded: false,
 	},
+	search: {
+		isLoading: false,
+		error: null,
+		results: [],
+	},
 };
 
 const places = (state = initialState, action) => {
@@ -92,6 +97,33 @@ const places = (state = initialState, action) => {
 					isLoading: false,
 					error: payload,
 					visits: [],
+				},
+			};
+		case types.SEARCH_PLACES_REQUEST:
+			return {
+				...state,
+				search: {
+					...state.search,
+					isLoading: true,
+				},
+			};
+		case types.SEARCH_PLACES_SUCCESS:
+			return {
+				...state,
+				search: {
+					...state.search,
+					isLoading: false,
+					results: payload.results,
+				},
+			};
+		case types.SEARCH_PLACES_FAILURE:
+			return {
+				...state,
+				search: {
+					...state.search,
+					isLoading: false,
+					error: payload,
+					results: [],
 				},
 			};
 

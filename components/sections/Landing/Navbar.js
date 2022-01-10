@@ -10,6 +10,7 @@ import {
 	MenuList,
 	MenuItem,
 	Spinner,
+	Input,
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
@@ -22,6 +23,7 @@ import { RiArrowDownSFill } from 'react-icons/ri';
 import { CgProfile } from 'react-icons/cg';
 import { FiLogOut, FiSettings } from 'react-icons/fi';
 import { useStore } from 'react-redux';
+import PlaceResults from '../Home/PlaceResults';
 
 const MenuItems = (props) => {
 	const { children, isLast, to, ...rest } = props;
@@ -129,6 +131,7 @@ const Navbar = (props) => {
 					</Fragment>
 				) : (
 					<Flex mr={'20px'} alignItems={'center'}>
+						<PlaceResults />
 						{!avatar.isLoading ? (
 							<Avatar
 								cursor={'pointer'}
@@ -141,7 +144,6 @@ const Navbar = (props) => {
 						) : (
 							<Spinner boxSize={'30px'} />
 						)}
-
 						<Menu>
 							<MenuButton>
 								<RiArrowDownSFill size={'20px'} onClick={() => setShowMenu(!showMenu)} />
