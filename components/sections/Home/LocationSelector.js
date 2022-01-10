@@ -1,11 +1,10 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import MapGL, { Marker, NavigationControl, GeolocateControl } from 'react-map-gl';
-
 import { MdLocationPin } from 'react-icons/md';
+import getEnv from '../../../config/env';
 
-const MAPBOX_TOKEN =
-	'pk.eyJ1IjoibWljaGFlbHZvbCIsImEiOiJja2RhcTJ0bmgxMjA0MnlrNmI1YWZqbmJoIn0.m6J1J-HNN5o4VhQ5ix26Yg';
+const MAPBOX_TOKEN = process.env['NEXT_PUBLIC_MAPBOX_TOKEN'];
 
 const LocationSelector = ({ onSelect, cityCoords }) => {
 	const [viewport, setViewport] = useState({
