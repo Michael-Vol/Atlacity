@@ -27,7 +27,7 @@ const placeVisitsHandler = async (req, res) => {
 	switch (req.method) {
 		case 'GET':
 			try {
-				const visits = await Visit.find({ place: req.query.placeId });
+				const visits = await Visit.find({ place: req.query.placeId }).populate('visitor');
 				return res.json({
 					visits,
 				});
@@ -63,8 +63,12 @@ const placeVisitsHandler = async (req, res) => {
 					isRecommended: req.body.isRecommended,
 				});
 				await visit.save();
+				if (!place.visitors.includes(req.user._id)) {
+					place.visitors.push(req.user._id);
+				}
+
 				await place.save();
-				const visits = await Visit.find({ place: req.query.placeId });
+				const visits = await Visit.find({ place: req.query.placeId }).populate('visitor');
 				return res.status(201).json({
 					message: 'Visit added successfully',
 					visits,

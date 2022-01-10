@@ -5,6 +5,7 @@ import { getPlaceVisits } from '../../../actions/places/places';
 import AddVisitModal from '../Home/AddVisitModal';
 import Button from '../../ui/Button';
 import { addVisit } from '../../../actions/places/places';
+import Visit from './Visit';
 
 const PlaceVisits = ({ placeId }) => {
 	const toast = useToast();
@@ -51,11 +52,40 @@ const PlaceVisits = ({ placeId }) => {
 
 	return !visits.isLoading ? (
 		visits.visitsLoaded && (
-			<Flex flexDir={'column'}>
+			<Flex flex={1} justifyContent={'center'} alignItems={'center'} mt={'20px'}>
 				{visits.visits.length > 0 ? (
-					<div></div>
+					<Flex
+						my={'20px'}
+						mx={'20vh'}
+						bgColor={'blue.50'}
+						p={'20px'}
+						rounded={'md'}
+						w={'80%'}
+						flexDir={'column'}>
+						<Flex justifyContent={'space-between'} alignItems={'center'}>
+							<Text fontSize={'22px'} color={'blue.800'}>
+								Visits
+							</Text>
+							<Button bgColor={'blue.700'} _hover={{ bgColor: 'blue.800' }} onClick={onOpen}>
+								Add Visit
+							</Button>
+						</Flex>
+						<Flex flexDir={'column'} my={'20px'}>
+							{visits.visits.map((visit) => (
+								<Visit visit={visit} key={visit._id} />
+							))}
+						</Flex>
+						<AddVisitModal
+							isInPlace
+							initialFocusRef={initialFocusRef}
+							finalFocusRef={finalFocusRef}
+							isOpen={isOpen}
+							onClose={onClose}
+							onSubmit={handleSubmit}
+						/>
+					</Flex>
 				) : (
-					<Flex flex={1} justifyContent={'center'} alignItems={'center'} mt={'20px'}>
+					<Flex>
 						<Text fontSize={'24px'} color={'blue.500'}>
 							No visits yet. Be the first to{' '}
 							<Text cursor={'pointer'} color={'teal'} as={'span'} onClick={onOpen}>

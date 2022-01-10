@@ -17,7 +17,7 @@ const PlaceHeader = ({ place }) => {
 			bgColor={'blue.800'}
 			w={'100%'}
 			flexDir={'column'}>
-			<GridItem colSpan={11} p={'50px'}>
+			<GridItem colSpan={9} p={'50px'}>
 				<Flex flexDir={'column'}>
 					<Heading fontSize={'48px'}>{place.name}</Heading>
 					<Text fontSize={'18px'}>{place.category}</Text>
@@ -42,13 +42,9 @@ const PlaceHeader = ({ place }) => {
 						<BsFillDoorOpenFill />
 						<Text ml={'10px'}>{place.visitors.length} Visitors</Text>
 					</Flex>
-					<Flex mt={'10px'} alignItems={'center'}>
-						<AiOutlineStar />
-						<Text ml={'10px'}>0 Ratings</Text>
-					</Flex>
 				</Flex>
 			</GridItem>
-			<GridItem colSpan={9} bgColor={'gray.800'}>
+			<GridItem colSpan={11} bgColor={'gray.800'}>
 				<PlaceCarousel photos={place.photos} />
 			</GridItem>
 		</Grid>

@@ -52,6 +52,7 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 	};
 	return (
 		<Modal
+			size={'xl'}
 			initialFocusRef={initialFocusRef}
 			isOpen={isOpen}
 			onClose={onClose}
@@ -69,10 +70,9 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 							initialValues={initialData}
 							onSubmit={(values, { setSubmitting }) => {
 								setSubmitting(true);
-								console.log(formData);
 								onSubmit(formData);
-								// setFormData(initialData);
-								// onClose();
+								setFormData(initialData);
+								onClose();
 							}}>
 							{(props) => (
 								<Form
@@ -183,7 +183,10 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 														form.errors.recommended && form.touched.recommended
 													}
 													mt={'20px'}>
-													<Flex alignItems={'center'} fontSize={'18px'}>
+													<Flex
+														alignItems={'center'}
+														justifyContent={'space-between'}
+														fontSize={'18px'}>
 														<Text htmlFor='recommended' mx={'10px'}>
 															Would you recommend this place to others?
 														</Text>
