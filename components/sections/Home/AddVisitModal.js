@@ -25,7 +25,7 @@ import PlacePhotosUploader from '../Places/PlacePhotosUploader';
 
 const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubmit, isInPlace = false }) => {
 	const initialData = {
-		place: {},
+		place: '',
 		title: '',
 		description: '',
 		rating: 0,
@@ -82,6 +82,7 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 										}
 									}}>
 									<Flex flexDir={'column'}>
+										<Flex gap={4}></Flex>
 										{!isInPlace && (
 											<Field name='place'>
 												{({ field, form }) => (
@@ -89,7 +90,11 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 														isInvalid={form.errors.place && form.touched.place}
 														mt={'20px'}>
 														<FormLabel htmlFor='place'>Place</FormLabel>
-														<PlaceResults fullWidth inModal />
+														<PlaceResults
+															onSelect={(place) =>
+																setFormData({ ...formData, place })
+															}
+														/>
 														<FormErrorMessage>
 															{form.errors.place}
 														</FormErrorMessage>
@@ -134,6 +139,7 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 												</FormControl>
 											)}
 										</Field>
+
 										<Field name='date'>
 											{({ field, form }) => (
 												<FormControl

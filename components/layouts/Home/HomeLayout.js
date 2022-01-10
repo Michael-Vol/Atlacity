@@ -16,7 +16,7 @@ import { MdPlace } from 'react-icons/md';
 import { BiPencil } from 'react-icons/bi';
 import AddVisitModal from '../../sections/Home/AddVisitModal';
 import AddPlaceModal from '../../sections/Home/AddPlaceModal';
-import { addPlace } from '../../../actions/places/places';
+import { addPlace, addVisit } from '../../../actions/places/places';
 import { useRouter } from 'next/router';
 
 const HomeLayout = () => {
@@ -45,8 +45,19 @@ const HomeLayout = () => {
 			}
 		}
 	}, [avatar]);
-	const handleAddVisit = (values) => {
-		console.log(values);
+	const handleAddVisit = (visit) => {
+		//Convert to Form Data
+		const formData = new FormData();
+		visit.photos.forEach((photo) => {
+			formData.append('photos', photo);
+		});
+
+		for (const key in visit) {
+			if (key !== 'photos') {
+				formData.append(key, visit[key]);
+			}
+		}
+		dispatch(addVisit(visit.place, formData));
 	};
 	const handleAddPlace = (place) => {
 		setNewPlaceSubmitted(true);
@@ -57,12 +68,6 @@ const HomeLayout = () => {
 		if (!place.isLoading && newPlaceSubmitted) {
 			if (place.place) {
 				setNewPlaceSubmitted(false);
-				toast({
-					title: 'Place added successfully',
-					status: 'success',
-					duration: 2000,
-					isClosable: true,
-				});
 				router.push(`/places/${place.place._id}`);
 			} else if (place.error) {
 				toast({
