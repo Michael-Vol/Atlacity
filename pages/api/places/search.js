@@ -2,7 +2,7 @@ import checkAuth from '../../../lib/middleware/checkAuth';
 import connectToDB from '../../../lib/db';
 import Place from '../../../models/Place';
 
-const CitySearchHandler = async (req, res) => {
+const PlaceSearchHandler = async (req, res) => {
 	switch (req.method) {
 		case 'GET':
 			const { name, limit = 5 } = req.query;
@@ -21,4 +21,4 @@ const CitySearchHandler = async (req, res) => {
 	}
 };
 
-export default checkAuth(CitySearchHandler);
+export default checkAuth(PlaceSearchHandler);
