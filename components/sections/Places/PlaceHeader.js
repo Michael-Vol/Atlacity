@@ -2,11 +2,9 @@ import React from 'react';
 import { Grid, GridItem, Text, Flex, Heading } from '@chakra-ui/react';
 import { MdLocationPin } from 'react-icons/md';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
-import { BsFillDoorOpenFill } from 'react-icons/bs';
+import { BsFillDoorOpenFill, BsFillTelephoneFill } from 'react-icons/bs';
 import { IoMdPhotos } from 'react-icons/io';
 import { AiOutlineStar } from 'react-icons/ai';
-
-import { useSelector } from 'react-redux';
 
 import PlaceCarousel from './PlaceCarousel';
 
@@ -22,6 +20,7 @@ const PlaceHeader = ({ place }) => {
 			<GridItem colSpan={11} p={'50px'}>
 				<Flex flexDir={'column'}>
 					<Heading fontSize={'48px'}>{place.name}</Heading>
+					<Text fontSize={'18px'}>Cafe-Bar</Text>
 					<Flex alignItems={'center'} mt={'10px'}>
 						<MdLocationPin />
 						<Text ml={'10px'} fontSize={'16px'} mt={'5px'}>
@@ -33,15 +32,15 @@ const PlaceHeader = ({ place }) => {
 						<AiOutlineInfoCircle />
 						<Text ml={'10px'}>{place.description}</Text>
 					</Flex>
+					<Flex mt={'10px'} alignItems={'center'}>
+						<BsFillTelephoneFill />
+						<Text ml={'10px'}> 22710234233 </Text>
+					</Flex>
 				</Flex>
-				<Flex flexDir={'column'} fontWeight={'400'} fontSize={'20px'} mt={'20px'} mx={'20px'}>
+				<Flex flexDir={'column'} fontWeight={'400'} fontSize={'18px'} mt={'10px'}>
 					<Flex alignItems={'center'}>
 						<BsFillDoorOpenFill />
 						<Text ml={'10px'}>{place.visitors.length} Visitors</Text>
-					</Flex>
-					<Flex mt={'10px'} alignItems={'center'}>
-						<IoMdPhotos />
-						<Text ml={'10px'}>{place.photos.length} Photos</Text>
 					</Flex>
 					<Flex mt={'10px'} alignItems={'center'}>
 						<AiOutlineStar />
