@@ -36,6 +36,7 @@ const places = (state = initialState, action) => {
 					isLoading: false,
 					message: payload.message,
 					error: null,
+					place: payload.place,
 				},
 			};
 		case types.GET_PLACE_SUCCESS:
@@ -58,9 +59,11 @@ const places = (state = initialState, action) => {
 					isLoading: false,
 					error: payload,
 					place: null,
+					placeLoaded: false,
 				},
 			};
 		case types.GET_PLACE_VISITS_REQUEST:
+		case types.ADD_VISIT_REQUEST:
 			return {
 				...state,
 				visits: {
@@ -69,6 +72,7 @@ const places = (state = initialState, action) => {
 				},
 			};
 		case types.GET_PLACE_VISITS_SUCCESS:
+		case types.ADD_VISIT_SUCCESS:
 			return {
 				...state,
 				visits: {
@@ -80,6 +84,7 @@ const places = (state = initialState, action) => {
 				},
 			};
 		case types.GET_PLACE_VISITS_FAILURE:
+		case types.ADD_VISIT_FAILURE:
 			return {
 				...state,
 				visits: {

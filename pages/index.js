@@ -11,7 +11,6 @@ export default () => {
 	const router = useRouter();
 	const [page, setPage] = useState(<div></div>);
 	useEffect(() => {
-		console.log(auth);
 		if (!auth.isLoading) {
 			if (auth.isAuthenticated) {
 				setPage(

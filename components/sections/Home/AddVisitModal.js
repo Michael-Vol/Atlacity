@@ -21,21 +21,28 @@ import ReactStars from 'react-rating-stars-component';
 import Button from '../../ui/Button';
 import { Formik, Form, Field } from 'formik';
 import PlaceResults from './PlaceResults';
+import PlacePhotosUploader from '../Places/PlacePhotosUploader';
 
-const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubmit }) => {
+const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubmit, isInPlace = false }) => {
 	const initialData = {
 		place: {},
+		title: '',
 		description: '',
 		rating: 0,
+		photos: [],
 		date: new Date().toLocaleDateString('en-CA'),
 		isRecommended: false,
 	};
 	const [formData, setFormData] = useState(initialData);
 
+	const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
 	const handleValidation = () => {
 		const errors = {};
-		console.log(formData);
 		if (!formData.description) {
+			errors.description = 'Please enter a description';
+		}
+		if (!formData.title) {
 			errors.description = 'Please enter a description';
 		}
 		if (formData.rating === 0) {
@@ -62,9 +69,10 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 							initialValues={initialData}
 							onSubmit={(values, { setSubmitting }) => {
 								setSubmitting(true);
+								console.log(formData);
 								onSubmit(formData);
-								setFormData(initialData);
-								onClose();
+								// setFormData(initialData);
+								// onClose();
 							}}>
 							{(props) => (
 								<Form
@@ -74,14 +82,33 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 										}
 									}}>
 									<Flex flexDir={'column'}>
-										<Field name='place'>
+										{!isInPlace && (
+											<Field name='place'>
+												{({ field, form }) => (
+													<FormControl
+														isInvalid={form.errors.place && form.touched.place}
+														mt={'20px'}>
+														<FormLabel htmlFor='place'>Place</FormLabel>
+														<PlaceResults />
+														<FormErrorMessage>
+															{form.errors.place}
+														</FormErrorMessage>
+													</FormControl>
+												)}
+											</Field>
+										)}
+										<Field name='title'>
 											{({ field, form }) => (
 												<FormControl
-													isInvalid={form.errors.place && form.touched.place}
+													isInvalid={form.errors.title && form.touched.title}
 													mt={'20px'}>
-													<FormLabel htmlFor='place'>Place</FormLabel>
-													<PlaceResults />
-													<FormErrorMessage>{form.errors.place}</FormErrorMessage>
+													<FormLabel htmlFor='title'>Title</FormLabel>
+													<Input
+														id={'title'}
+														{...field}
+														value={form.title}
+														onChange={handleChange}
+													/>
 												</FormControl>
 											)}
 										</Field>
@@ -97,12 +124,8 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 														{...field}
 														type='text'
 														id='description'
-														onChange={(e) =>
-															setFormData({
-																...formData,
-																description: e.target.value,
-															})
-														}
+														value={form.description}
+														onChange={handleChange}
 														placeholder='Describe your visit...'
 													/>
 													<FormErrorMessage>
@@ -117,7 +140,12 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 													isInvalid={form.errors.date && form.touched.date}
 													mt={'20px'}>
 													<FormLabel htmlFor='date'>Date</FormLabel>
-													<Input {...field} type='date' id='date' />
+													<Input
+														{...field}
+														type='date'
+														id='date'
+														onChange={handleChange}
+													/>
 													<FormErrorMessage>{form.errors.date}</FormErrorMessage>
 												</FormControl>
 											)}
@@ -132,7 +160,11 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 														count={5}
 														size={30}
 														onChange={(rating) => {
-															setFormData({ ...formData, rating });
+															console.log(rating);
+															setFormData({
+																...formData,
+																rating,
+															});
 														}}
 														isHalf={true}
 														emptyIcon={<i className='far fa-star'></i>}
@@ -155,7 +187,15 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 														<Text htmlFor='recommended' mx={'10px'}>
 															Would you recommend this place to others?
 														</Text>
-														<Checkbox color={'blue.700'} size={'lg'}></Checkbox>
+														<Checkbox
+															color={'blue.700'}
+															onChange={(e) =>
+																setFormData({
+																	...formData,
+																	isRecommended: e.target.checked,
+																})
+															}
+															size={'lg'}></Checkbox>
 													</Flex>
 													<FormErrorMessage>
 														{form.errors.recommended}
@@ -163,6 +203,21 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 												</FormControl>
 											)}
 										</Field>
+										<Field name='photos'>
+											{({ field, form }) => (
+												<FormControl
+													isInvalid={form.errors.photos && form.touched.photos}
+													mt={'20px'}>
+													<PlacePhotosUploader
+														onFilesAccepted={(photos) =>
+															setFormData({ ...formData, photos })
+														}
+													/>
+													<FormErrorMessage>{form.errors.photos}</FormErrorMessage>
+												</FormControl>
+											)}
+										</Field>
+
 										<Flex m={'60px 0px 20px 0px'} justifyContent={'flex-end'}>
 											<Button
 												size='md'

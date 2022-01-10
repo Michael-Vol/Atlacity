@@ -35,3 +35,18 @@ export const getPlaceVisits = (placeId) => async (dispatch) => {
 		dispatch({ type: types.GET_PLACE_VISITS_FAILURE, payload: error.response.data });
 	}
 };
+
+export const addVisit = (placeId, visit) => async (dispatch) => {
+	try {
+		dispatch({ type: types.ADD_VISIT_REQUEST });
+		const config = {
+			headers: {
+				'Content-Type': 'multipart-form-data',
+			},
+		};
+		const res = await axios.post(`/api/places/${placeId}/visits`, visit, config);
+		dispatch({ type: types.ADD_VISIT_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.ADD_VISIT_FAILURE, payload: error.response.data });
+	}
+};

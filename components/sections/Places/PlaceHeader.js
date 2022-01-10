@@ -20,7 +20,7 @@ const PlaceHeader = ({ place }) => {
 			<GridItem colSpan={11} p={'50px'}>
 				<Flex flexDir={'column'}>
 					<Heading fontSize={'48px'}>{place.name}</Heading>
-					<Text fontSize={'18px'}>Cafe-Bar</Text>
+					<Text fontSize={'18px'}>{place.category}</Text>
 					<Flex alignItems={'center'} mt={'10px'}>
 						<MdLocationPin />
 						<Text ml={'10px'} fontSize={'16px'} mt={'5px'}>
@@ -34,7 +34,7 @@ const PlaceHeader = ({ place }) => {
 					</Flex>
 					<Flex mt={'10px'} alignItems={'center'}>
 						<BsFillTelephoneFill />
-						<Text ml={'10px'}> 22710234233 </Text>
+						<Text ml={'10px'}> {place.telephone} </Text>
 					</Flex>
 				</Flex>
 				<Flex flexDir={'column'} fontWeight={'400'} fontSize={'18px'} mt={'10px'}>

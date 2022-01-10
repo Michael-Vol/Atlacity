@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getPlaceVisits } from '../../../actions/places/places';
 import AddVisitModal from '../Home/AddVisitModal';
 import Button from '../../ui/Button';
+import { addVisit } from '../../../actions/places/places';
 
 const PlaceVisits = ({ placeId }) => {
 	const toast = useToast();
@@ -19,6 +20,24 @@ const PlaceVisits = ({ placeId }) => {
 			dispatch(getPlaceVisits(placeId));
 		}
 	}, []);
+
+	const handleSubmit = async (visit) => {
+		//Convert to Form Data
+		console.log(visit);
+		const formData = new FormData();
+		await Promise.all(
+			visit.photos.map(async (url) => {
+				const blob = await fetch(url).then((r) => r.blob());
+				formData.append('photos', blob);
+			})
+		);
+		for (const key in visit) {
+			if (key !== 'photos') {
+				formData.append(key, visit[key]);
+			}
+		}
+		dispatch(addVisit(placeId, formData));
+	};
 
 	useEffect(() => {
 		if (!visits.isLoading && visits.error) {
@@ -45,10 +64,12 @@ const PlaceVisits = ({ placeId }) => {
 							</Text>
 						</Text>
 						<AddVisitModal
+							isInPlace
 							initialFocusRef={initialFocusRef}
 							finalFocusRef={finalFocusRef}
 							isOpen={isOpen}
 							onClose={onClose}
+							onSubmit={handleSubmit}
 						/>
 					</Flex>
 				)}

@@ -33,6 +33,8 @@ const AddPlaceModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 		city: {},
 		address: '',
 		description: '',
+		category: '',
+		telephone: '',
 	};
 	const [formData, setFormData] = useState(initialData);
 	const [cityCoords, setCityCoords] = useState({
@@ -68,6 +70,13 @@ const AddPlaceModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 		if (!formData.address) {
 			errors.address = 'Please enter a address';
 		}
+		if (!formData.category) {
+			errors.category = 'Please enter a category';
+		}
+		if (!formData.telephone) {
+			errors.telephone = 'Please enter a telephone';
+		}
+
 		if (isNaN(formData.coords.lat) || isNaN(formData.coords.lng)) {
 			errors.location = 'Please select a location';
 		}
@@ -80,7 +89,7 @@ const AddPlaceModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 			isOpen={isOpen}
 			onClose={onClose}
 			finalFocusRef={finalFocusRef}
-			size={'3xl'}>
+			size={'2xl'}>
 			<ModalOverlay />
 			<ModalContent color={'blue.700'}>
 				<ModalHeader>Add Place</ModalHeader>
@@ -123,38 +132,93 @@ const AddPlaceModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 												</FormControl>
 											)}
 										</Field>
-										<Field name='city'>
-											{({ field, form }) => (
-												<FormControl
-													isInvalid={form.errors.city && form.touched.city}
-													mt={'20px'}>
-													<FormLabel htmlFor='city'>City</FormLabel>
-													<CityResults
-														onSelect={(city) =>
-															setFormData({ ...formData, city })
+										<Flex gap={10}>
+											<Field name='category'>
+												{({ field, form }) => (
+													<FormControl
+														isInvalid={
+															form.errors.category && form.touched.category
 														}
-													/>
-													<FormErrorMessage>{form.errors.city}</FormErrorMessage>
-												</FormControl>
-											)}
-										</Field>
-										<Field name='address'>
-											{({ field, form }) => (
-												<FormControl
-													isInvalid={form.errors.address && form.touched.address}
-													mt={'20px'}>
-													<FormLabel htmlFor='address'>Address</FormLabel>
-													<Input
-														{...field}
-														value={formData.address}
-														onChange={handleChange}
-														id='address'
-													/>
+														mt={'20px'}>
+														<FormLabel htmlFor='category'>Category</FormLabel>
+														<Input
+															{...field}
+															onChange={handleChange}
+															value={formData.category}
+															id='category'
+															placeholder={`Enter the place's category`}
+														/>
+														<FormErrorMessage>
+															{form.errors.category}
+														</FormErrorMessage>
+													</FormControl>
+												)}
+											</Field>
+											<Field name='telephone'>
+												{({ field, form }) => (
+													<FormControl
+														isInvalid={
+															form.errors.telephone && form.touched.telephone
+														}
+														mt={'20px'}>
+														<FormLabel htmlFor='telephone'>
+															Telephone number
+														</FormLabel>
+														<Input
+															{...field}
+															onChange={handleChange}
+															value={formData.telephone}
+															id='telephone'
+															placeholder={`Enter the place's telephone number`}
+														/>
+														<FormErrorMessage>
+															{form.errors.telephone}
+														</FormErrorMessage>
+													</FormControl>
+												)}
+											</Field>
+										</Flex>
+										<Flex gap={10}>
+											<Field name='city'>
+												{({ field, form }) => (
+													<FormControl
+														isInvalid={form.errors.city && form.touched.city}
+														mt={'20px'}>
+														<FormLabel htmlFor='city'>City</FormLabel>
+														<CityResults
+															onSelect={(city) =>
+																setFormData({ ...formData, city })
+															}
+														/>
+														<FormErrorMessage>
+															{form.errors.city}
+														</FormErrorMessage>
+													</FormControl>
+												)}
+											</Field>
+											<Field name='address'>
+												{({ field, form }) => (
+													<FormControl
+														isInvalid={
+															form.errors.address && form.touched.address
+														}
+														mt={'20px'}>
+														<FormLabel htmlFor='address'>Address</FormLabel>
+														<Input
+															{...field}
+															value={formData.address}
+															onChange={handleChange}
+															id='address'
+														/>
 
-													<FormErrorMessage>{form.errors.address}</FormErrorMessage>
-												</FormControl>
-											)}
-										</Field>
+														<FormErrorMessage>
+															{form.errors.address}
+														</FormErrorMessage>
+													</FormControl>
+												)}
+											</Field>
+										</Flex>
+
 										<Field name='location'>
 											{({ field, form }) => (
 												<FormControl
