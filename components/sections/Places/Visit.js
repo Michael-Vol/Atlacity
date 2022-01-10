@@ -5,19 +5,10 @@ import axios from 'axios';
 
 const Visit = ({ visit }) => {
 	const [avatar, setAvatar] = useState(null);
-	const renderStars = () => {
-		const arr = [];
-		for (let i = 0; i < 3; i++) {
-			arr.push(i);
-		}
-
-		return arr.map((index) => <i className='fa fa-star'></i>);
-	};
 
 	useEffect(() => {
 		const getAvatar = async () => {
 			const res = await axios.get(`/api/users/${visit.visitor._id}/avatar`);
-			console.log(res.data);
 			setAvatar(Buffer.from(res.data.buffer.data).toString('base64'));
 		};
 		getAvatar();
@@ -58,7 +49,6 @@ const Visit = ({ visit }) => {
 				fullIcon={<i className='fa fa-star'></i>}
 				activeColor='#ffd700'
 			/>
-			{renderStars()}
 			<Text mt={'10px'} fontSize={'16px'}>
 				{visit.description}
 			</Text>
