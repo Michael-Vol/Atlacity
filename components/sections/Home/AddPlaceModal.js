@@ -132,14 +132,15 @@ const AddPlaceModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 												</FormControl>
 											)}
 										</Field>
-										<Flex gap={10}>
+										<Flex gap={5}>
 											<Field name='category'>
 												{({ field, form }) => (
 													<FormControl
 														isInvalid={
 															form.errors.category && form.touched.category
 														}
-														mt={'20px'}>
+														mt={'20px'}
+														mr={'10px'}>
 														<FormLabel htmlFor='category'>Category</FormLabel>
 														<Input
 															{...field}
@@ -182,6 +183,7 @@ const AddPlaceModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 											<Field name='city'>
 												{({ field, form }) => (
 													<FormControl
+														mr={'10px'}
 														isInvalid={form.errors.city && form.touched.city}
 														mt={'20px'}>
 														<FormLabel htmlFor='city'>City</FormLabel>

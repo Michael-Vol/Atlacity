@@ -82,7 +82,6 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 										}
 									}}>
 									<Flex flexDir={'column'}>
-										<Flex gap={4}></Flex>
 										{!isInPlace && (
 											<Field name='place'>
 												{({ field, form }) => (
