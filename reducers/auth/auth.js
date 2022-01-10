@@ -17,6 +17,11 @@ export default (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case types.LOGOUT_REQUEST:
+			return {
+				...state,
+				isLoading: false,
+				isAuthenticated: false,
+			};
 		case types.REFRESH_TOKEN_REQUEST:
 		case types.LOGIN_REQUEST:
 		case types.REGISTER_REQUEST:

@@ -32,7 +32,7 @@ const theme = extendTheme({
 			100: '#8AB1F3',
 			50: '#EFF1FE',
 		},
-		primary: '#5F88CE',
+		primary: '#2f69cc',
 		secondary: '#6C9DEF',
 	},
 	components: {
@@ -53,6 +53,7 @@ function AtlacityApp({ Component, pageProps }) {
 
 	useEffect(() => {
 		//Request new access token every 6 minutes
+		console.log(auth);
 		if (!auth.isLoading) {
 			if (auth.isAuthenticated) {
 				const authRefresh = async () => {

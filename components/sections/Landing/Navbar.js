@@ -47,7 +47,6 @@ const MenuItems = (props) => {
 const Navbar = (props) => {
 	const router = useRouter();
 	const dispatch = useDispatch();
-	const store = useStore();
 
 	const { isAuthenticated } = useSelector((state) => state.auth);
 	const auth = useSelector((state) => state.auth);
@@ -57,9 +56,9 @@ const Navbar = (props) => {
 	const [showMenu, setShowMenu] = useState(false);
 
 	const handleLogout = async () => {
-		await dispatch(logout());
-		store.__persistor.purge();
 		router.push('/');
+		dispatch(logout());
+		// store.__persistor.purge();
 	};
 
 	const goToProfile = () => {

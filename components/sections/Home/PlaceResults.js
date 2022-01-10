@@ -45,7 +45,6 @@ const PlaceResults = ({ onSelect }) => {
 				return console.log(search.error);
 			} else {
 				setIsSearching(false);
-				console.log(search);
 				setSearchResults(search.results);
 			}
 		}

@@ -9,26 +9,20 @@ import Navbar from '../components/sections/Landing/Navbar';
 export default () => {
 	const auth = useSelector((state) => state.auth);
 	const router = useRouter();
-	const [page, setPage] = useState(<div></div>);
-	useEffect(() => {
-		if (!auth.isLoading) {
-			if (auth.isAuthenticated) {
-				setPage(
-					<div>
-						<Navbar />
-						<HomeLayout />
-					</div>
-				);
-			} else {
-				setPage(
-					<div>
-						<Navbar />
-						<LandingLayout />;
-					</div>
-				);
-			}
-		}
-	}, [auth]);
 
-	return <div>{page}</div>;
+	return !auth.isLoading ? (
+		auth.isAuthenticated ? (
+			<div>
+				<Navbar />
+				<HomeLayout />
+			</div>
+		) : (
+			<div>
+				<Navbar />
+				<LandingLayout />
+			</div>
+		)
+	) : (
+		<div>Loading...</div>
+	);
 };
