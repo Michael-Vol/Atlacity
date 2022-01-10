@@ -59,7 +59,7 @@ const placeVisitsHandler = async (req, res) => {
 					title: req.body.title,
 					description: req.body.description,
 					visitor: req.user._id,
-					rating: req.body.rating === 'true',
+					rating: req.body.rating,
 					isRecommended: req.body.isRecommended,
 				});
 				await visit.save();

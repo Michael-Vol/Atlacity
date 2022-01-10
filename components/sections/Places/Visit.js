@@ -51,6 +51,7 @@ const Visit = ({ visit }) => {
 				count={5}
 				size={30}
 				value={visit.rating}
+				edit={false}
 				isHalf={true}
 				emptyIcon={<i className='far fa-star'></i>}
 				halfIcon={<i className='fa fa-star-half-alt'></i>}
