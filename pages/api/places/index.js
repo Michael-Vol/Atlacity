@@ -20,6 +20,8 @@ const placesHandler = async (req, res) => {
 						check('description').exists().withMessage('Description is required'),
 						check('description').isString().withMessage('Description must be a string'),
 						check('city').exists().withMessage('City is required'),
+						check('category').exists().withMessage('Category is required'),
+						check('category').isString().withMessage('Category must be a string'),
 					],
 					validationResult
 				)

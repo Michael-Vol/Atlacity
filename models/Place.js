@@ -16,6 +16,15 @@ const placeSchema = new mongoose.Schema({
 			required: true,
 		},
 	},
+	telephone: {
+		type: String,
+		maxlength: 20,
+	},
+	category: {
+		type: String,
+		required: true,
+		maxlength: 50,
+	},
 	address: {
 		type: String,
 		required: true,
