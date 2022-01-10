@@ -2,11 +2,12 @@ import React from 'react';
 import { GridItem, Flex, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 const CityItem = ({ city }) => {
+	console.log(city.photos.thumb);
 	return (
 		<Link href={`/city/${city.name}`}>
 			<GridItem cursor={'pointer'}>
 				<Flex
-					bgImage={`url(${city.photos.thumb})`}
+					bgImage={city.photos.thumb && `url(${city.photos.thumb})`}
 					mb={'10px'}
 					w={'200px'}
 					h={'133px'}
