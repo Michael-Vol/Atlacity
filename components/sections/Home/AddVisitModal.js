@@ -89,7 +89,7 @@ const AddVisitModal = ({ initialFocusRef, finalFocusRef, isOpen, onClose, onSubm
 														isInvalid={form.errors.place && form.touched.place}
 														mt={'20px'}>
 														<FormLabel htmlFor='place'>Place</FormLabel>
-														<PlaceResults />
+														<PlaceResults fullWidth inModal />
 														<FormErrorMessage>
 															{form.errors.place}
 														</FormErrorMessage>

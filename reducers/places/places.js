@@ -113,7 +113,7 @@ const places = (state = initialState, action) => {
 				search: {
 					...state.search,
 					isLoading: false,
-					results: payload.results,
+					results: payload.places,
 				},
 			};
 		case types.SEARCH_PLACES_FAILURE:

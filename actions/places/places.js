@@ -56,7 +56,7 @@ export const searchPlaces =
 	async (dispatch) => {
 		try {
 			dispatch({ type: types.SEARCH_PLACES_REQUEST });
-			const res = await axios.get(`/api/cities/search?name={$name}&limit=${limit}`);
+			const res = await axios.get(`/api/places/search?name=${name}&limit=${limit}`);
 			dispatch({ type: types.SEARCH_PLACES_SUCCESS, payload: res.data });
 		} catch (error) {
 			dispatch({ type: types.SEARCH_PLACES_FAILURE, payload: error.message });

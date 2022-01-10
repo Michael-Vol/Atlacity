@@ -5,7 +5,7 @@ import { searchPlaces } from '../../../actions/places/places';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 
-const PlaceResults = () => {
+const PlaceResults = ({ fullWidth = false, inModal = false }) => {
 	const [input, setInput] = useState('');
 	const [searchResults, setSearchResults] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
@@ -35,38 +35,53 @@ const PlaceResults = () => {
 				return console.log(search.error);
 			} else {
 				setIsSearching(false);
+				console.log(search);
 				setSearchResults(search.results);
 			}
 		}
 	}, [places.search]);
+
 	return (
-		<Flex w={'250px'} bgColor={'white'} rounded='md' flexDir={'column'} mx={'20px'} alignItems={'center'}>
-			<InputGroup rounded={'xl'}>
-				<Input placeholder='Search' value={input} onChange={(e) => setInput(e.target.value)} />
-				<InputRightAddon cursor={'pointer'} onClick={handleSearch}>
-					{isSearching ? <Spinner boxSize={'1.5em'} /> : <BiSearch size={'1.5em'} />}
-				</InputRightAddon>
-			</InputGroup>
-			<Flex flexDir={'column'}>
+		<div>
+			<Flex
+				w={fullWidth ? '100%' : '250px'}
+				bgColor={'white'}
+				rounded='md'
+				flexDir={'column'}
+				mx={!fullWidth && '20px'}
+				alignItems={'center'}
+				position={'relative'}>
+				<InputGroup rounded={'xl'}>
+					<Input placeholder='Search' value={input} onChange={(e) => setInput(e.target.value)} />
+					<InputRightAddon cursor={'pointer'} onClick={handleSearch}>
+						{isSearching ? <Spinner boxSize={'1.5em'} /> : <BiSearch size={'1.5em'} />}
+					</InputRightAddon>
+				</InputGroup>
+			</Flex>
+			<Flex
+				flexDir={'column'}
+				position={!inModal && 'absolute'}
+				ml={!fullWidth && '20px'}
+				border={input.length > 3 && searchResults && '1px solid'}
+				borderColor={'gray.800'}
+				borderRadius={'0px 0px 5px 5px'}>
 				{input.length > 0 &&
 					searchResults.map((place, index) => (
 						<Link key={index} href={`/places/${place._id}`}>
 							<Flex
 								cursor={'pointer'}
-								w={'100%'}
+								w={fullWidth ? '100%' : '250px'}
 								p={'10px'}
 								_hover={{
 									bgColor: 'blue.700',
 									color: 'white',
 								}}>
-								<Text px={'20px'} fontSize={'20px'}>
-									{place.name}
-								</Text>
+								<Text px={'5px'}>{place.name}</Text>
 							</Flex>
 						</Link>
 					))}
 			</Flex>
-		</Flex>
+		</div>
 	);
 };
 
