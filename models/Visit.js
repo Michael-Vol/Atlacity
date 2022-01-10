@@ -12,6 +12,15 @@ const visitSchema = new mongoose.Schema({
 		ref: 'Place',
 		required: true,
 	},
+	title: {
+		type: String,
+		required: true,
+	},
+	description: {
+		type: String,
+		required: true,
+	},
+
 	date: {
 		type: Date,
 		required: true,
@@ -22,8 +31,13 @@ const visitSchema = new mongoose.Schema({
 		},
 	},
 	rating: {
-		type: mongoose.SchemaTypes.ObjectId,
-		ref: 'Rating',
+		type: Number,
+		required: true,
+		validate: {
+			validator(value) {
+				return value >= 0 && value <= 5;
+			},
+		},
 	},
 	likes: [
 		{
