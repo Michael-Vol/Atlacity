@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Flex, Text, Avatar, Divider } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { FiSettings } from 'react-icons/fi';
+import { getSuggestedUsers } from '../../../actions/users/users';
+import UserSuggestion from './UserSuggestion';
 
 const UserSuggestionsSidebar = () => {
 	const router = useRouter();
+	const dispatch = useDispatch();
+	const { suggested } = useSelector((state) => state.users);
+
+	useEffect(() => {
+		dispatch(getSuggestedUsers());
+	}, []);
 
 	return (
 		<Flex
@@ -19,26 +27,9 @@ const UserSuggestionsSidebar = () => {
 			justifyContent={'space-between'}>
 			<Flex flexDir={'column'}>
 				<Text fontSize={'22px'}>People you may know</Text>
-				<Flex
-					my={'10px'}
-					alignItems={'center'}
-					bgColor={'#fff'}
-					rounded={'xl'}
-					px={'10px'}
-					py={'20px'}>
-					<Avatar boxSize={'2em'} name={'John Doe'} />
-					<Text ml={'15px'}>John Doe</Text>
-				</Flex>
-				<Flex
-					my={'10px'}
-					alignItems={'center'}
-					bgColor={'#fff'}
-					rounded={'xl'}
-					px={'10px'}
-					py={'20px'}>
-					<Avatar boxSize={'2em'} name={'Jerry Vitus'} />
-					<Text ml={'15px'}>Jerry Vitus</Text>
-				</Flex>
+				{!suggested.isLoading &&
+					suggested.users.length > 0 &&
+					suggested.users.map((user) => <UserSuggestion key={user._id} user={user.user} />)}
 			</Flex>
 			<Flex flexDir={'column'}>
 				<Divider />

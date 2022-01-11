@@ -58,7 +58,7 @@ const avatarHandler = async (req, res) => {
 				await connectToDB();
 
 				const profile = await UserProfile.findOne({
-					user: req.user._id,
+					user: req.query.userId,
 				});
 
 				if (!profile || !profile.avatar.buffer) {

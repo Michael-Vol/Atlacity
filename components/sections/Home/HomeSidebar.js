@@ -66,10 +66,10 @@ const HomeSidebar = () => {
 			</Flex>
 			<Flex flexDir={'column'}>
 				<Divider />
-				<Text mt={'5px'} fontSize={'18px'} fontWeight={'700'}>
+				<Text mt={'5px'} fontSize={'18px'} fontWeight={'500'}>
 					Pinned Places
 				</Text>
-				<Text mt={'10px'} color={'gray'}>
+				<Text mt={'10px'} fontSize={'16px'} color={'gray'}>
 					No pinned places
 				</Text>
 			</Flex>
