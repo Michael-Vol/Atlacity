@@ -24,6 +24,11 @@ const initialState = {
 		error: null,
 		results: [],
 	},
+	pinned: {
+		isLoading: false,
+		error: null,
+		places: [],
+	},
 };
 
 const places = (state = initialState, action) => {
@@ -199,6 +204,34 @@ const places = (state = initialState, action) => {
 					isLoading: false,
 					isPinned: true,
 					error: payload,
+				},
+			};
+		case types.FETCH_PINNED_PLACES_REQUEST:
+			return {
+				...state,
+				pinned: {
+					...state.pinned,
+					isLoading: true,
+				},
+			};
+		case types.FETCH_PINNED_PLACES_SUCCESS:
+			return {
+				...state,
+				pinned: {
+					...state.pinned,
+					isLoading: false,
+					places: payload.places,
+					error: null,
+				},
+			};
+		case types.FETCH_PINNED_PLACES_FAILURE:
+			return {
+				...state,
+				pinned: {
+					...state.pinned,
+					isLoading: false,
+					error: payload,
+					places: [],
 				},
 			};
 

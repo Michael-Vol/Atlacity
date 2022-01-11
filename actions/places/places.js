@@ -82,3 +82,13 @@ export const unpinPlace = (placeId) => async (dispatch) => {
 		dispatch({ type: types.UNPIN_PLACE_FAILURE, payload: error.response.data });
 	}
 };
+
+export const getPinnedPlaces = () => async (dispatch) => {
+	try {
+		dispatch({ type: types.FETCH_PINNED_PLACES_REQUEST });
+		const res = await axios.get('/api/places/pinned');
+		dispatch({ type: types.FETCH_PINNED_PLACES_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.FETCH_PINNED_PLACES_FAILURE, payload: error.response.data });
+	}
+};

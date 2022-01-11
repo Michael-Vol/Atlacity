@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Text, Avatar, Divider } from '@chakra-ui/react';
+import { Flex, Text, Avatar } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { FaUserFriends } from 'react-icons/fa';
 import { MdLocationPin } from 'react-icons/md';
 import { useRouter } from 'next/router';
+
+import PinnedPlaces from './PinnedPlaces';
 
 const HomeSidebar = () => {
 	const router = useRouter();
@@ -65,13 +67,7 @@ const HomeSidebar = () => {
 				</Flex>
 			</Flex>
 			<Flex flexDir={'column'}>
-				<Divider />
-				<Text mt={'5px'} fontSize={'18px'} fontWeight={'500'}>
-					Pinned Places
-				</Text>
-				<Text mt={'10px'} fontSize={'16px'} color={'gray'}>
-					No pinned places
-				</Text>
+				<PinnedPlaces />
 			</Flex>
 		</Flex>
 	);
