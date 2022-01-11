@@ -62,3 +62,23 @@ export const searchPlaces =
 			dispatch({ type: types.SEARCH_PLACES_FAILURE, payload: error.message });
 		}
 	};
+
+export const pinPlace = (placeId) => async (dispatch) => {
+	try {
+		dispatch({ type: types.PIN_PLACE_REQUEST });
+		const res = await axios.post(`/api/places/${placeId}/pin`);
+		dispatch({ type: types.PIN_PLACE_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.PIN_PLACE_FAILURE, payload: error.response.data });
+	}
+};
+
+export const unpinPlace = (placeId) => async (dispatch) => {
+	try {
+		dispatch({ type: types.UNPIN_PLACE_REQUEST });
+		const res = await axios.post(`/api/places/${placeId}/unpin`);
+		dispatch({ type: types.UNPIN_PLACE_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.UNPIN_PLACE_FAILURE, payload: error.response.data });
+	}
+};

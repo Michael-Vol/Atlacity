@@ -8,6 +8,11 @@ const initialState = {
 		message: null,
 		placeLoaded: false,
 	},
+	pin: {
+		isLoading: false,
+		error: null,
+		isPinned: false,
+	},
 	visits: {
 		isLoading: false,
 		error: null,
@@ -124,6 +129,76 @@ const places = (state = initialState, action) => {
 					isLoading: false,
 					error: payload,
 					results: [],
+				},
+			};
+		case types.PIN_PLACE_REQUEST:
+			return {
+				...state,
+				pin: {
+					...state.pin,
+					isLoading: true,
+				},
+			};
+		case types.PIN_PLACE_SUCCESS:
+			return {
+				...state,
+				pin: {
+					...state.pin,
+					isLoading: false,
+					isPinned: true,
+					error: null,
+				},
+				place: {
+					...state.place,
+					place: {
+						...state.place.place,
+						isPinned: true,
+					},
+				},
+			};
+		case types.PIN_PLACE_FAILURE:
+			return {
+				...state,
+				pin: {
+					...state.pin,
+					isLoading: false,
+					isPinned: false,
+					error: payload,
+				},
+			};
+		case types.UNPIN_PLACE_REQUEST:
+			return {
+				...state,
+				pin: {
+					...state.pin,
+					isLoading: true,
+				},
+				place: {
+					...state.place,
+					place: {
+						...state.place.place,
+						isPinned: false,
+					},
+				},
+			};
+		case types.UNPIN_PLACE_SUCCESS:
+			return {
+				...state,
+				pin: {
+					...state.pin,
+					isLoading: false,
+					isPinned: false,
+					error: null,
+				},
+			};
+		case types.UNPIN_PLACE_FAILURE:
+			return {
+				...state,
+				pin: {
+					...state.pin,
+					isLoading: false,
+					isPinned: true,
+					error: payload,
 				},
 			};
 
