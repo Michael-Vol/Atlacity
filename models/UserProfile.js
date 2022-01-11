@@ -27,7 +27,7 @@ const userProfileSchema = new mongoose.Schema(
 		],
 		currentLocation: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Place',
+			ref: 'City',
 			required: true,
 		},
 		favouritePlaces: [
