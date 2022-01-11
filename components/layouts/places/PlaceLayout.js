@@ -48,10 +48,13 @@ const PlaceLayout = () => {
 					<PlaceNotFound />
 				)
 			) : (
-				<Stack>
-					<Skeleton bgColor={'gray.500'} height='100px' />
-					<Skeleton bgColor={'gray.500'} height='100px' />
-					<Skeleton bgColor={'gray.500'} height='100px' />
+				<Stack mt={'20px'} p={'50px'}>
+					<Skeleton startColor='gray.500' height='20px' />
+					<Skeleton startColor='gray.500' height='20px' />
+					<Skeleton startColor='gray.500' height='20px' />
+					<Skeleton startColor='gray.500' height='20px' w={'75%'} />
+					<Skeleton startColor='gray.500' height='20px' w={'50%'} />
+					<Skeleton startColor='gray.500' height='20px' w={'20%'} />
 				</Stack>
 			)}
 		</Flex>

@@ -105,10 +105,11 @@ const PlaceVisits = ({ placeId }) => {
 			</Flex>
 		)
 	) : (
-		<Stack>
-			<Skeleton height='30px' />
-			<Skeleton height='30px' />
-			<Skeleton height='30px' />
+		<Stack mt={'20px'} p={'50px'}>
+			<Skeleton startColor='gray.500' height='15px' />
+			<Skeleton startColor='gray.500' height='15px' w={'75%'} />
+			<Skeleton startColor='gray.500' height='15px' w={'50%'} />
+			<Skeleton startColor='gray.500' height='15px' w={'20%'} />
 		</Stack>
 	);
 };

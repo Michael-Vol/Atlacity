@@ -55,49 +55,53 @@ const Favourites = () => {
 				Favourites
 			</Heading>
 
-			{profile.profile && profile.profile.favouriteCities && (
-				<Flex flexDir={'column'}>
-					<Flex
-						alignItems={'center'}
-						color={'teal.500'}
-						justifyContent={'space-between'}
-						mb={'30px'}>
-						<Flex alignItems={'center'}>
-							<FaCity size={25} />
-							<Text ml={'10px'} as={'span'} fontSize={'24px'}>
-								Favourite Cities
-							</Text>
+			{!profile.isLoading ? (
+				profile.profile &&
+				profile.profile.favouriteCities && (
+					<Flex flexDir={'column'}>
+						<Flex
+							alignItems={'center'}
+							color={'teal.500'}
+							justifyContent={'space-between'}
+							mb={'30px'}>
+							<Flex alignItems={'center'}>
+								<FaCity size={25} />
+								<Text ml={'10px'} as={'span'} fontSize={'24px'}>
+									Favourite Cities
+								</Text>
+							</Flex>
+							<IoMdAddCircleOutline size={25} cursor={'pointer'} onClick={onOpen} />
+							<AddFavouriteModal
+								type={'city'}
+								initialFocusRef={initialFocusRef}
+								finalFocusRef={finalFocusRef}
+								isOpen={isOpen}
+								onClose={onClose}
+								onSubmit={handleSubmit}
+							/>
 						</Flex>
-						<IoMdAddCircleOutline size={25} cursor={'pointer'} onClick={onOpen} />
-						<AddFavouriteModal
-							type={'city'}
-							initialFocusRef={initialFocusRef}
-							finalFocusRef={finalFocusRef}
-							isOpen={isOpen}
-							onClose={onClose}
-							onSubmit={handleSubmit}
-						/>
+						{profile.profile.favouriteCities.length > 0 ? (
+							<Grid templateRows='repeat(4, 1fr)' templateColumns='repeat(4, 1fr)' gap={2}>
+								{profile.profile.favouriteCities.map((city, index) => {
+									if (city) {
+										return <CityItem city={city} key={index} />;
+									}
+								})}
+							</Grid>
+						) : (
+							<Text textAlign={'center'} fontSize={'24px'}>
+								You have no favourite cities
+							</Text>
+						)}
 					</Flex>
-					{profile.isLoading ? (
-						<Stack>
-							<Skeleton height='20px' />
-							<Skeleton height='20px' />
-							<Skeleton height='20px' />
-						</Stack>
-					) : profile.profile.favouriteCities.length > 0 ? (
-						<Grid templateRows='repeat(4, 1fr)' templateColumns='repeat(4, 1fr)' gap={2}>
-							{profile.profile.favouriteCities.map((city, index) => {
-								if (city) {
-									return <CityItem city={city} key={index} />;
-								}
-							})}
-						</Grid>
-					) : (
-						<Text textAlign={'center'} fontSize={'24px'}>
-							You have no favourite cities
-						</Text>
-					)}
-				</Flex>
+				)
+			) : (
+				<Stack mt={'20px'}>
+					<Skeleton startColor='gray.500' height='15px' />
+					<Skeleton startColor='gray.500' height='15px' w={'75%'} />
+					<Skeleton startColor='gray.500' height='15px' w={'50%'} />
+					<Skeleton startColor='gray.500' height='15px' w={'20%'} />
+				</Stack>
 			)}
 		</Flex>
 	);

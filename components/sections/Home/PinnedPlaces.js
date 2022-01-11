@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Flex, Text, Divider, Spinner } from '@chakra-ui/react';
+import { Flex, Text, Divider, Spinner, Stack, Skeleton } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPinnedPlaces } from '../../../actions/places/places';
 import { GoLocation } from 'react-icons/go';
@@ -26,7 +26,7 @@ const PinnedPlaces = () => {
 							<Link key={place._id} href={`/places/${place._id}`}>
 								<Flex alignItems={'center'} _hover={{ cursor: 'pointer' }}>
 									<GoLocation size={'1em'} />
-									<Text ml={'5px'} fontSize={'1em'}>
+									<Text ml={'5px'} fontSize={'16px'}>
 										{place.name}
 									</Text>
 								</Flex>
@@ -34,7 +34,12 @@ const PinnedPlaces = () => {
 						))}
 				</Flex>
 			) : (
-				<Spinner boxSize={'1.2em'} />
+				<Stack mt={'10px'}>
+					<Skeleton startColor='gray.500' height='10px' />
+					<Skeleton startColor='gray.500' height='10px' w={'75%'} />
+					<Skeleton startColor='gray.500' height='10px' w={'50%'} />
+					<Skeleton startColor='gray.500' height='10px' w={'20%'} />
+				</Stack>
 			)}
 		</Flex>
 	);

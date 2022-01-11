@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, GridItem, Text, Flex, Heading, Spinner } from '@chakra-ui/react';
+import { Grid, GridItem, Text, Flex, Heading, Spinner, Skeleton, Stack } from '@chakra-ui/react';
 import { MdLocationPin } from 'react-icons/md';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { BsFillDoorOpenFill, BsFillTelephoneFill } from 'react-icons/bs';
-import { IoMdPhotos } from 'react-icons/io';
-import { AiOutlineStar } from 'react-icons/ai';
 import { BsPinAngleFill, BsFillCheckCircleFill } from 'react-icons/bs';
 import { useSelector, useDispatch } from 'react-redux';
 

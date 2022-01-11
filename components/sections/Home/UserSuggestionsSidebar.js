@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Text, Avatar, Divider } from '@chakra-ui/react';
+import { Flex, Text, Skeleton, Divider, Stack } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { FiSettings } from 'react-icons/fi';
@@ -27,9 +27,17 @@ const UserSuggestionsSidebar = () => {
 			justifyContent={'space-between'}>
 			<Flex flexDir={'column'}>
 				<Text fontSize={'22px'}>People you may know</Text>
-				{!suggested.isLoading &&
+				{!suggested.isLoading ? (
 					suggested.users.length > 0 &&
-					suggested.users.map((user) => <UserSuggestion key={user._id} user={user.user} />)}
+					suggested.users.map((user) => <UserSuggestion key={user._id} user={user.user} />)
+				) : (
+					<Stack mt={'20px'}>
+						<Skeleton startColor='gray.500' height='15px' />
+						<Skeleton startColor='gray.500' height='15px' w={'75%'} />
+						<Skeleton startColor='gray.500' height='15px' w={'50%'} />
+						<Skeleton startColor='gray.500' height='15px' w={'20%'} />
+					</Stack>
+				)}
 			</Flex>
 			<Flex flexDir={'column'}>
 				<Divider />

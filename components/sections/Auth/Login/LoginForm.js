@@ -66,7 +66,7 @@ const LoginForm = ({ onSubmit }) => {
 								bg='blue.400'
 								color={'white'}
 								size='lg'
-								isLoading={props.isSubmitting}
+								isLoading={props.isSubmitting || auth.isLoading}
 								isDisabled={!props.dirty || !props.isValid || props.isValidating}
 								type='submit'>
 								Sign In

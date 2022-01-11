@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import LandingLayout from '../components/layouts/LandingLayout';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import * as cookie from 'cookie';
+import { Flex, Text } from '@chakra-ui/react';
 import HomeLayout from '../components/layouts/Home/HomeLayout';
 import Navbar from '../components/sections/Landing/Navbar';
+import BarLoader from 'react-spinners/BarLoader';
+
 export default () => {
 	const auth = useSelector((state) => state.auth);
 	const router = useRouter();
@@ -23,6 +23,9 @@ export default () => {
 			</div>
 		)
 	) : (
-		<div>Loading...</div>
+		<Flex flexDir={'column'} justifyContent={'center'} alignItems={'center'} h={'92vh'}>
+			<BarLoader color={'#213963'} width={'200px'} />
+			<Text fontSize={'28px'}>Loading...</Text>
+		</Flex>
 	);
 };
