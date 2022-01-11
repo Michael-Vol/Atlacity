@@ -69,13 +69,13 @@ const ProfileLayout = () => {
 						<Flex flexDir={'column'} fontSize={'20px'}>
 							<Text>Followers</Text>
 							<Text fontWeight={'600'} textAlign={'center'}>
-								10
+								{profile.profile.followers.length}
 							</Text>
 						</Flex>
 						<Flex ml={'20px'} flexDir={'column'} fontSize={'20px'}>
 							<Text>Following</Text>
 							<Text fontWeight={'600'} textAlign={'center'}>
-								10
+								{profile.profile.following.length}
 							</Text>
 						</Flex>
 					</Flex>

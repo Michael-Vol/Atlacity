@@ -40,7 +40,64 @@ export default (state = initialState, action) => {
 					error: payload,
 				},
 			};
-
+		case types.FOLLOW_USER_REQUEST:
+			return {
+				...state,
+				follow: {
+					...state.follow,
+					isLoading: true,
+					error: null,
+				},
+			};
+		case types.FOLLOW_USER_SUCCESS:
+			return {
+				...state,
+				follow: {
+					...state.follow,
+					isLoading: false,
+					error: null,
+					isFollowed: true,
+				},
+			};
+		case types.FOLLOW_USER_FAILURE:
+			return {
+				...state,
+				follow: {
+					...state.follow,
+					isLoading: false,
+					error: payload,
+					isFollowed: false,
+				},
+			};
+		case types.UNFOLLOW_USER_REQUEST:
+			return {
+				...state,
+				unfollow: {
+					...state.unfollow,
+					isLoading: true,
+					error: null,
+				},
+			};
+		case types.UNFOLLOW_USER_SUCCESS:
+			return {
+				...state,
+				unfollow: {
+					...state.unfollow,
+					isLoading: false,
+					error: null,
+					isUnfollowed: true,
+				},
+			};
+		case types.UNFOLLOW_USER_FAILURE:
+			return {
+				...state,
+				unfollow: {
+					...state.unfollow,
+					isLoading: false,
+					error: payload,
+					isUnfollowed: false,
+				},
+			};
 		default:
 			return state;
 	}
