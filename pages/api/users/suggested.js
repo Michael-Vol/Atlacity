@@ -15,9 +15,12 @@ const suggestedUsersHandler = async (req, res) => {
 				})
 					.select('-avatar')
 					.populate('user');
+				const notFollowedUsers = currentLocationUsers.filter(
+					(user) => !profile.following.includes(user.user._id)
+				);
 
 				return res.json({
-					users: currentLocationUsers,
+					users: notFollowedUsers,
 				});
 			} catch (error) {
 				console.log(error);

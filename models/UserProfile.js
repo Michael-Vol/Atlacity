@@ -7,6 +7,18 @@ const userProfileSchema = new mongoose.Schema(
 			ref: 'User',
 			required: true,
 		},
+		followers: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'User',
+			},
+		],
+		following: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'User',
+			},
+		],
 		avatar: {
 			buffer: {
 				type: Buffer,
