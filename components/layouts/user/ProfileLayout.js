@@ -8,10 +8,10 @@ import SidebarItem from '../../ui/SidebarItem';
 import { FcTimeline, FcAbout } from 'react-icons/fc';
 import { BiBook } from 'react-icons/bi';
 import { BsFillDoorOpenFill } from 'react-icons/bs';
+import BarLoader from 'react-spinners/BarLoader';
 
 import AboutSection from '../../sections/User/Profile/AboutSection';
 import TimelineSection from '../../sections/User/Profile/TimelineSection';
-
 import Button from '../../ui/Button';
 import { getProfile } from '../../../actions/profile/profile';
 
@@ -55,67 +55,91 @@ const ProfileLayout = () => {
 
 	return (
 		<Flex flexDir={'column'}>
-			<Flex h={'40vh'} bg={'gray.300'}></Flex>
-			<Flex>
-				<Flex flexDir={'column'} bg={'gray.50'} px={'20px'} w={'20%'} alignItems={'center'}>
-					<Avatar
-						size={'2xl'}
-						mt={'-50px'}
-						mx={'20px'}
-						name={`${auth.user.firstName} ${auth.user.lastName}`}
-						src={avatarFile && `data:image/png;base64,${avatarFile}`}
-					/>
-					<Flex mt={'30px'}>
-						<Flex flexDir={'column'} fontSize={'20px'}>
-							<Text>Followers</Text>
-							<Text fontWeight={'600'} textAlign={'center'}>
-								{profile.profile.followers.length}
-							</Text>
-						</Flex>
-						<Flex ml={'20px'} flexDir={'column'} fontSize={'20px'}>
-							<Text>Following</Text>
-							<Text fontWeight={'600'} textAlign={'center'}>
-								{profile.profile.following.length}
-							</Text>
-						</Flex>
-					</Flex>
-					<Sidebar bgColor={'gray.50'} mt={'20px'}>
-						<SidebarItem {...sidebarItemProps} onClick={() => setActiveSection('timeline')}>
-							<FcTimeline />
-							<Text ml={'10px'}>Timeline</Text>
-						</SidebarItem>
-						<SidebarItem {...sidebarItemProps} onClick={() => setActiveSection('about')}>
-							<FcAbout />
-							<Text ml={'10px'}>About</Text>
-						</SidebarItem>
-						<SidebarItem {...sidebarItemProps} onClick={() => setActiveSection('visits')}>
-							<BsFillDoorOpenFill />
-							<Text ml={'10px'}>Visits</Text>
-						</SidebarItem>
-						<SidebarItem {...sidebarItemProps} onClick={() => setActiveSection('blog')}>
-							<BiBook />
-							<Text ml={'10px'}>Blog</Text>
-						</SidebarItem>
-					</Sidebar>
-				</Flex>
+			{!profile.isLoading ? (
+				profile.profile && (
+					<div>
+						{' '}
+						<Flex h={'40vh'} bg={'gray.300'}></Flex>
+						<Flex>
+							<Flex
+								flexDir={'column'}
+								bg={'gray.50'}
+								px={'20px'}
+								w={'20%'}
+								alignItems={'center'}>
+								<Avatar
+									size={'2xl'}
+									mt={'-50px'}
+									mx={'20px'}
+									name={`${auth.user.firstName} ${auth.user.lastName}`}
+									src={avatarFile && `data:image/png;base64,${avatarFile}`}
+								/>
+								<Flex mt={'30px'}>
+									<Flex flexDir={'column'} fontSize={'20px'}>
+										<Text>Followers</Text>
+										<Text fontWeight={'600'} textAlign={'center'}>
+											{profile.profile.followers.length}
+										</Text>
+									</Flex>
+									<Flex ml={'20px'} flexDir={'column'} fontSize={'20px'}>
+										<Text>Following</Text>
+										<Text fontWeight={'600'} textAlign={'center'}>
+											{profile.profile.following.length}
+										</Text>
+									</Flex>
+								</Flex>
+								<Sidebar bgColor={'gray.50'} mt={'20px'}>
+									<SidebarItem
+										{...sidebarItemProps}
+										onClick={() => setActiveSection('timeline')}>
+										<FcTimeline />
+										<Text ml={'10px'}>Timeline</Text>
+									</SidebarItem>
+									<SidebarItem
+										{...sidebarItemProps}
+										onClick={() => setActiveSection('about')}>
+										<FcAbout />
+										<Text ml={'10px'}>About</Text>
+									</SidebarItem>
+									<SidebarItem
+										{...sidebarItemProps}
+										onClick={() => setActiveSection('visits')}>
+										<BsFillDoorOpenFill />
+										<Text ml={'10px'}>Visits</Text>
+									</SidebarItem>
+									<SidebarItem
+										{...sidebarItemProps}
+										onClick={() => setActiveSection('blog')}>
+										<BiBook />
+										<Text ml={'10px'}>Blog</Text>
+									</SidebarItem>
+								</Sidebar>
+							</Flex>
 
-				<Flex flexDir={'column'} m={'30px'} w={'100%'}>
-					<Flex justifyContent={'space-between'}>
-						<Flex flexDir={'column'}>
-							<Heading>
-								<Text fontSize={'36px'}>
-									{auth.user.firstName} {auth.user.lastName}
-								</Text>
-							</Heading>
-						</Flex>
-						<Button bgColor={'blue.800'} size={'lg'}>
-							<Text fontSize={'14px'}>Follow</Text>
-						</Button>
-					</Flex>
-					{renderActiveSection()}
+							<Flex flexDir={'column'} m={'30px'} w={'100%'}>
+								<Flex justifyContent={'space-between'}>
+									<Flex flexDir={'column'}>
+										<Heading>
+											<Text fontSize={'36px'}>
+												{auth.user.firstName} {auth.user.lastName}
+											</Text>
+										</Heading>
+									</Flex>
+									<Button bgColor={'blue.800'} size={'lg'}>
+										<Text fontSize={'14px'}>Follow</Text>
+									</Button>
+								</Flex>
+								{renderActiveSection()}
+							</Flex>
+						</Flex>{' '}
+					</div>
+				)
+			) : (
+				<Flex flexDir={'column'} justifyContent={'center'} alignItems={'center'} h={'92vh'}>
+					<BarLoader color={'#213963'} width={'200px'} />
+					<Text fontSize={'28px'}>Loading...</Text>
 				</Flex>
-			</Flex>
-			}
+			)}
 		</Flex>
 	);
 };
