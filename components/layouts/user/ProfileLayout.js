@@ -125,9 +125,11 @@ const ProfileLayout = () => {
 											</Text>
 										</Heading>
 									</Flex>
-									<Button bgColor={'blue.800'} size={'lg'}>
-										<Text fontSize={'14px'}>Follow</Text>
-									</Button>
+									{profile.profile.user !== auth.user._id && (
+										<Button bgColor={'blue.800'} size={'lg'}>
+											<Text fontSize={'14px'}>Follow</Text>
+										</Button>
+									)}
 								</Flex>
 								{renderActiveSection()}
 							</Flex>
