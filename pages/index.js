@@ -13,7 +13,7 @@ export default () => {
 	return !auth.isLoading ? (
 		auth.isAuthenticated ? (
 			<div>
-				<Navbar />
+				<Navbar bgColor={'#fff'} />
 				<HomeLayout />
 			</div>
 		) : (
