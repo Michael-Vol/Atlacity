@@ -42,7 +42,7 @@ const placesHandler = async (req, res) => {
 				});
 			}
 
-			const place = new Place(req.body);
+			const place = new Place({ ...req.body, owner: req.user._id });
 			await place.save();
 
 			return res.status(201).json({
