@@ -39,7 +39,7 @@ const ActivityFeedHandler = async (req, res) => {
 
 				//get most recent visits created by user or user's following sers
 				const visits = await Visit.find({
-					visitor: req.user._id || { $in: profile.following },
+					$or: [{ visitor: req.user._id }, { visitor: { $in: profile.following } }],
 				})
 					.sort({ createdAt: -1 })
 					.limit(limit)
@@ -76,7 +76,6 @@ const ActivityFeedHandler = async (req, res) => {
 					.skip(skip)
 					.limit(limit);
 
-				console.log(pinnedPlaces);
 				//add pinned places to feedItems
 				for (let pinnedPlace of pinnedPlaces) {
 					feedItems.push({

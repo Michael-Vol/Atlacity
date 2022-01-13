@@ -1,11 +1,11 @@
 import Visit from '../../../../models/Visit';
+import UserProfile from '../../../../models/UserProfile';
 import checkAuth from '../../../../lib/middleware/checkAuth';
 import connectToDB from '../../../../lib/db';
 import validateObjectId from '../../../../lib/middleware/validateObjectId';
 import runMiddleware from '../../../../lib/middleware/runMiddleware';
 import Place from '../../../../models/Place';
 import multer from 'multer';
-
 export const config = {
 	api: {
 		bodyParser: false,
@@ -42,7 +42,12 @@ const placeVisitsHandler = async (req, res) => {
 				await connectToDB();
 
 				await runMiddleware(req, res, upload.any('photos'));
-
+				const profile = await UserProfile.findOne({ user: req.user._id });
+				if (!profile) {
+					return res.status(404).json({
+						message: 'User profile not found',
+					});
+				}
 				const place = await Place.findById(req.query.placeId);
 				if (!place) {
 					return res.status(400).json({
@@ -69,6 +74,10 @@ const placeVisitsHandler = async (req, res) => {
 
 				await place.save();
 				const visits = await Visit.find({ place: req.query.placeId }).populate('visitor');
+
+				//update profile visits
+				profile.visits.push(visit._id);
+				await profile.save();
 				return res.status(201).json({
 					message: 'Visit added successfully',
 					visits,

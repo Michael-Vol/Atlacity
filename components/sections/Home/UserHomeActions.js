@@ -79,6 +79,8 @@ const UserHomeActions = () => {
 					boxSize={'40px'}
 					src={avatarFile && `data:image/png;base64,${avatarFile}`}
 					name={`${auth.user.firstName} ${auth.user.lastName}`}
+					cursor={'pointer'}
+					onClick={() => router.push(`/users/${auth.user._id}/profile`)}
 				/>
 				<Button
 					bgColor={'white'}

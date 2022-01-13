@@ -29,8 +29,13 @@ const UserSuggestionsSidebar = () => {
 			<Flex flexDir={'column'}>
 				<Text fontSize={'22px'}>People you may know</Text>
 				{!suggested.isLoading ? (
-					suggested.users.length > 0 &&
-					suggested.users.map((user) => <UserSuggestion key={user._id} user={user.user} />)
+					suggested.users.length > 0 ? (
+						suggested.users.map((user) => <UserSuggestion key={user._id} user={user.user} />)
+					) : (
+						<Flex alignItems={'center'} mt={'20px'}>
+							<Text>No suggestions yet...</Text>
+						</Flex>
+					)
 				) : (
 					<Stack mt={'20px'}>
 						<Skeleton startColor='gray.500' height='15px' />
