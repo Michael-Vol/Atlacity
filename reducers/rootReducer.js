@@ -6,6 +6,7 @@ import emailVerification from './auth/emailVerification';
 import profile from './profile/profile';
 import cities from './cities/cities';
 import users from './users/users';
+import activityFeed from './activityFeed/activityFeed';
 import { LOGOUT_SUCCESS } from '../actions/types';
 
 const appReducer = combineReducers({
@@ -16,6 +17,7 @@ const appReducer = combineReducers({
 	cities,
 	places,
 	users,
+	activityFeed,
 });
 
 const rootReducer = (state, action) => {

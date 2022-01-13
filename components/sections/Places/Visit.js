@@ -9,7 +9,10 @@ const Visit = ({ visit }) => {
 	useEffect(() => {
 		const getAvatar = async () => {
 			const res = await axios.get(`/api/users/${visit.visitor._id}/avatar`);
-			setAvatar(Buffer.from(res.data.buffer.data).toString('base64'));
+			const { exists, avatar } = res.data;
+			if (exists) {
+				setAvatar(Buffer.from(avatar.buffer.data).toString('base64'));
+			}
 		};
 		getAvatar();
 	}, []);

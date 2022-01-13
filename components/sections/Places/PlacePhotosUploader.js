@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Flex, Center, useColorModeValue, Icon, Text, Avatar } from '@chakra-ui/react';
+import { Flex, useColorModeValue, Box, Icon, Text, Avatar } from '@chakra-ui/react';
 import { IoPersonCircle, IoMdPhotos } from 'react-icons/io';
 import Image from 'next/image';
 
@@ -61,7 +61,9 @@ export default function Dropzone({ onFilesAccepted }) {
 					borderColor={'gray.300'}
 					gap={6}>
 					{urls.map((url, index) => (
-						<Image key={index} src={url} width={'60px'} height={'60px'} />
+						<Box mx={'10px'}>
+							<Image key={index} src={url} width={'60px'} height={'60px'} />
+						</Box>
 					))}
 				</Flex>
 			)}

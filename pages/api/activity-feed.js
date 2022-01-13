@@ -4,6 +4,7 @@ import User from '../../models/User';
 import UserProfile from '../../models/UserProfile';
 import Place from '../../models/Place';
 import Visit from '../../models/Visit';
+import City from '../../models/City';
 import Timeline from '../../models/Timeline';
 
 const ActivityFeedHandler = async (req, res) => {
@@ -63,6 +64,8 @@ const ActivityFeedHandler = async (req, res) => {
 						followersFavouritePlaces.push(...followingProfile.favouritePlaces);
 					}
 				});
+				// console.log(followersFavouritePlaces);
+
 				const pinnedPlaces = await Place.find({
 					$or: [
 						{ _id: { $in: profile.favouritePlaces } },
@@ -73,6 +76,7 @@ const ActivityFeedHandler = async (req, res) => {
 					.skip(skip)
 					.limit(limit);
 
+				console.log(pinnedPlaces);
 				//add pinned places to feedItems
 				for (let pinnedPlace of pinnedPlaces) {
 					feedItems.push({
@@ -98,6 +102,22 @@ const ActivityFeedHandler = async (req, res) => {
 					],
 				});
 
+				activityFeed.feedItems = await Promise.all(
+					activityFeed.feedItems.map(async (feedItem) => {
+						const { item, itemCreator, itemType, modelType } = feedItem;
+						const populateFields = selectItemPopulateFields(itemType);
+						if (populateFields) {
+							await item.populate(populateFields);
+						}
+						return {
+							item,
+							itemCreator,
+							itemType,
+							modelType,
+						};
+					})
+				);
+
 				return res.json({
 					activityFeed,
 				});
@@ -112,14 +132,14 @@ const ActivityFeedHandler = async (req, res) => {
 	}
 };
 
-const selectRefModel = (itemType) => {
+const selectItemPopulateFields = (itemType) => {
 	switch (itemType) {
 		case 'add-place':
-			return Place;
+			return ['city'];
 		case 'add-visit':
-			return Visit;
+			return ['place'];
 		case 'pinned-place':
-			return Place;
+			return ['city'];
 		default:
 			return null;
 	}

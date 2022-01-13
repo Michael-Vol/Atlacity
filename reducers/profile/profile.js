@@ -13,6 +13,7 @@ const initialState = {
 		message: null,
 		avatar: null,
 		avatarUploaded: null,
+		exists: true,
 	},
 };
 
@@ -29,7 +30,6 @@ export default (state = initialState, action) => {
 				},
 			};
 		case types.UPLOAD_AVATAR_REQUEST:
-		case types.FETCH_AVATAR_REQUEST: {
 			return {
 				...state,
 				avatar: {
@@ -37,7 +37,17 @@ export default (state = initialState, action) => {
 					isLoading: true,
 				},
 			};
-		}
+
+		case types.FETCH_AVATAR_REQUEST:
+			return {
+				...state,
+				avatar: {
+					...state.avatar,
+					isLoading: true,
+					avatarRequested: true,
+				},
+			};
+
 		case types.ADD_FAVOURITES_REQUEST:
 			return {
 				...state,
@@ -94,23 +104,28 @@ export default (state = initialState, action) => {
 				},
 			};
 		case types.FETCH_AVATAR_SUCCESS:
+			console.log(payload, 'success');
 			return {
 				...state,
 				avatar: {
 					...state.avatar,
 					isLoading: false,
 					error: null,
-					avatar: payload,
+					avatar: payload.exists ? payload.avatar : null,
+					exists: payload.exists,
 				},
 			};
 		case types.FETCH_AVATAR_FAILURE:
+			console.log(payload, 'failure');
+
 			return {
 				...state,
 				avatar: {
 					...state.avatar,
 					isLoading: false,
 					error: payload,
-					avatar: null,
+					avatar: payload.exists ? payload.avatar : null,
+					exists: payload.exists,
 				},
 			};
 		case types.ADD_FAVOURITES_SUCCESS:

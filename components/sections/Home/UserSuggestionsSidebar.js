@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Text, Skeleton, Divider, Stack } from '@chakra-ui/react';
+import { Flex, Text, Skeleton, Divider, Stack, Heading } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { FiSettings } from 'react-icons/fi';
@@ -24,7 +24,8 @@ const UserSuggestionsSidebar = () => {
 			fontWeight={'500'}
 			color={'blue.800'}
 			fontSize={'18px'}
-			justifyContent={'space-between'}>
+			justifyContent={'space-between'}
+			overflow={'scroll'}>
 			<Flex flexDir={'column'}>
 				<Text fontSize={'22px'}>People you may know</Text>
 				{!suggested.isLoading ? (

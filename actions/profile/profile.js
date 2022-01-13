@@ -49,6 +49,7 @@ export const getAvatar = (userId) => async (dispatch) => {
 	try {
 		dispatch({ type: types.FETCH_AVATAR_REQUEST });
 		const res = await axios.get(`/api/users/${userId}/avatar`);
+		console.log(res);
 		dispatch({ type: types.FETCH_AVATAR_SUCCESS, payload: res.data });
 	} catch (error) {
 		dispatch({ type: types.FETCH_AVATAR_FAILURE, payload: error.response.data });

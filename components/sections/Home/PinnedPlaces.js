@@ -24,7 +24,7 @@ const PinnedPlaces = () => {
 					{pinned.places.length > 0 &&
 						pinned.places.map((place) => (
 							<Link key={place._id} href={`/places/${place._id}`}>
-								<Flex alignItems={'center'} _hover={{ cursor: 'pointer' }}>
+								<Flex my={'4px'} alignItems={'center'} _hover={{ cursor: 'pointer' }}>
 									<GoLocation size={'1em'} />
 									<Text ml={'5px'} fontSize={'16px'}>
 										{place.name}

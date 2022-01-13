@@ -76,11 +76,11 @@ const PlaceHeader = ({ place }) => {
 						<BsFillTelephoneFill />
 						<Text ml={'10px'}> {place.telephone} </Text>
 					</Flex>
-				</Flex>
-				<Flex flexDir={'column'} fontWeight={'400'} fontSize={'18px'} mt={'10px'}>
-					<Flex alignItems={'center'}>
-						<BsFillDoorOpenFill />
-						<Text ml={'10px'}>{place.visitors.length} Visitors</Text>
+					<Flex flexDir={'column'} fontWeight={'400'} fontSize={'18px'} mt={'10px'}>
+						<Flex alignItems={'center'}>
+							<BsFillDoorOpenFill />
+							<Text ml={'10px'}>{place.visitors.length} Visitors</Text>
+						</Flex>
 					</Flex>
 				</Flex>
 			</GridItem>

@@ -59,7 +59,10 @@ const UserSuggestion = ({ user }) => {
 		const getAvatar = async () => {
 			let res = await axios.get(`/api/users/${user._id}/avatar`);
 			if (!mountedRef.current) return null;
-			setAvatarFile(Buffer.from(res.data.buffer.data).toString('base64'));
+			const { exists, avatar } = res.data;
+			if (exists) {
+				setAvatarFile(Buffer.from(avatar.buffer.data).toString('base64'));
+			}
 		};
 		getAvatar();
 

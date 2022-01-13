@@ -51,6 +51,7 @@ const avatarHandler = async (req, res) => {
 			} catch (error) {
 				return res.status(400).json({
 					message: error.message,
+					exists: false,
 				});
 			}
 		case 'GET':
@@ -62,14 +63,16 @@ const avatarHandler = async (req, res) => {
 				});
 
 				if (!profile || !profile.avatar.buffer) {
-					return res.status(404).json({
+					return res.json({
 						message: 'No Profile Avatar found',
+						exists: false,
 					});
 				}
-				return res.send(profile.avatar);
+				return res.json({ avatar: profile.avatar, exists: true });
 			} catch (error) {
 				return res.status(400).json({
 					message: error.message,
+					exists: false,
 				});
 			}
 		default:

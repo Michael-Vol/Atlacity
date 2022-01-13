@@ -69,7 +69,7 @@ const Navbar = (props) => {
 		if (!avatar.isLoading && !avatarFile) {
 			if (avatar.avatar) {
 				setAvatarFile(Buffer.from(avatar.avatar.buffer.data).toString('base64'));
-			} else if (auth.isAuthenticated && !avatar.error) {
+			} else if (auth.isAuthenticated && !avatar.error && avatar.exists) {
 				dispatch(getAvatar(auth.user._id));
 			}
 		}
