@@ -61,10 +61,6 @@ const Navbar = (props) => {
 		// store.__persistor.purge();
 	};
 
-	const goToProfile = () => {
-		return router.push('/user/profile');
-	};
-
 	useEffect(() => {
 		if (!avatar.isLoading) {
 			console.log(avatar.avatar);
@@ -135,7 +131,7 @@ const Navbar = (props) => {
 						{!avatar.isLoading ? (
 							<Avatar
 								cursor={'pointer'}
-								onClick={goToProfile}
+								onClick={() => router.push(`/users/${auth.user._id}/profile`)}
 								mr={'10px'}
 								boxSize={'40px'}
 								src={avatarFile && `data:image/png;base64,${avatarFile}`}
@@ -155,7 +151,7 @@ const Navbar = (props) => {
 								p={'10px'}
 								borderRadius={'10px'}
 								color={'blue.500'}>
-								<MenuItem onClick={() => router.push('/user/profile')}>
+								<MenuItem onClick={() => router.push(`/users/${auth.user._id}/profile`)}>
 									<CgProfile />
 									<Text ml={'10px'} as='span'>
 										Profile

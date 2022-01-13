@@ -9,6 +9,7 @@ import axios from 'axios';
 import connectToDB from '../../../../lib/db';
 import checkAuth from '../../../../lib/middleware/checkAuth';
 import getEnv from '../../../../config/env';
+import validateObjectId from '../../../../lib/middleware/validateObjectId';
 
 const validateBody = initializeMiddleware(
 	validateMiddleware(
@@ -26,7 +27,7 @@ const profileHandler = async (req, res) => {
 		case 'GET':
 			try {
 				await connectToDB();
-				const profile = await UserProfile.findOne({ user: req.user._id });
+				const profile = await UserProfile.findOne({ user: req.query.userId }).populate('user');
 				if (!profile) {
 					return res.status(404).json({
 						message: 'User profile not found',
@@ -34,7 +35,6 @@ const profileHandler = async (req, res) => {
 				}
 				const { favouritePlaces, favouriteCities, currentLocation } = profile;
 				//Populate currentLocation
-				console.log(currentLocation);
 				const populatedCurrentLocation = await City.findById(currentLocation);
 				//Populate favourites
 
@@ -148,4 +148,4 @@ const profileHandler = async (req, res) => {
 	}
 };
 
-export default checkAuth(checkUserAccess(profileHandler, { methods: ['POST'] }));
+export default checkAuth(validateObjectId(checkUserAccess(profileHandler, { methods: ['POST'] }), 'userId'));

@@ -38,7 +38,7 @@ const HomeSidebar = () => {
 					alignItems={'center'}
 					mt={'30px'}
 					cursor={'pointer'}
-					onClick={() => router.push('/user/profile')}>
+					onClick={() => router.push(`/users/${auth.user._id}/profile`)}>
 					<Avatar
 						cursor={'pointer'}
 						boxSize={'2em'}

@@ -4,8 +4,10 @@ import axios from 'axios';
 import Button from '../../ui/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { followUser, unfollowUser } from '../../../actions/users/users';
+import { useRouter } from 'next/router';
 
 const UserSuggestion = ({ user }) => {
+	const router = useRouter();
 	const toast = useToast();
 	const dispatch = useDispatch();
 	const { follow, unfollow } = useSelector((state) => state.users);
@@ -80,7 +82,10 @@ const UserSuggestion = ({ user }) => {
 			px={'10px'}
 			py={'20px'}
 			justifyContent={'space-between'}>
-			<Flex alignItems={'center'}>
+			<Flex
+				alignItems={'center'}
+				cursor={'pointer'}
+				onClick={() => router.push(`/users/${user._id}/profile`)}>
 				<Avatar
 					boxSize={'2em'}
 					name={`${user.firstName} ${user.lastName}`}

@@ -16,19 +16,20 @@ import AboutSection from '../../sections/User/Profile/AboutSection';
 import TimelineSection from '../../sections/User/Profile/TimelineSection';
 import Button from '../../ui/Button';
 import UserAvatar from '../../sections/User/Profile/UserAvatar';
+import { useRouter } from 'next/router';
 
 const ProfileLayout = () => {
+	const router = useRouter();
 	const dispatch = useDispatch();
 	const auth = useSelector((state) => state.auth);
 	const { profile } = useSelector((state) => state.profile);
 	const [activeSection, setActiveSection] = useState('timeline');
 
 	useEffect(() => {
-		if (!profile.isLoading && !profile.profile) {
-			//Fetch full profile
-			dispatch(getProfile(auth.user._id));
+		if (!profile.isLoading && router.query.userId) {
+			dispatch(getProfile(router.query.userId));
 		}
-	}, []);
+	}, [router]);
 
 	const sidebarItemProps = {
 		fontSize: '22px',
@@ -112,7 +113,8 @@ const ProfileLayout = () => {
 									<Flex flexDir={'column'}>
 										<Heading>
 											<Text fontSize={'36px'}>
-												{auth.user.firstName} {auth.user.lastName}
+												{profile.profile.user.firstName}{' '}
+												{profile.profile.user.lastName}
 											</Text>
 										</Heading>
 									</Flex>
