@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Flex, Image, Box, keyframes } from '@chakra-ui/react';
 import { BiPencil } from 'react-icons/bi';
+import { useDispatch, useSelector } from 'react-redux';
+import { addBackgroundImage } from '../../../../actions/profile/profile';
 
 const BackgroundPicker = () => {
+	const dispatch = useDispatch();
+	const auth = useSelector((state) => state.auth);
 	const [showEditBackground, setShowEditBackground] = useState(false);
 	const defaultImageIds = [
 		'1532292060982-8bfb986808e7',
@@ -16,9 +20,14 @@ const BackgroundPicker = () => {
         100% {opacity:1;}
       `;
 
+	const updateBackgroundImage = (imageId) => {
+		setShowEditBackground(false);
+		dispatch(addBackgroundImage(auth.user._id, imageId));
+	};
 	return (
 		<Flex
-			_hover={{ fontWeight: '800', color: 'blue.500' }}
+			_hover={{ fontWeight: '800', color: 'white' }}
+			color={'gray.400'}
 			transition={'0.2s all ease-in-out'}
 			alignItems={'end'}>
 			{showEditBackground && (
@@ -33,6 +42,7 @@ const BackgroundPicker = () => {
 					alignItems={'center'}>
 					{defaultImageIds.map((imageId) => (
 						<Box
+							onClick={() => updateBackgroundImage(imageId)}
 							mx={'5px'}
 							key={imageId}
 							animation={`${fadeIn} 0.2s ease-in-out`}

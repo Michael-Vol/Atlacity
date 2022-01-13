@@ -150,6 +150,34 @@ export default (state = initialState, action) => {
 					message: null,
 				},
 			};
+		case types.ADD_BACKGROUND_IMAGE_REQUEST:
+			return {
+				...state,
+				profile: {
+					...state.profile,
+					isLoading: true,
+				},
+			};
+		case types.ADD_BACKGROUND_IMAGE_SUCCESS:
+			return {
+				...state,
+				profile: {
+					isLoading: false,
+					error: null,
+					profile: {
+						...state.profile.profile,
+						backgroundImage: payload.backgroundImage,
+					},
+				},
+			};
+		case types.ADD_BACKGROUND_IMAGE_FAILURE:
+			return {
+				...state,
+				profile: {
+					isLoading: false,
+					error: payload,
+				},
+			};
 		default:
 			return state;
 	}

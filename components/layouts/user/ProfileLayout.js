@@ -56,7 +56,17 @@ const ProfileLayout = () => {
 			{!profile.isLoading ? (
 				profile.profile && (
 					<div>
-						<Flex h={'40vh'} bg={'gray.300'} justifyContent={'end'} alignItems={'end'}>
+						<Flex
+							h={'40vh'}
+							bg={
+								profile.profile.backgroundImage !== 'none' &&
+								`url(https://images.unsplash.com/photo-${profile.profile.backgroundImage})`
+							}
+							bgColor={profile.profile.backgroundImage === 'none' && 'gray.300'}
+							bgRepeat={'no-repeat'}
+							bgSize={'cover'}
+							justifyContent={'end'}
+							alignItems={'end'}>
 							<Flex m={'10px'}>
 								<BackgroundPicker />
 							</Flex>

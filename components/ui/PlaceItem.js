@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { GridItem, Flex, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 const PlaceItem = ({ place }) => {
-	console.log(place);
 	const [photoFile, setPhotoFile] = useState(null);
 	useEffect(() => {
 		if (place.photos.length > 0) {

@@ -81,3 +81,22 @@ export const addFavourites = (userId, formData) => async (dispatch) => {
 		dispatch({ type: types.ADD_FAVOURITES_FAILURE, payload: error.response.data });
 	}
 };
+
+export const addBackgroundImage = (userId, imageId) => async (dispatch) => {
+	try {
+		dispatch({ type: types.ADD_BACKGROUND_IMAGE_REQUEST });
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		const res = await axios.post(
+			`/api/users/${userId}/background-image`,
+			{ backgroundImage: imageId },
+			config
+		);
+		dispatch({ type: types.ADD_BACKGROUND_IMAGE_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.ADD_BACKGROUND_IMAGE_FAILURE, payload: error.response.data });
+	}
+};
