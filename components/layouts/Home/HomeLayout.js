@@ -27,7 +27,7 @@ const HomeLayout = () => {
 			</GridItem>
 			<GridItem
 				colSpan={13}
-				maxH={'92vh'}
+				maxH={'93vh'}
 				overflow={'scroll'}
 				css={{
 					'&::-webkit-scrollbar': {

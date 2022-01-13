@@ -23,7 +23,7 @@ export default () => {
 			</div>
 		)
 	) : (
-		<Flex flexDir={'column'} justifyContent={'center'} alignItems={'center'} h={'92vh'}>
+		<Flex flexDir={'column'} justifyContent={'center'} alignItems={'center'} h={'93vh'}>
 			<BarLoader color={'#213963'} width={'200px'} />
 			<Text fontSize={'28px'}>Loading...</Text>
 		</Flex>

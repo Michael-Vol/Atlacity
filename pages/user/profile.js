@@ -4,7 +4,7 @@ import Navbar from '../../components/sections/Landing/Navbar';
 const Profile = () => {
 	return (
 		<div>
-			<Navbar bg={'gray.300'} />
+			<Navbar />
 			<ProfileLayout />
 		</div>
 	);

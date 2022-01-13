@@ -90,6 +90,7 @@ export default (state = initialState, action) => {
 					error: null,
 					message: payload.message,
 					avatarUploaded: true,
+					avatar: payload.avatar,
 				},
 			};
 		case types.UPLOAD_AVATAR_FAILURE:

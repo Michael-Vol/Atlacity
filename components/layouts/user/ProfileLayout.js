@@ -1,32 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { Flex, Text, Heading, useToast, Tag, Grid, GridItem, Avatar } from '@chakra-ui/react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Flex, Text, Heading, useToast, Tag, Grid, GridItem, Box } from '@chakra-ui/react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import checkAuth from '../../../lib/checkAuthClient';
 import Sidebar from '../../ui/Sidebar';
 import SidebarItem from '../../ui/SidebarItem';
+import { useDropzone } from 'react-dropzone';
 import { FcTimeline, FcAbout } from 'react-icons/fc';
 import { BiBook } from 'react-icons/bi';
 import { BsFillDoorOpenFill } from 'react-icons/bs';
 import BarLoader from 'react-spinners/BarLoader';
+import { getProfile } from '../../../actions/profile/profile';
 
 import AboutSection from '../../sections/User/Profile/AboutSection';
 import TimelineSection from '../../sections/User/Profile/TimelineSection';
 import Button from '../../ui/Button';
-import { getProfile } from '../../../actions/profile/profile';
+import UserAvatar from '../../sections/User/Profile/UserAvatar';
 
 const ProfileLayout = () => {
 	const dispatch = useDispatch();
 	const auth = useSelector((state) => state.auth);
-	const { profile, avatar } = useSelector((state) => state.profile);
-	const [avatarFile, setAvatarFile] = useState();
+	const { profile } = useSelector((state) => state.profile);
 	const [activeSection, setActiveSection] = useState('timeline');
 
 	useEffect(() => {
-		if (!avatar.isLoading && avatar.avatar && !avatarFile) {
-			//set avatar
-			setAvatarFile(Buffer.from(avatar.avatar.buffer.data).toString('base64'));
-		}
 		if (!profile.isLoading && !profile.profile) {
 			//Fetch full profile
 			dispatch(getProfile(auth.user._id));
@@ -67,13 +64,7 @@ const ProfileLayout = () => {
 								px={'20px'}
 								w={'20%'}
 								alignItems={'center'}>
-								<Avatar
-									size={'2xl'}
-									mt={'-50px'}
-									mx={'20px'}
-									name={`${auth.user.firstName} ${auth.user.lastName}`}
-									src={avatarFile && `data:image/png;base64,${avatarFile}`}
-								/>
+								<UserAvatar />
 								<Flex mt={'30px'}>
 									<Flex flexDir={'column'} fontSize={'20px'}>
 										<Text>Followers</Text>
@@ -137,7 +128,7 @@ const ProfileLayout = () => {
 					</div>
 				)
 			) : (
-				<Flex flexDir={'column'} justifyContent={'center'} alignItems={'center'} h={'92vh'}>
+				<Flex flexDir={'column'} justifyContent={'center'} alignItems={'center'} h={'93vh'}>
 					<BarLoader color={'#213963'} width={'200px'} />
 					<Text fontSize={'28px'}>Loading...</Text>
 				</Flex>

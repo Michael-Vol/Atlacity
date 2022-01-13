@@ -81,7 +81,7 @@ const CompleteProfileLayout = ({ onRegisterSuccess, onSkip }) => {
 	}, [avatar]);
 
 	return (
-		<Grid templateColumns='repeat(10, 1fr)' gap={1} height={'92vh'}>
+		<Grid templateColumns='repeat(10, 1fr)' gap={1} height={'93vh'}>
 			<GridItem colSpan={6}>
 				<Image src='/images/auth.jpg' alt='register image' minW={'100%'} minH={'100%'} />
 			</GridItem>

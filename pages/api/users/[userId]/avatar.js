@@ -5,6 +5,7 @@ import checkAuth from '../../../../lib/middleware/checkAuth';
 import UserProfile from '../../../../models/UserProfile';
 import runMiddleware from '../../../../lib/middleware/runMiddleware';
 import checkUserAccess from '../../../../lib/middleware/checkUserAccess';
+import sharp from 'sharp';
 
 export const config = {
 	api: {
@@ -40,15 +41,22 @@ const avatarHandler = async (req, res) => {
 						message: 'You need to create a profile first in order to upload an avatar!',
 					});
 				}
+
 				profile.avatar.imageType = req.file.mimetype;
-				profile.avatar.buffer = req.file.buffer;
+				const buffer = await sharp(req.file.buffer)
+					.resize({ width: 400, height: 400 })
+					.png()
+					.toBuffer();
+				profile.avatar.buffer = buffer;
 				await profile.save();
 
 				return res.status(200).json({
 					avatarUploaded: true,
 					message: 'Avatar uploaded successfully',
+					avatar: profile.avatar,
 				});
 			} catch (error) {
+				console.log(error);
 				return res.status(400).json({
 					message: error.message,
 					exists: false,

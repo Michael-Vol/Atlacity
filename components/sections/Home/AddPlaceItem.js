@@ -65,7 +65,7 @@ const AddPlaceItem = ({ feedItem }) => {
 							<Flex alignItems={'center'} mt={'5px'}>
 								<MdLocationPin />
 								<Text ml={'5px'} fontSize={'16px'} mt={'5px'}>
-									{item.address} in {item.address}
+									{item.address} , {item.city.name}
 								</Text>
 							</Flex>
 							<Flex mt={'5px'} alignItems={'center'}>

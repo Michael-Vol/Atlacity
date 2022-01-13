@@ -11,9 +11,7 @@ const ActivityFeed = () => {
 	const { feed } = useSelector((state) => state.activityFeed);
 
 	useEffect(() => {
-		if (!feed.isLoading) {
-			dispatch(getActivityFeed());
-		}
+		dispatch(getActivityFeed());
 	}, []);
 
 	return (

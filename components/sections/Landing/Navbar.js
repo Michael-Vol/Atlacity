@@ -66,14 +66,15 @@ const Navbar = (props) => {
 	};
 
 	useEffect(() => {
-		if (!avatar.isLoading && !avatarFile) {
+		if (!avatar.isLoading) {
+			console.log(avatar.avatar);
 			if (avatar.avatar) {
 				setAvatarFile(Buffer.from(avatar.avatar.buffer.data).toString('base64'));
 			} else if (auth.isAuthenticated && !avatar.error && avatar.exists) {
 				dispatch(getAvatar(auth.user._id));
 			}
 		}
-	}, [auth, avatar]);
+	}, [avatar]);
 
 	return (
 		<Flex
@@ -83,7 +84,7 @@ const Navbar = (props) => {
 			w='100%'
 			px='15px'
 			py='20px'
-			h={'8vh'}
+			h={'7vh'}
 			bgColor={'white'}
 			{...props}>
 			<Flex justify='center'>

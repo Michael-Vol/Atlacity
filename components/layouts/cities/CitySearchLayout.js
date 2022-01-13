@@ -32,7 +32,7 @@ const CitySearchLayout = () => {
 
 	return (
 		<Flex flexDir={'column'}>
-			<Flex flexDir={'column'} h={'92vh'} alignItems={'center'}>
+			<Flex flexDir={'column'} h={'93vh'} alignItems={'center'}>
 				<Flex flexDir={'column'} mt={'12%'} textAlign={'center'}>
 					<Heading fontSize={'48px'} color={'white'}>
 						Atlacity Cities

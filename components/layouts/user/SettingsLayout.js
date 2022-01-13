@@ -34,7 +34,7 @@ const SettingsLayout = () => {
 	};
 	if (auth.isAuthenticated) {
 		return (
-			<Grid height={'92vh'} templateRows='repeat(1, 1fr)' templateColumns='repeat(20, 1fr)' gap={1}>
+			<Grid height={'93vh'} templateRows='repeat(1, 1fr)' templateColumns='repeat(20, 1fr)' gap={1}>
 				<GridItem colSpan={4} rowSpan={'1'}>
 					<Sidebar header='Settings' bgColor={colorScheme[activeOption]}>
 						<SidebarItem

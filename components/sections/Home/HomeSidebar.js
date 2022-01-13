@@ -27,7 +27,7 @@ const HomeSidebar = () => {
 		<Flex
 			flexDir={'column'}
 			bgColor={'blue.50'}
-			h={'92vh'}
+			h={'93vh'}
 			p={'20px'}
 			fontWeight={'500'}
 			color={'blue.800'}
