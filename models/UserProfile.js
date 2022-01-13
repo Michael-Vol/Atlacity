@@ -27,6 +27,10 @@ const userProfileSchema = new mongoose.Schema(
 				type: String,
 			},
 		},
+		backgroundImage: {
+			type: 'String',
+			default: 'none',
+		},
 		about: {
 			type: String,
 			maxlength: 1000,

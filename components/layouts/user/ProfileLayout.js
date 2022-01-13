@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import checkAuth from '../../../lib/checkAuthClient';
 import Sidebar from '../../ui/Sidebar';
 import SidebarItem from '../../ui/SidebarItem';
-import { useDropzone } from 'react-dropzone';
 import { FcTimeline, FcAbout } from 'react-icons/fc';
 import { BiBook } from 'react-icons/bi';
 import { BsFillDoorOpenFill } from 'react-icons/bs';
@@ -14,6 +13,7 @@ import { getProfile } from '../../../actions/profile/profile';
 
 import AboutSection from '../../sections/User/Profile/AboutSection';
 import TimelineSection from '../../sections/User/Profile/TimelineSection';
+import BackgroundPicker from '../../sections/User/Profile/BackgroundPicker';
 import Button from '../../ui/Button';
 import UserAvatar from '../../sections/User/Profile/UserAvatar';
 import { useRouter } from 'next/router';
@@ -56,8 +56,11 @@ const ProfileLayout = () => {
 			{!profile.isLoading ? (
 				profile.profile && (
 					<div>
-						{' '}
-						<Flex h={'40vh'} bg={'gray.300'}></Flex>
+						<Flex h={'40vh'} bg={'gray.300'} justifyContent={'end'} alignItems={'end'}>
+							<Flex m={'10px'}>
+								<BackgroundPicker />
+							</Flex>
+						</Flex>
 						<Flex>
 							<Flex
 								flexDir={'column'}
