@@ -16,8 +16,9 @@ export default function Dropzone() {
 	const { profile, avatar } = useSelector((state) => state.profile);
 
 	const onDrop = (acceptedFiles) => {
-		console.log(acceptedFiles[0]);
-		dispatch(uploadAvatar(acceptedFiles[0], roeuter.query.userIid));
+		if (router.query && router.query.userId === auth.user._id) {
+			dispatch(uploadAvatar(acceptedFiles[0], router.query.userId));
+		}
 	};
 
 	const [avatarFile, setAvatarFile] = useState();
@@ -68,10 +69,12 @@ export default function Dropzone() {
 				<SkeletonCircle size={'130px'} mt={'-50px'} />
 			)}
 
-			<Flex cursor={'pointer'} ml={'-20px'} position={'relative'}>
-				<BiPencil size={'25px'} />
-				<input {...getInputProps()} />
-			</Flex>
+			{auth.user._id === router.query.userId && (
+				<Flex cursor={'pointer'} ml={'-20px'} position={'relative'}>
+					<BiPencil size={'25px'} />
+					<input {...getInputProps()} />
+				</Flex>
+			)}
 		</Flex>
 	);
 }

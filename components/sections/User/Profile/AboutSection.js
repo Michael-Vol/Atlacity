@@ -3,7 +3,10 @@ import { Flex, Text, Heading, Grid } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { MdPlace } from 'react-icons/md';
 import CityItem from '../../../ui/CityItem';
+import PlaceItem from '../../../ui/PlaceItem';
 import { BsFillDoorOpenFill, BsCalendarDate } from 'react-icons/bs';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+
 const AboutSection = () => {
 	const auth = useSelector((state) => state.auth);
 	const { profile, avatar } = useSelector((state) => state.profile);
@@ -26,15 +29,12 @@ const AboutSection = () => {
 								Joined Atlacity on {new Date(auth.user.createdAt).toLocaleDateString()}
 							</Text>
 						</Flex>
-					</Flex>
-
-					<Flex mt={'40px'} flexDir={'column'}>
-						<Heading fontSize={'22px'} fontWeight={'500'}>
-							About {auth.user.firstName}
-						</Heading>
-						<Text p={'15px'} mt={'10px'} fontSize={'20px'} color={'gray.800'}>
-							{profile.profile.about}
-						</Text>
+						<Flex mt={'20px'} alignItems={'center'}>
+							<AiOutlineInfoCircle />
+							<Text ml={'10px'} maxW={'50%'} maxH={'200px'} overflow={'scroll'}>
+								{profile.profile.about}
+							</Text>
+						</Flex>
 					</Flex>
 
 					<Flex mt={'20px'} flexDir={'column'}>
@@ -48,9 +48,9 @@ const AboutSection = () => {
 								templateColumns='repeat(4, 1fr)'
 								gap={2}
 								p={'20px'}>
-								{profile.profile.favouritePlaces.map((city, index) => {
-									if (city) {
-										return <CityItem city={city} key={index} />;
+								{profile.profile.favouritePlaces.map((place, index) => {
+									if (place) {
+										return <PlaceItem place={place} key={index} />;
 									}
 								})}
 							</Grid>

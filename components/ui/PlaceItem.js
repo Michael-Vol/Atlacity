@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { GridItem, Flex, Text } from '@chakra-ui/react';
 import Link from 'next/link';
-const CityItem = ({ city }) => {
+const PlaceItem = ({ place }) => {
+	console.log(place);
+	const [photoFile, setPhotoFile] = useState(null);
+	useEffect(() => {
+		if (place.photos.length > 0) {
+			setPhotoFile(place.photos[0].buffer);
+		}
+	}, []);
 	return (
-		<Link href={`/city/${city.name}`}>
+		<Link href={`/places/${place._id}`}>
 			<GridItem cursor={'pointer'}>
 				<Flex
-					bgImage={city.photos.thumb && `url(${city.photos.thumb})`}
+					bgImage={photoFile && `data:image/png;base64,${photoFile}`}
+					bgSize={'200px'}
+					bgRepeat={'no-repeat'}
 					mb={'10px'}
 					w={'200px'}
 					h={'133px'}
@@ -21,7 +30,7 @@ const CityItem = ({ city }) => {
 						transform: 'translateY(-5px)',
 					}}>
 					<Text fontSize={'24px'} fontWeight={'700'} textAlign={'center'}>
-						{city.name}
+						{place.name}
 					</Text>
 				</Flex>
 			</GridItem>
@@ -29,4 +38,4 @@ const CityItem = ({ city }) => {
 	);
 };
 
-export default CityItem;
+export default PlaceItem;
