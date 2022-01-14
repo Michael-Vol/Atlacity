@@ -72,15 +72,15 @@ const TimelineHandler = async (req, res) => {
 					feedItems.push({
 						itemType: 'pinned-place',
 						item: pinnedPlace._id,
-						itemCreator: pinnedPlace.creator,
+						itemCreator: req.query.userId,
 						modelType: 'Place',
 					});
 				}
-				let activityFeed = new Timeline({
+				let timeline = new Timeline({
 					feedItems,
 				});
 
-				await activityFeed.populate({
+				await timeline.populate({
 					path: 'feedItems',
 					populate: [
 						{
@@ -93,8 +93,8 @@ const TimelineHandler = async (req, res) => {
 					],
 				});
 
-				activityFeed.feedItems = await Promise.all(
-					activityFeed.feedItems.map(async (feedItem) => {
+				timeline.feedItems = await Promise.all(
+					timeline.feedItems.map(async (feedItem) => {
 						const { item, itemCreator, itemType, modelType } = feedItem;
 						const populateField = selectItemPopulateField(itemType);
 						if (populateField) {
@@ -110,7 +110,7 @@ const TimelineHandler = async (req, res) => {
 				);
 
 				return res.json({
-					activityFeed,
+					timeline,
 				});
 			} catch (error) {
 				console.log(error);

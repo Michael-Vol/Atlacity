@@ -12,7 +12,7 @@ SwiperCore.use([Pagination, Navigation]);
 const PlaceCarousel = ({ photos }) => {
 	return (
 		<Flex h={'100%'} w={'400px'}>
-			{photos.length > 0 ? (
+			{photos ? (
 				<Swiper
 					slidesPerView={1}
 					spaceBetween={30}

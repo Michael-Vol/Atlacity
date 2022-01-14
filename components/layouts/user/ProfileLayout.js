@@ -26,7 +26,7 @@ const ProfileLayout = () => {
 	const [activeSection, setActiveSection] = useState('timeline');
 
 	useEffect(() => {
-		if (!profile.isLoading && router.query.userId) {
+		if (router.query.userId) {
 			dispatch(getProfile(router.query.userId));
 		}
 	}, [router]);
@@ -67,9 +67,11 @@ const ProfileLayout = () => {
 							bgSize={'cover'}
 							justifyContent={'end'}
 							alignItems={'end'}>
-							<Flex m={'10px'}>
-								<BackgroundPicker />
-							</Flex>
+							{router.query.userId === auth.user._id && (
+								<Flex m={'10px'}>
+									<BackgroundPicker />
+								</Flex>
+							)}
 						</Flex>
 						<Flex>
 							<Flex

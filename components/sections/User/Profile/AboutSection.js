@@ -42,12 +42,7 @@ const AboutSection = () => {
 							Favourite Places
 						</Heading>
 						{profile.profile.favouritePlaces ? (
-							<Grid
-								overflow={'scroll'}
-								mt={'20px'}
-								templateColumns='repeat(4, 1fr)'
-								gap={2}
-								p={'20px'}>
+							<Grid overflow={'scroll'} mt={'20px'} templateColumns='repeat(5, 1fr)' p={'10px'}>
 								{profile.profile.favouritePlaces.map((place, index) => {
 									if (place) {
 										return <PlaceItem place={place} key={index} />;
@@ -64,12 +59,7 @@ const AboutSection = () => {
 						<Heading fontSize={'22px'} fontWeight={'500'}>
 							Favourite Cities
 						</Heading>
-						<Grid
-							overflow={'scroll'}
-							mt={'20px'}
-							templateColumns='repeat(4, 1fr)'
-							gap={2}
-							p={'20px'}>
+						<Grid overflow={'scroll'} mt={'20px'} templateColumns='repeat(5, 1fr)' p={'10px'}>
 							{profile.profile.favouriteCities.map((city, index) => {
 								if (city) {
 									return <CityItem city={city} key={index} />;

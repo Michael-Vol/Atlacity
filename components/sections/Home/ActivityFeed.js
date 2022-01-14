@@ -17,11 +17,12 @@ const ActivityFeed = () => {
 	return (
 		<Flex flexDir={'column'} mx={'60px'} py={'20px'}>
 			{!feed.isLoading ? (
+				feed.feedItems &&
 				feed.feedItems.length > 0 && (
 					<div>
-						{feed.feedItems.map(
-							(feedItem, index) => index < 6 && <FeedItem key={index} feedItem={feedItem} />
-						)}
+						{feed.feedItems.map((feedItem, index) => (
+							<FeedItem key={index} feedItem={feedItem} />
+						))}
 					</div>
 				)
 			) : (

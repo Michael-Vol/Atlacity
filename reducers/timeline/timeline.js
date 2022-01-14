@@ -1,7 +1,7 @@
 import * as types from '../../actions/types';
 
 const initialState = {
-	feed: {
+	timeline: {
 		isLoading: false,
 		error: null,
 		feedItems: [],
@@ -12,28 +12,28 @@ export default (state = initialState, action) => {
 	const { type, payload } = action;
 
 	switch (type) {
-		case types.FETCH_ACTIVITY_FEED_REQUEST:
+		case types.FETCH_TIMELINE_REQUEST:
 			return {
 				...state,
-				feed: {
-					...state.feed,
+				timeline: {
+					...state.timeline,
 					isLoading: true,
 				},
 			};
-		case types.FETCH_ACTIVITY_FEED_SUCCESS:
+		case types.FETCH_TIMELINE_SUCCESS:
 			return {
 				...state,
-				feed: {
-					...state.feed,
+				timeline: {
+					...state.timeline,
 					isLoading: false,
-					feedItems: payload.activityFeed.feedItems,
+					feedItems: payload.timeline.feedItems,
 				},
 			};
-		case types.FETCH_ACTIVITY_FEED_FAILURE:
+		case types.FETCH_TIMELINE_FAILURE:
 			return {
 				...state,
-				feed: {
-					...state.feed,
+				timeline: {
+					...state.timeline,
 					isLoading: false,
 					error: payload,
 				},

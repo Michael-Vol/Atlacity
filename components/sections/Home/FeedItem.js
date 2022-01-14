@@ -21,7 +21,7 @@ const FeedItem = ({ feedItem }) => {
 	};
 
 	return (
-		<Flex my={'30px'} h={'100%'} flexDir={'column'} bgColor={'#fff'} rounded={'xl'} p={'20px'}>
+		<Flex my={'30px'} flexDir={'column'} bgColor={'#fff'} rounded={'xl'} p={'20px'}>
 			{renderItem()}
 		</Flex>
 	);
