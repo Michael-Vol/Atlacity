@@ -6,6 +6,8 @@ import validateObjectId from '../../../../lib/middleware/validateObjectId';
 import runMiddleware from '../../../../lib/middleware/runMiddleware';
 import Place from '../../../../models/Place';
 import multer from 'multer';
+import sharp from 'sharp';
+
 export const config = {
 	api: {
 		bodyParser: false,
@@ -55,7 +57,18 @@ const placeVisitsHandler = async (req, res) => {
 					});
 				}
 				//add photos to place
-				place.photos.push(...req.files);
+				await Promise.all(
+					req.files.map(async (file) => {
+						const { data, info } = await sharp(file.buffer)
+							.resize({ width: 1200, height: 900, fit: 'fill' })
+							.png({ quality: 100 })
+							.toBuffer({ resolveWithObject: true });
+
+						file.buffer = data;
+						file.size = info.size;
+						place.photos.push(file);
+					})
+				);
 
 				//add visit
 				const visit = new Visit({
@@ -67,6 +80,7 @@ const placeVisitsHandler = async (req, res) => {
 					rating: req.body.rating,
 					isRecommended: req.body.isRecommended,
 				});
+
 				await visit.save();
 				if (!place.visitors.includes(req.user._id)) {
 					place.visitors.push(req.user._id);

@@ -57,12 +57,12 @@ const ProfileLayout = () => {
 				profile.profile && (
 					<div>
 						<Flex
-							h={'40vh'}
+							h={'50vh'}
 							bg={
 								profile.profile.backgroundImage !== 'none' &&
 								`url(https://images.unsplash.com/photo-${profile.profile.backgroundImage})`
 							}
-							bgColor={profile.profile.backgroundImage === 'none' && 'gray.300'}
+							bgColor={profile.profile.backgroundImage === 'none' && 'gray.50'}
 							bgRepeat={'no-repeat'}
 							bgSize={'cover'}
 							justifyContent={'end'}
@@ -74,7 +74,7 @@ const ProfileLayout = () => {
 						<Flex>
 							<Flex
 								flexDir={'column'}
-								bg={'gray.50'}
+								bg={'blue.50'}
 								px={'20px'}
 								w={'20%'}
 								alignItems={'center'}>
@@ -93,7 +93,7 @@ const ProfileLayout = () => {
 										</Text>
 									</Flex>
 								</Flex>
-								<Sidebar bgColor={'gray.50'} mt={'20px'}>
+								<Sidebar bgColor={'blue.50'} mt={'20px'}>
 									<SidebarItem
 										{...sidebarItemProps}
 										onClick={() => setActiveSection('timeline')}>
@@ -131,7 +131,7 @@ const ProfileLayout = () => {
 											</Text>
 										</Heading>
 									</Flex>
-									{profile.profile.user !== auth.user._id && (
+									{profile.profile.user._id !== auth.user._id && (
 										<Button bgColor={'blue.800'} size={'lg'}>
 											<Text fontSize={'14px'}>Follow</Text>
 										</Button>

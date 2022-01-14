@@ -11,11 +11,13 @@ const AddPlaceItem = ({ feedItem }) => {
 	const { itemCreator, item, itemType } = feedItem;
 
 	const [avatarFile, setAvatarFile] = useState(null);
-	const mountedRef = useRef(true);
+	const [photos, setPhotos] = useState([]);
+	const avatarMountedRef = useRef(true);
+	const photosMountedRef = useRef(true);
 	useEffect(() => {
 		const getAvatar = async () => {
 			let res = await axios.get(`/api/users/${itemCreator._id}/avatar`);
-			if (!mountedRef.current) return null;
+			if (!avatarMountedRef.current) return null;
 			const { exists, avatar } = res.data;
 			if (exists) {
 				setAvatarFile(Buffer.from(avatar.buffer.data).toString('base64'));
@@ -24,9 +26,29 @@ const AddPlaceItem = ({ feedItem }) => {
 		getAvatar();
 
 		return () => {
-			mountedRef.current = false;
+			avatarMountedRef.current = false;
 		};
 	}, []);
+
+	useEffect(() => {
+		try {
+			const getPhotos = async () => {
+				const res = await axios.get(`/api/places/${item._id}/photos`);
+				if (!photosMountedRef.current) return null;
+
+				if (res.data.photos) {
+					setPhotos(res.data.photos);
+				}
+			};
+			getPhotos();
+			return () => {
+				photosMountedRef.current = false;
+			};
+		} catch (error) {
+			console.log(error);
+		}
+	}, []);
+
 	return (
 		<Flex flexDir={'column'}>
 			<Flex alignItems={'center'}>
@@ -86,7 +108,7 @@ const AddPlaceItem = ({ feedItem }) => {
 					</Flex>
 				</GridItem>
 				<GridItem colSpan={1}>
-					<PlaceItemCarousel photos={item.photos} />
+					<PlaceItemCarousel photos={photos} />
 				</GridItem>
 			</Grid>
 		</Flex>

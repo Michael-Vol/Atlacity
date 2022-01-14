@@ -3,6 +3,7 @@ import Place from '../../../../models/Place';
 import checkAuth from '../../../../lib/middleware/checkAuth';
 import runMiddleware from '../../../../lib/middleware/runMiddleware';
 import multer from 'multer';
+import sharp from 'sharp';
 
 export const config = {
 	api: {
@@ -43,12 +44,25 @@ const placesPhotosHandler = async (req, res) => {
 			await runMiddleware(req, res, upload.any('photos'));
 
 			const place = await Place.findById(req.query.placeId);
+
 			if (!place) {
 				return res.status(400).json({
 					message: 'Place not found',
 				});
 			}
-			place.photos.push(...req.files);
+			await Promise.all(
+				req.files.map(async (file) => {
+					const { data, info } = await sharp(file.buffer)
+						.resize({ width: 1200, height: 900, fit: 'fill' })
+						.png({ quality: 100 })
+						.toBuffer({ resolveWithObject: true });
+
+					file.buffer = data;
+					file.size = info.size;
+					place.photos.push(file);
+				})
+			);
+
 			await place.save();
 			return res.json({
 				message: 'Photos uploaded successfully',

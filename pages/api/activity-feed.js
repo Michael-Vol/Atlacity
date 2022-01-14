@@ -6,6 +6,8 @@ import Place from '../../models/Place';
 import Visit from '../../models/Visit';
 import City from '../../models/City';
 import Timeline from '../../models/Timeline';
+import mongodb from 'mongodb';
+import sharp from 'sharp';
 
 const ActivityFeedHandler = async (req, res) => {
 	switch (req.method) {
@@ -23,6 +25,7 @@ const ActivityFeedHandler = async (req, res) => {
 				const places = await Place.find({
 					$or: [{ creator: req.user._id }, { creator: { $in: profile.following } }],
 				})
+					.select('-photos')
 					.sort({ createdAt: -1 })
 					.skip(skip)
 					.limit(limit);
@@ -72,6 +75,7 @@ const ActivityFeedHandler = async (req, res) => {
 						{ _id: { $in: followersFavouritePlaces } },
 					],
 				})
+					.select('-photos')
 					.sort({ createdAt: -1 })
 					.skip(skip)
 					.limit(limit);
@@ -94,6 +98,7 @@ const ActivityFeedHandler = async (req, res) => {
 					populate: [
 						{
 							path: 'item',
+							select: '-photos',
 						},
 						{
 							path: 'itemCreator',
@@ -104,9 +109,9 @@ const ActivityFeedHandler = async (req, res) => {
 				activityFeed.feedItems = await Promise.all(
 					activityFeed.feedItems.map(async (feedItem) => {
 						const { item, itemCreator, itemType, modelType } = feedItem;
-						const populateFields = selectItemPopulateFields(itemType);
-						if (populateFields) {
-							await item.populate(populateFields);
+						const populateField = selectItemPopulateField(itemType);
+						if (populateField) {
+							await item.populate({ path: populateField, select: '-photos' });
 						}
 						return {
 							item,
@@ -131,14 +136,14 @@ const ActivityFeedHandler = async (req, res) => {
 	}
 };
 
-const selectItemPopulateFields = (itemType) => {
+const selectItemPopulateField = (itemType) => {
 	switch (itemType) {
 		case 'add-place':
-			return ['city'];
+			return 'city';
 		case 'add-visit':
-			return ['place'];
+			return 'place';
 		case 'pinned-place':
-			return ['city'];
+			return 'city';
 		default:
 			return null;
 	}
