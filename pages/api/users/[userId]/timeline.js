@@ -1,19 +1,20 @@
-import connectToDB from '../../lib/db';
-import checkAuth from '../../lib/middleware/checkAuth';
-import User from '../../models/User';
-import UserProfile from '../../models/UserProfile';
-import Place from '../../models/Place';
-import Visit from '../../models/Visit';
-import City from '../../models/City';
-import Timeline from '../../models/Timeline';
+import connectToDB from '../../../../lib/db';
+import checkAuth from '../../../../lib/middleware/checkAuth';
+import User from '../../../../models/User';
+import UserProfile from '../../../../models/UserProfile';
+import Place from '../../../../models/Place';
+import Visit from '../../../../models/Visit';
+import City from '../../../../models/City';
+import Timeline from '../../../../models/Timeline';
+import validateObjectId from '../../../../lib/middleware/validateObjectId';
 
-const ActivityFeedHandler = async (req, res) => {
+const TimelineHandler = async (req, res) => {
 	switch (req.method) {
 		case 'GET':
 			try {
 				await connectToDB();
 				//get user's profile
-				const profile = await UserProfile.findOne({ user: req.user._id }).populate('user');
+				const profile = await UserProfile.findOne({ user: req.query.userId }).populate('user');
 
 				const feedItems = [];
 				let { limit = 10, skip = 0 } = req.query;
@@ -22,7 +23,7 @@ const ActivityFeedHandler = async (req, res) => {
 
 				//get most recent places added by user or user's following users
 				const places = await Place.find({
-					$or: [{ creator: req.user._id }, { creator: { $in: profile.following } }],
+					creator: req.query.userId,
 				})
 					.select('-photos')
 					.sort({ createdAt: -1 })
@@ -41,7 +42,7 @@ const ActivityFeedHandler = async (req, res) => {
 
 				//get most recent visits created by user or user's following sers
 				const visits = await Visit.find({
-					$or: [{ visitor: req.user._id }, { visitor: { $in: profile.following } }],
+					visitor: req.query.userId,
 				})
 					.sort({ createdAt: -1 })
 					.limit(limit)
@@ -58,21 +59,8 @@ const ActivityFeedHandler = async (req, res) => {
 
 				//get most recent pinned places created by user or user's following users
 
-				const followersFavouritePlaces = [];
-				profile.following.forEach(async (userId) => {
-					const following = await User.findById(userId);
-					const followingProfile = await UserProfile.findOne({ user: following._id });
-					if (followingProfile) {
-						followersFavouritePlaces.push(...followingProfile.favouritePlaces);
-					}
-				});
-				// console.log(followersFavouritePlaces);
-
 				const pinnedPlaces = await Place.find({
-					$or: [
-						{ _id: { $in: profile.favouritePlaces } },
-						{ _id: { $in: followersFavouritePlaces } },
-					],
+					_id: { $in: profile.favouritePlaces },
 				})
 					.select('-photos')
 					.sort({ createdAt: -1 })
@@ -148,4 +136,4 @@ const selectItemPopulateField = (itemType) => {
 	}
 };
 
-export default checkAuth(ActivityFeedHandler);
+export default checkAuth(validateObjectId(TimelineHandler, 'userId'));
