@@ -53,7 +53,7 @@ const BackgroundPicker = () => {
 							{' '}
 							<Image
 								rounded={'xl'}
-								src={`https://images.unsplash.com/photo-${imageId}`}
+								src={`https://images.unsplash.com/photo-${imageId}?h=370&w=400&q=100&auto=format&fit=crop`}
 								h={'70px'}
 								w={'100px'}
 							/>
