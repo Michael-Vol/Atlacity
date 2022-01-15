@@ -24,7 +24,12 @@ const PlaceCarousel = ({ photos }) => {
 					className='mySwiper'>
 					{photos.map((photo, index) => {
 						return (
-							<SwiperSlide key={index}>
+							<SwiperSlide
+								key={index}
+								style={{
+									width: '100%',
+									height: '100%',
+								}}>
 								<Image
 									width={'100%'}
 									height={'100%'}
