@@ -5,6 +5,7 @@ import Button from '../../ui/Button';
 import checkAuth from '../../../lib/checkAuthClient';
 import ConnectItem from '../../sections/Connnect/ConnectItem';
 import { getConnectUsers } from '../../../actions/users/users';
+import SearchUsers from './SearchUsers';
 
 const ConnectUsers = () => {
 	const toast = useToast();
@@ -37,6 +38,9 @@ const ConnectUsers = () => {
 				<Heading fontSize={'38px'}>Connect</Heading>
 			</Flex>
 			<Flex flexDir={'column'} mt={'30px'}>
+				<Flex mb={'20px'}>
+					<SearchUsers />
+				</Flex>
 				<Flex flexDir={'column'}>
 					<Heading fontSize={'20px'} color={'gray.600'}>
 						People in your City
@@ -48,12 +52,19 @@ const ConnectUsers = () => {
 								width: '0px',
 							},
 						}}>
-						<Grid templateColumns={'repeat(8,1fr)'} gap={4} mt={'30px'}>
-							{usersFetched &&
-								connect.sameLocationUsers.map((user) => (
+						{usersFetched && connect.sameLocationUsers.length > 0 ? (
+							<Grid templateColumns={'repeat(8,1fr)'} gap={4} mt={'30px'}>
+								{connect.sameLocationUsers.map((user) => (
 									<ConnectItem key={user.id} user={user} />
 								))}
-						</Grid>
+							</Grid>
+						) : (
+							<Flex mt={'20px'} p={'20px'}>
+								<Text fontWeight={'500'} color={'gray.500'} fontSize={'20px'}>
+									No Suggestions yet
+								</Text>
+							</Flex>
+						)}
 					</Flex>
 				</Flex>
 				<Flex mt={'30px'} flexDir={'column'}>
@@ -67,12 +78,19 @@ const ConnectUsers = () => {
 								width: '0px',
 							},
 						}}>
-						<Grid templateColumns={'repeat(8,1fr)'} gap={4} mt={'30px'}>
-							{usersFetched &&
-								connect.lowPopularityVisitors.map((user) => (
+						{usersFetched && connect.lowPopularityVisitors.length > 0 ? (
+							<Grid templateColumns={'repeat(8,1fr)'} gap={4} mt={'30px'}>
+								{connect.lowPopularityVisitors.map((user) => (
 									<ConnectItem key={user.id} user={user} />
 								))}
-						</Grid>
+							</Grid>
+						) : (
+							<Flex mt={'20px'} p={'20px'}>
+								<Text fontWeight={'500'} color={'gray.500'} fontSize={'20px'}>
+									No Suggestions yet
+								</Text>
+							</Flex>
+						)}
 					</Flex>
 				</Flex>
 			</Flex>

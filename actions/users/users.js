@@ -40,3 +40,5 @@ export const getConnectUsers = () => async (dispatch) => {
 		dispatch({ type: types.CONNECT_USERS_FAILURE, payload: error.response.data });
 	}
 };
+
+export const searchUsers = (searchTerm) => async (dispatch) => {};

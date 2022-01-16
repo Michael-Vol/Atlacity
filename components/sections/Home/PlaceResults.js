@@ -61,7 +61,11 @@ const PlaceResults = ({ onSelect }) => {
 				alignItems={'center'}
 				position={'relative'}>
 				<InputGroup rounded={'xl'}>
-					<Input placeholder='Search' value={input} onChange={(e) => setInput(e.target.value)} />
+					<Input
+						placeholder='Search Places'
+						value={input}
+						onChange={(e) => setInput(e.target.value)}
+					/>
 					<InputRightAddon cursor={'pointer'} onClick={handleSearch}>
 						{placeSelected ? (
 							<MdOutlineClear onClick={resetSearch} size={'1.5em'} />

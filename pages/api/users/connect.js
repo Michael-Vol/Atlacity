@@ -22,7 +22,6 @@ const ConnectHandler = async (req, res) => {
 					.populate('user')
 					.select('user');
 				sameLocationUsers = sameLocationUsers.map((user) => user.user);
-				console.log(sameLocationUsers);
 
 				//find users that visit places with low popularity
 				const lowPopularityPlaces = await Place.find({

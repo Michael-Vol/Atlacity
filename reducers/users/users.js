@@ -12,6 +12,11 @@ const initialState = {
 		lowPopularityVisitors: [],
 		error: null,
 	},
+	search: {
+		isLoading: false,
+		error: null,
+		results: [],
+	},
 };
 
 export default (state = initialState, action) => {

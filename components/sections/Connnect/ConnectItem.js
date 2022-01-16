@@ -7,9 +7,15 @@ import { followUser, unfollowUser } from '../../../actions/users/users';
 const ConnectItem = ({ user }) => {
 	const [avatarFile, setAvatarFile] = useState(null);
 	const mountedRef = useRef(true);
+
+	//Follow/Unfollow User
 	const [followRequest, setFollowRequest] = useState(false);
 	const [isFollowed, setIsFollowed] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+
+	//Remove From Suggestions
+	const [isRemoved, setIsRemoved] = useState(false);
+	const [isRemoveLoading, setIsRemoveLoading] = useState(false);
 
 	useEffect(() => {
 		const getAvatar = async () => {
@@ -66,41 +72,63 @@ const ConnectItem = ({ user }) => {
 		}
 	};
 
+	const handleRemoveUserFromSuggestions = async () => {
+		try {
+			setIsRemoveLoading(true);
+			const res = await axios.post(`/api/users/${user._id}/remove`);
+			console.log(res.data);
+			setIsRemoved(true);
+		} catch (error) {
+			console.log(error);
+			toast({
+				title: error.response.data.message || "Can't remove user from suggestions",
+				duration: 3000,
+				status: 'error',
+				isClosable: true,
+			});
+		} finally {
+			setIsRemoveLoading(false);
+		}
+	};
 	return (
-		<GridItem>
-			<Flex flexDir={'column'} bgColor={'#fff'} rounded={'xl'} w={'200px'}>
-				<Image
-					src={avatarFile && `data:image/png;base64,${avatarFile}`}
-					height={'100%'}
-					width={'100%'}
-				/>
-				<Flex flexDir={'column'} mt={'5px'} p={'10px'}>
-					<Text fontSize={'20px'} fontWeight={'500'}>
-						{user.firstName} {user.lastName}
-					</Text>
-					<Button
-						m={'5px'}
-						bgColor={'blue.600'}
-						isLoading={isLoading}
-						_hover={
-							followRequest ? isFollowed && { bgColor: 'red.600' } : { bgColor: 'blue.800' }
-						}
-						bgColor={followRequest ? isFollowed && 'red.400' : 'primary'}
-						onClick={isFollowed ? handleUnfollowUser : handleFollowUser}>
-						{followRequest ? isFollowed && 'Unfollow' : 'Follow'}
-					</Button>
-					{!isFollowed && (
+		!isRemoved && (
+			<GridItem>
+				<Flex flexDir={'column'} bgColor={'#fff'} rounded={'xl'} w={'200px'}>
+					<Image
+						src={avatarFile && `data:image/png;base64,${avatarFile}`}
+						height={'100%'}
+						width={'100%'}
+					/>
+					<Flex flexDir={'column'} mt={'5px'} p={'10px'}>
+						<Text fontSize={'20px'} fontWeight={'500'}>
+							{user.firstName} {user.lastName}
+						</Text>
 						<Button
 							m={'5px'}
-							bgColor={'white'}
-							_hover={{ bgColor: 'gray.100' }}
-							color={'blue.800'}>
-							Remove
+							bgColor={'blue.600'}
+							isLoading={isLoading}
+							_hover={
+								followRequest ? isFollowed && { bgColor: 'red.600' } : { bgColor: 'blue.800' }
+							}
+							bgColor={followRequest ? isFollowed && 'red.400' : 'primary'}
+							onClick={isFollowed ? handleUnfollowUser : handleFollowUser}>
+							{followRequest ? isFollowed && 'Unfollow' : 'Follow'}
 						</Button>
-					)}
+						{!isFollowed && (
+							<Button
+								m={'5px'}
+								bgColor={'white'}
+								_hover={{ bgColor: 'gray.100' }}
+								color={'blue.800'}
+								isLoading={isRemoveLoading}
+								onClick={handleRemoveUserFromSuggestions}>
+								Remove
+							</Button>
+						)}
+					</Flex>
 				</Flex>
-			</Flex>
-		</GridItem>
+			</GridItem>
+		)
 	);
 };
 
