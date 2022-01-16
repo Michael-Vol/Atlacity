@@ -14,11 +14,14 @@ const ConnectHandler = async (req, res) => {
 				const profile = await UserProfile.findOne({ user: req.user._id });
 
 				//find users with same location
-				const sameLocationUsers = await UserProfile.find({
+				let sameLocationUsers = await UserProfile.find({
 					currentLocation: profile.currentLocation,
+					$and: [{ user: { $ne: req.user._id } }, { user: { $nin: profile.following } }],
 				})
 					.populate('user')
 					.select('user');
+				sameLocationUsers = sameLocationUsers.map((user) => user.user);
+				console.log(sameLocationUsers);
 
 				//find users that visit places with low popularity
 				const lowPopularityPlaces = await Place.find({
@@ -26,6 +29,8 @@ const ConnectHandler = async (req, res) => {
 				});
 				let lowPopularityVisitors = await Visit.find({
 					place: { $in: lowPopularityPlaces },
+					visitor: { $ne: req.user._id },
+					$and: [{ user: { $ne: req.user._id } }, { user: { $nin: profile.following } }],
 				}).select('visitor');
 
 				lowPopularityVisitors = lowPopularityVisitors.map((visit) => visit.visitor.toString());
@@ -36,7 +41,9 @@ const ConnectHandler = async (req, res) => {
 						return user;
 					})
 				);
-
+				lowPopularityVisitors = lowPopularityVisitors.filter(
+					(user) => user._id !== req.user._id.toString()
+				);
 				return res.json({
 					sameLocationUsers,
 					lowPopularityVisitors,

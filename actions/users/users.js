@@ -30,3 +30,13 @@ export const unfollowUser = (userId) => async (dispatch) => {
 		dispatch({ type: types.UNFOLLOW_USER_FAILURE, payload: error.response.data });
 	}
 };
+
+export const getConnectUsers = () => async (dispatch) => {
+	try {
+		dispatch({ type: types.CONNECT_USERS_REQUEST });
+		const res = await axios.get('/api/users/connect');
+		dispatch({ type: types.CONNECT_USERS_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.CONNECT_USERS_FAILURE, payload: error.response.data });
+	}
+};

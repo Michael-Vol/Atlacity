@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../components/sections/Landing/Navbar';
 import ConnectLayout from '../components/layouts/connect/ConnectLayout';
-import checkAuth from '../lib/checkAuthClient';
+// import checkAuth from '../lib/checkAuthClient';
 
 const connect = () => {
 	return (
@@ -12,4 +12,4 @@ const connect = () => {
 	);
 };
 
-export default checkAuth(connect);
+export default connect;

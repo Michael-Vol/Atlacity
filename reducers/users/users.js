@@ -6,6 +6,12 @@ const initialState = {
 		users: [],
 		error: null,
 	},
+	connect: {
+		isLoading: false,
+		sameLocationUsers: [],
+		lowPopularityVisitors: [],
+		error: null,
+	},
 };
 
 export default (state = initialState, action) => {
@@ -96,6 +102,37 @@ export default (state = initialState, action) => {
 					isLoading: false,
 					error: payload,
 					isUnfollowed: false,
+				},
+			};
+		case types.CONNECT_USERS_REQUEST:
+			return {
+				...state,
+				connect: {
+					...state.connect,
+					isLoading: true,
+					error: null,
+				},
+			};
+		case types.CONNECT_USERS_SUCCESS:
+			return {
+				...state,
+				connect: {
+					...state.connect,
+					isLoading: false,
+					sameLocationUsers: payload.sameLocationUsers,
+					lowPopularityVisitors: payload.lowPopularityVisitors,
+					error: null,
+				},
+			};
+		case types.CONNECT_USERS_FAILURE:
+			return {
+				...state,
+				connect: {
+					...state.connect,
+					isLoading: false,
+					sameLocationUsers: [],
+					lowPopularityVisitors: [],
+					error: payload,
 				},
 			};
 		default:
