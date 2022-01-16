@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Flex, Text, Heading, useToast, Tag, Grid, GridItem, Box } from '@chakra-ui/react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,13 +17,19 @@ import BackgroundPicker from '../../sections/User/Profile/BackgroundPicker';
 import Button from '../../ui/Button';
 import UserAvatar from '../../sections/User/Profile/UserAvatar';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const ProfileLayout = () => {
+	const toast = useToast();
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const auth = useSelector((state) => state.auth);
 	const { profile } = useSelector((state) => state.profile);
 	const [activeSection, setActiveSection] = useState('timeline');
+
+	const [followRequest, setFollowRequest] = useState(false);
+	const [isFollowed, setIsFollowed] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		if (router.query.userId) {
@@ -48,6 +54,43 @@ const ProfileLayout = () => {
 				return <AboutSection />;
 			default:
 				return null;
+		}
+	};
+	const handleFollowUser = async () => {
+		try {
+			setFollowRequest(true);
+			setIsLoading(true);
+			const res = await axios.post(`/api/users/${router.query.userId}/follow`);
+			setIsFollowed(true);
+		} catch (error) {
+			console.log(error);
+			toast({
+				title: error.response.data.message || "Can't follow user",
+				duration: 3000,
+				status: 'error',
+				isClosable: true,
+			});
+		} finally {
+			setIsLoading(false);
+		}
+	};
+	const handleUnfollowUser = async () => {
+		try {
+			setIsLoading(true);
+			const res = await axios.post(`/api/users/${router.query.userId}/unfollow`);
+			console.log(res.data);
+			setIsFollowed(false);
+			setFollowRequest(false);
+		} catch (error) {
+			console.log(error);
+			toast({
+				title: error.response.data.message || "Can't unfollow user",
+				duration: 3000,
+				status: 'error',
+				isClosable: true,
+			});
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -134,8 +177,16 @@ const ProfileLayout = () => {
 										</Heading>
 									</Flex>
 									{profile.profile.user._id !== auth.user._id && (
-										<Button bgColor={'blue.800'} size={'lg'}>
-											<Text fontSize={'14px'}>Follow</Text>
+										<Button
+											isLoading={isLoading}
+											_hover={
+												followRequest
+													? isFollowed && { bgColor: 'red.600' }
+													: { bgColor: 'blue.800' }
+											}
+											bgColor={followRequest ? isFollowed && 'red.400' : 'primary'}
+											onClick={isFollowed ? handleUnfollowUser : handleFollowUser}>
+											{followRequest ? isFollowed && 'Unfollow' : 'Follow'}
 										</Button>
 									)}
 								</Flex>

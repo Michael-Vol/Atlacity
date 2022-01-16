@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Flex, Text, Image, GridItem } from '@chakra-ui/react';
 import Button from '../../ui/Button';
-import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { followUser, unfollowUser } from '../../../actions/users/users';
+import { useRouter } from 'next/router';
 const ConnectItem = ({ user }) => {
+	const router = useRouter();
 	const [avatarFile, setAvatarFile] = useState(null);
 	const mountedRef = useRef(true);
 
@@ -56,7 +56,6 @@ const ConnectItem = ({ user }) => {
 		try {
 			setIsLoading(true);
 			const res = await axios.post(`/api/users/${user._id}/unfollow`);
-			console.log(res.data);
 			setIsFollowed(false);
 			setFollowRequest(false);
 		} catch (error) {
@@ -95,6 +94,8 @@ const ConnectItem = ({ user }) => {
 			<GridItem>
 				<Flex flexDir={'column'} bgColor={'#fff'} rounded={'xl'} w={'200px'}>
 					<Image
+						cursor={'pointer'}
+						onClick={() => router.push(`/users/${user._id}/profile`)}
 						src={avatarFile && `data:image/png;base64,${avatarFile}`}
 						height={'100%'}
 						width={'100%'}
