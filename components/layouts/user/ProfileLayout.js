@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Flex, Text, Heading, useToast, Tag, Grid, GridItem, Box } from '@chakra-ui/react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,6 +26,7 @@ const ProfileLayout = () => {
 	const auth = useSelector((state) => state.auth);
 	const { profile } = useSelector((state) => state.profile);
 	const [activeSection, setActiveSection] = useState('timeline');
+	const mountedRef = useRef(true);
 
 	const [followRequest, setFollowRequest] = useState(false);
 	const [isFollowed, setIsFollowed] = useState(false);
@@ -34,6 +35,32 @@ const ProfileLayout = () => {
 	useEffect(() => {
 		if (router.query.userId) {
 			dispatch(getProfile(router.query.userId));
+		}
+	}, [router]);
+
+	useEffect(() => {
+		if (router.query.userId) {
+			const checkIfUserIsFollowed = async () => {
+				try {
+					setIsLoading(true);
+					const res = await axios.get(`/api/users/${router.query.userId}/is-followed`);
+					if (!mountedRef.current) return null;
+					setIsFollowed(res.data.isFollowed);
+				} catch (error) {
+					toast({
+						title: error.response.data.message || 'Something went wrong',
+						status: 'error',
+						duration: 4000,
+						isClosable: true,
+					});
+				} finally {
+					setIsLoading(false);
+				}
+			};
+			checkIfUserIsFollowed();
+			return () => {
+				mountedRef.current = false;
+			};
 		}
 	}, [router]);
 
@@ -180,13 +207,14 @@ const ProfileLayout = () => {
 										<Button
 											isLoading={isLoading}
 											_hover={
-												followRequest
-													? isFollowed && { bgColor: 'red.600' }
-													: { bgColor: 'blue.800' }
+												isFollowed ? { bgColor: 'red.600' } : { bgColor: 'blue.800' }
 											}
-											bgColor={followRequest ? isFollowed && 'red.400' : 'primary'}
-											onClick={isFollowed ? handleUnfollowUser : handleFollowUser}>
-											{followRequest ? isFollowed && 'Unfollow' : 'Follow'}
+											bgColor={!isLoading && (isFollowed ? 'red.400' : 'primary')}
+											onClick={
+												!isLoading &&
+												(isFollowed ? handleUnfollowUser : handleFollowUser)
+											}>
+											{!isLoading && (isFollowed ? 'Unfollow' : 'Follow')}
 										</Button>
 									)}
 								</Flex>
