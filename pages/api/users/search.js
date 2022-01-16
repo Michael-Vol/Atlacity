@@ -17,7 +17,7 @@ const UsersSearchHandler = async (req, res) => {
 				$or: [{ firstName: new RegExp('^' + name, 'i') }, { lastName: new RegExp('^' + name, 'i') }],
 			}).limit(parseInt(limit));
 			return res.json({
-				users,
+				results: users,
 			});
 		default:
 			return res.status(405).json({ message: 'Invalid HTTP Method' });

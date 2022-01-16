@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
 import checkAuth from '../../../lib/checkAuthClient';
 import HomeSidebar from '../../sections/Home/HomeSidebar';
-import ConnectUsers from '../../sections/Connnect/ConnectUsers';
+import ConnectUsers from '../../sections/Connect/ConnectUsers';
 
 const ConnectLayout = () => {
 	return (

@@ -5,8 +5,11 @@ import { searchUsers } from '../../../actions/users/users';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { MdOutlineClear } from 'react-icons/md';
+import SearchResult from './SearchResult';
+import { useRouter } from 'next/router';
 
 const SearchUsers = ({ onSelect }) => {
+	const router = useRouter();
 	const [input, setInput] = useState('');
 	const [searchResults, setSearchResults] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
@@ -27,6 +30,12 @@ const SearchUsers = ({ onSelect }) => {
 			return dispatch(searchUsers(input));
 		}
 		setSearchResults([]);
+	};
+	const handleUserSelect = (user) => {
+		setInput(`${user.firstName} ${user.lastName}`);
+		setUserSelected(true);
+		setSearchResults([]);
+		router.push(`/users/${user._id}/profile`);
 	};
 
 	const resetSearch = () => {
@@ -77,32 +86,13 @@ const SearchUsers = ({ onSelect }) => {
 			</Flex>
 			<Flex
 				flexDir={'column'}
-				bgColor={'blue.800'}
-				color={'white'}
+				color={'blue.800'}
 				border={input.length > 3 && !userSelected && '1px solid'}
 				borderColor={'gray.800'}
 				borderRadius={'0px 0px 5px 5px'}>
 				{input.length > 0 &&
-					searchResults.map((user, index) => (
-						<Flex
-							key={index}
-							cursor={'pointer'}
-							onClick={() => {
-								onSelect(user._id);
-								setInput(`${user.firstName} ${user.lastName}`);
-								setUserSelected(true);
-								setSearchResults([]);
-							}}
-							w={'100%'}
-							p={'10px'}
-							_hover={{
-								bgColor: 'gray.800',
-								color: 'white',
-							}}>
-							<Text px={'5px'}>
-								${user.firstName} ${user.lastName}
-							</Text>
-						</Flex>
+					searchResults.map((user) => (
+						<SearchResult key={user._id} user={user} onUserSelect={handleUserSelect} />
 					))}
 			</Flex>
 		</div>

@@ -1,4 +1,4 @@
-import connnectToDB from '../../../lib/db';
+import ConnectToDB from '../../../lib/db';
 import Place from '../../../models/Place';
 import checkAuth from '../../../lib/middleware/checkAuth';
 import UserProfile from '../../../models/UserProfile';

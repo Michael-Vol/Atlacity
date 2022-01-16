@@ -41,4 +41,12 @@ export const getConnectUsers = () => async (dispatch) => {
 	}
 };
 
-export const searchUsers = (searchTerm) => async (dispatch) => {};
+export const searchUsers = (searchTerm) => async (dispatch) => {
+	try {
+		dispatch({ type: types.SEARCH_USERS_REQUEST });
+		const res = await axios.get(`/api/users/search?name=${searchTerm}`);
+		dispatch({ type: types.SEARCH_USERS_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.SEARCH_USERS_FAILURE, payload: error.response.data });
+	}
+};

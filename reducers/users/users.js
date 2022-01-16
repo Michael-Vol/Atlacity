@@ -140,6 +140,36 @@ export default (state = initialState, action) => {
 					error: payload,
 				},
 			};
+		case types.SEARCH_USERS_REQUEST:
+			return {
+				...state,
+				search: {
+					...state.search,
+					isLoading: true,
+					error: null,
+				},
+			};
+		case types.SEARCH_USERS_SUCCESS:
+			return {
+				...state,
+				search: {
+					...state.search,
+					isLoading: false,
+					results: payload.results,
+					error: null,
+				},
+			};
+		case types.SEARCH_USERS_FAILURE:
+			return {
+				...state,
+				search: {
+					...state.search,
+					isLoading: false,
+					results: [],
+					error: payload,
+				},
+			};
+
 		default:
 			return state;
 	}

@@ -3,7 +3,7 @@ import { Flex, Text, Heading, Grid, GridItem, Image, useToast } from '@chakra-ui
 import { useSelector, useDispatch } from 'react-redux';
 import Button from '../../ui/Button';
 import checkAuth from '../../../lib/checkAuthClient';
-import ConnectItem from '../../sections/Connnect/ConnectItem';
+import ConnectItem from './ConnectItem';
 import { getConnectUsers } from '../../../actions/users/users';
 import SearchUsers from './SearchUsers';
 
