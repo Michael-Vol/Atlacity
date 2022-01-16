@@ -17,6 +17,7 @@ const ConnectHandler = async (req, res) => {
 				let sameLocationUsers = await UserProfile.find({
 					currentLocation: profile.currentLocation,
 					$and: [{ user: { $ne: req.user._id } }, { user: { $nin: profile.following } }],
+					user: { $nin: profile.removedUsers },
 				})
 					.populate('user')
 					.select('user');
@@ -31,6 +32,7 @@ const ConnectHandler = async (req, res) => {
 					place: { $in: lowPopularityPlaces },
 					visitor: { $ne: req.user._id },
 					$and: [{ user: { $ne: req.user._id } }, { user: { $nin: profile.following } }],
+					user: { $nin: profile.removedUsers },
 				}).select('visitor');
 
 				lowPopularityVisitors = lowPopularityVisitors.map((visit) => visit.visitor.toString());
