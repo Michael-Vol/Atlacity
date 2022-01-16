@@ -12,6 +12,7 @@
     <img alt='Visits Page' src='public/demo/visits.png' width='30%'>
     <img alt='Connect Page' src='public/demo/connect.png' width='30%'>
 </p>
+
 ### ✏️ Overview
 
 A Foursquare inspired web platform to explore new places in various cities around the world, rate shops, and connect with other people with same experiences⭐️.
